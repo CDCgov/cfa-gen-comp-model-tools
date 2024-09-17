@@ -1,0 +1,21 @@
+Package: compModels
+Title: Generalized deterministic & stochastic compartmental models
+Version: 0.0.0.9000
+Authors@R:
+    person("Catherine", "Herzog", , "uvw5@cdc.gov", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-3021-888X"))
+Description: Convenience package of deterministic and stochastic compartmental
+             model functions and their respective plotting functions.
+License: Apache License 2.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd"))
+RoxygenNote: 7.3.1
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports:
+    deSolve,
+    dplyr,
+    ggplot2,
+    rlang,
+    tidyr
