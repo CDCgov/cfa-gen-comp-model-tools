@@ -11,11 +11,14 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd"))
 RoxygenNote: 7.3.2
 Suggests:
+    purrr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports:
+    adaptivetau,
     deSolve,
     dplyr,
     ggplot2,
+    GillespieSSA,
     rlang,
     tidyr
