@@ -4,7 +4,6 @@
 \alias{run_gen_deterministic}
 \title{Run generalized deterministic compartmental model}
 \usage{
-
 run_gen_deterministic(
   init_vals,
   times,
@@ -25,13 +24,11 @@ run_gen_deterministic(
 \item{trans_matrix}{matrix of transition rates between each of the
 compartments}
 
-
 \item{intervention_start_time}{time at which intervention will start}
 
 \item{intervention_end_time}{time at which intervention will end}
 
 \item{modifier_matrix}{value to be multiplied against transition matrix}
-
 }
 \value{
 data frame with columns for time and each compartment

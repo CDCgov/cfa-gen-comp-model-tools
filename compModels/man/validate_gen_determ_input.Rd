@@ -29,7 +29,7 @@ validate_gen_determ_input(
   times = seq(0.1, 100, by = 0.1),
   comp_names = c("A", "B", "C", "D", "E"),
   trans_matrix <- matrix(
-  c(
+    c(
       -0.1, 0.1, 0, 0, 0,
       0, -0.1, 0.1, 0, 0,
       0, 0, -0.1, 0.1, 0,
