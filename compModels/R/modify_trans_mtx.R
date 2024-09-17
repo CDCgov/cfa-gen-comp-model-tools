@@ -1,13 +1,13 @@
-#' @title modify_trans_mtx
-#' @description
+#' Modifies values in the transition rate matrix
+#'
 #' Helper function to modify the transition matrix by applying a modifier to
 #' specific user defined compartments
+#'
 #' @param trans_matrix matrix of transition rates between each of the
 #' compartments
 #' @param intervention_modifiers value to be multiplied against specific
 #' values in transition matrix
 #' @return modified transmission matrix
-#' @export
 #' @examples
 #' \dontrun{
 #' current_trans_matrix <- modify_trans_mtx(

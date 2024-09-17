@@ -10,7 +10,6 @@
 #' @param params vector with beta transmission rate, and gamma recovery rate
 #' @param tf vector of time steps to run the model over
 #' @return named numeric vector for each state (compartment)
-#' @export
 #' @examples
 #' \dontrun{
 #' sir_rates(

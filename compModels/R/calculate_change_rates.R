@@ -1,13 +1,13 @@
-#' @title calculate_change_rates
-#' @description
+#' Calculates the rates of change for in/out flows from compartments
+#'
 #' Helper function to calculate change rates for in and out flows in the
 #' compartmental model
+#'
 #' @param state holds the current state of the compartments
 #' @param comp_names names of the compartments
 #' @param trans_matrix matrix of transition rates between each of the
 #' compartments
 #' @return calculated change rates
-#' @export
 #' @examples
 #' \dontrun{
 #' change_rates <- calculate_change_rates(
