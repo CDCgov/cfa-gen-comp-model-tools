@@ -1,4 +1,4 @@
-#' Run generalized deterministic compartmental model
+#' Run generalized stochastic compartmental model
 #'
 #' Runs basic stochastic compartmental model using [GillespieSSA::ssa()] given
 #' a user specified number and names of compartments, transition matrix

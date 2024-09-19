@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_gen_stochastic.r
 \name{run_gen_stochastic}
 \alias{run_gen_stochastic}
-\title{Run generalized deterministic compartmental model}
+\title{Run generalized stochastic compartmental model}
 \usage{
 run_gen_stochastic(
   parms_vec,
