@@ -11,7 +11,9 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd"))
 RoxygenNote: 7.3.2
 Suggests:
+    knitr,
     purrr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports:
@@ -22,3 +24,4 @@ Imports:
     GillespieSSA,
     rlang,
     tidyr
+VignetteBuilder: knitr

@@ -1,0 +1,157 @@
+---
+title: "basic-sir"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{basic-sir}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(compModels)
+```
+
+
+# Deterministic Models
+## Basic Deterministic SIR
+The [compModels::run_sir()] function allows users to run a basic deterministic
+susceptible-infected-recovered (SIR) compartmental model. The user specifies
+the initial values for each of the states (s, i, r), a vector of times to
+run the model over, and values for the transmission rate parameter beta and
+recovery rate parameter gamma. It will return a data frame with one column for
+time and a column for each state (compartment). This function makes use of
+[compModels::sir_deriv()] and [compModels::validate_sir_input()] functions also
+in the compModels package for the basic SIR model equations and for validating
+the user-provided inputs to check they are of the correct type and within
+plausible bounds. Output from run_sir() can be fed into
+[compModels::plot_determin_model()] to view a plot of the output using ggplot2.
+
+```{r deterministic}
+modelout <- run_sir(
+  init = c(s = 1e05 - 1, i = 1, r = 0),
+  time = seq(0.1, 100, by = 0.1),
+  parms = c(beta = 0.00001, gamma = 0.1)
+)
+```
+
+```{r deterministic plot}
+plot_determin_model(modelout)
+```
+
+## Deterministic SIR with Single Intervention
+The [compModels::run_sir_intervention()] function allows users to run a basic
+deterministic susceptible-infected-recovered (SIR) compartmental model with a
+single intervention. As with [compModels::run_sir()], the user specifies
+the initial values for each of the states (s, i, r), a vector of times to
+run the model over, and values for the transmission rate parameter beta and
+recovery rate parameter gamma. Additionally, the user can specify the start and
+end time step for the intervention and how much impact it will have on
+transmission. This function will return a data frame with one column for
+time and a column for each state (compartment). This function makes use of
+[compModels::sir_deriv_intervention()] and [compModels::validate_sir_input()]
+functions also in the compModels package for the basic SIR model with
+intervention equations and for validating the user-provided inputs to check
+they are of the correct type and within plausible bounds. Output from
+run_sir_intervention() can be fed into [compModels::plot_determin_model()] to
+ view a plot of the output and intervention period using ggplot2.
+
+```{r determin int}
+modelout2 <- run_sir_intervention(
+  init = c(s = 1e05 - 1, i = 1, r = 0),
+  time = seq(0.1, 100, by = 0.1),
+  parms = list(
+    beta = 0.00001, gamma = 0.1,
+    intervention_start_time = 10,
+    intervention_end_time = 20,
+    intervention_impact = 0.3
+  )
+)
+```
+
+```{r deterministic int plot}
+plot_determin_model(modelout2,
+  show_intervention_period = TRUE,
+  intervention_period = c(10, 20)
+)
+```
+
+
+# Stochastic Models
+## Basic Stochastic SIR - Gillespie Algorithm
+The [compModels::run_sir_stochastic()] function allows users to run a basic
+stochastic susceptible-infected-recovered (SIR) compartmental model using the
+Gillespie Algorithm in [GillespieSSA::ssa.d]. The user specifies values for the
+transmission rate parameter beta and recovery rate parameter gamma, initial
+values for each of the states (s, i, r) and total population (n), the number of
+timesteps, propensity functions that include the equations for the flows
+between compartments, and a change matrix of the transition information between
+compartments, and the number of simulations to run. It will return a data frame
+with one column for time and a column for each state (compartment).
+This function makes use of [compModels::validate_sir_stoch_input()] for
+validating the user-provided inputs to check they are of the correct type and
+within plausible bounds. Output from run_sir_stochastic() can be fed into
+[compModels::plot_stoch_model()] to view a plot of one or more realizations of
+the output using ggplot2.
+
+```{r stochastic gillespie}
+modelout3 <- run_sir_stochastic(
+  0.001, 0.1, 499, 100, 0, 500, # parameters, initial values
+  100, # number of timesteps
+  c("beta*s*i", "gamma*i"), # propensity functions
+  matrix(c(-1, 0, +1, -1, 0, +1), # change matrix
+    nrow = 3, byrow = TRUE
+  ), 10 # number of simulations
+)
+```
+
+```{r stochastic gillespie plot}
+# Plot will default to plotting "i" compartment as second argument to the
+# function. NB: will need to rename to plot other compartments or for models
+# with other names for the infected compartmernt (eg. i1, i2, etc).
+plot_stoch_model(modelout3)
+```
+
+## Basic Stochastic SIR - Adaptive Tau Leaping Algorithm
+The [compModels::run_sir_stochastic_tau()] function allows users to run a basic
+stochastic susceptible-infected-recovered (SIR) compartmental model using
+adaptive tau leaping in [adaptivetau::ssa.exact()]. The user specifies values
+for the transmission rate parameter beta and recovery rate parameter gamma,
+initial values for each of the states (s, i, r) and total population (n), the
+number of timesteps, a list of transitions for the flows between compartments,
+and the number of simulations to run. It will return a data frame with one
+column for time and a column for each state (compartment). This function makes
+use of [compModels::validate_sir_stoch_input()]  for validating the
+user-provided inputs to check they are of the correct type and within plausible
+bounds. Output from run_sir_stochastic_tau () can be fed into
+[compModels::plot_stoch_model()] to view a plot of one or more realizations of
+the output using ggplot2.
+
+
+```{r stochastic tau}
+modelout4 <- run_sir_stochastic_tau(
+  0.00001, 0.1, 1e05 - 1, 1, 0, 1e05, # parameters, initial values,
+  100, # number of timesteps
+  list(c(s = -1, i = 1), c(i = -1, r = 1)), # transitions (as a list)
+  10 # number of simulations
+)
+```
+
+```{r stochastic tau plot}
+# Plot will default to plotting "i" compartment as second argument to the
+# function. NB: will need to rename to plot other compartments or for models
+# with other names for the infected compartmernt (eg. i1, i2, etc).
+plot_stoch_model(modelout4)
+```
+
+
+# Generalized Compartmental Models
+compModels expands this basic functionality to generalized compartmental models
+in which the user defines any number (and name) of compartments and transtions.
+See basic-generalized-models vignette for more information.

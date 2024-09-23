@@ -44,7 +44,7 @@ containing the time and states of the simulation. Number of elements should
 match the number of simulations
 }
 \description{
-Runs basic stochastic SIR model using \link[GillespieSSA:ssa.d]{GillespieSSA::ssa.d} given
+Runs basic stochastic SIR model using \code{\link[GillespieSSA:ssa.d]{GillespieSSA::ssa.d()}} given
 parameters, initial conditions, number of timesteps, and state change
 matrix conditions. No seed is set in the function so results are expected
 to vary each time the function is run.

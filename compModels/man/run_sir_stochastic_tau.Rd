@@ -39,7 +39,7 @@ run_sir_stochastic_tau(
 data frame object of the time and states of the simulation
 }
 \description{
-Runs basic stochastic SIR model using \link[adaptivetau:ssa.exact]{adaptivetau::ssa.exact} given
+Runs basic stochastic SIR model using \code{\link[adaptivetau:ssa.exact]{adaptivetau::ssa.exact()}} given
 parameters, initial conditions, number of timesteps, and state change matrix.
 No seed is set in the function so results are expected to vary each time
 the function is run.

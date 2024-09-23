@@ -1,6 +1,6 @@
 #' Runs SIR stochastic compartmental model with tau leaping
 #'
-#' Runs basic stochastic SIR model using [adaptivetau::ssa.exact] given
+#' Runs basic stochastic SIR model using [adaptivetau::ssa.exact()] given
 #' parameters, initial conditions, number of timesteps, and state change matrix.
 #' No seed is set in the function so results are expected to vary each time
 #' the function is run.
