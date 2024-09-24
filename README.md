@@ -1,19 +1,18 @@
-# cfa-gen-comp-model-tools
-Tools for generalized compartmental modeling
-
+# Tools for generalized compartmental modeling
 ⚠️ This is a work in progress
 
-# Contents
-Under construction.
+This repository is for development of generalized deterministic and stochastic compartmental modeling functions that are flexible enough to handle a user-defined number of compartments and transitions and handle common modeling features such as interventions that modify transmission, stratifications in to subgroups, and incorporation of contact matrix data. Additionally, in the future the repository will be enable users to apply a variety of inference methods to these models. The goal is to have ready-made, off-the-shelf
+generalized compartmental modeling tools to use in a response and on future analyses following CFA standard modeling, versioning, and documenting practices without having to spin up new code in the future. Initial work has been conducted in R with a package-first development approach. This repository contains the R package compModels. Future work may translate this package into a Python package.
 
 # Contributors
-
 * Catherine M Herzog (uvw5@cdc.gov)
 * Dina Mistry (uqx8@cdc.gov)
 
 # Project Documents
-Under construction.
+Two vignettes currently exist to walk users through basic SIR deterministic and stochastic compartmental model functionality and plotting, as well as basic generalized deterministic and stochastic modeling functionality and plotting. These will be expanded as functionatlity expands.
 
+# Similar projects to watch
+https://github.com/cdcent/cfa-eode/tree/main
 
 ## General Disclaimer
 This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/organization/mission.htm).  GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
