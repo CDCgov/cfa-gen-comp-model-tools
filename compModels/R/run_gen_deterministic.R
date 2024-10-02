@@ -2,7 +2,9 @@
 #'
 #' Runs basic compartmental model using [deSolve::ode()] given a user specified
 #' number and names of compartments, transition matrix between compartments,
-#' disease-related parameters, times, and starting conditions
+#' disease-related parameters, times, and starting conditions. Uses helper
+#' function [compModels::gen_rates()] to calculate modified transition rates
+#' due to intervention, if intervention is present.
 #'
 #' @param init_vals the starting values for populations in each compartment
 
@@ -60,41 +62,19 @@ run_gen_deterministic <- function(init_vals, times, comp_names, trans_matrix,
                                   modifier_matrix = NULL) {
   validate_gen_determ_input(init_vals, times, comp_names, trans_matrix)
 
-  model_ode <- function(time, state, parameters) {
-    with(as.list(c(state)), {
-      # Determine whether to apply intervention based on time
-      if (is_intervention_period(
-        time, intervention_start_time,
-        intervention_end_time
-      )) {
-        current_trans_matrix <- modify_trans_mtx(
-          trans_matrix,
-          modifier_matrix
-        )
-      } else {
-        current_trans_matrix <- trans_matrix
-      }
-
-      # Calculate changes based on current transition matrix
-      # (original or modified)
-      change_rates <- calculate_change_rates(
-        state, comp_names,
-        current_trans_matrix
-      )
-
-      list(change_rates)
-    })
-  }
-
-  parms <- list()
-
-  # Set initial states with names from comp_names argument
   init_state <- stats::setNames(init_vals, comp_names)
 
-  # Solve ODEs using lsoda from deSolve package
+  parms <- list(
+    comp_names = comp_names,
+    trans_matrix = trans_matrix,
+    intervention_start_time = intervention_start_time,
+    intervention_end_time = intervention_end_time,
+    modifier_matrix = modifier_matrix
+  )
+
   modelout <- deSolve::ode(
     y = init_state, times = times,
-    func = model_ode, parms = parms
+    func = gen_rates, parms = parms
   )
 
   as.data.frame(modelout)

@@ -36,7 +36,9 @@ data frame with columns for time and each compartment
 \description{
 Runs basic compartmental model using \code{\link[deSolve:ode]{deSolve::ode()}} given a user specified
 number and names of compartments, transition matrix between compartments,
-disease-related parameters, times, and starting conditions
+disease-related parameters, times, and starting conditions. Uses helper
+function \code{\link[=gen_rates]{gen_rates()}} to calculate modified transition rates
+due to intervention, if intervention is present.
 }
 \examples{
 \dontrun{
