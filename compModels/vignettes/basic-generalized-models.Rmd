@@ -35,7 +35,7 @@ time and accompanying single value or modifier matrix which will be multiplied
 against the transmission matrix to alter transmission as a result of the
 intervention. It will return a data frame with one column for
 time and a column for each state (compartment). This function makes use of the
-[compModels::validate_gen_determin_input()] for validating the user-provided
+[compModels::validate_gen_determ_input()] for validating the user-provided
 inputs to check they are of the correct type and within plausible bounds.
 Additionally it makes use of an internal helper functions
 [compModels::is_intervention_period()], [compModels::modify_trans_mtx()], and
