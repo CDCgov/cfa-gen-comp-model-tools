@@ -300,7 +300,34 @@ modelout4 <- run_gen_stochastic(
 # Plot will default to plotting "i" compartment as second argument to the
 # function. NB: will need to rename to plot other compartments or for models
 # with other names for the infected compartmernt (eg. i1, i2, etc).
-plot_stoch_model(modelout4, compartment = "i1")
+# You can also print more than one compartment.
+plot_stoch_model(modelout4, compartments = "i1")
+
+plot_stoch_model(modelout4, compartments = c("i1", "i2"))
+```
+
+Using config approach.
+```{r gen stochastic gillespie config, fig.dim = c(6,4)}
+# Plot will default to plotting "i" compartment as second argument to the
+# function. NB: will need to rename to plot other compartments or for models
+# with other names for the infected compartmernt (eg. i1, i2, etc).
+
+modelout4c <- run_gen_stochastic(
+  parms_vec = c(
+    beta = config$stochastic$beta, sigma = config$stochastic$sigma,
+    alpha = config$stochastic$alpha, gamma = config$stochastic$gamma
+  ),
+  propensity_fns = config$stochastic$propensity_fns,
+  init_vals = unlist(config$stochastic$init_vals),
+  n_timesteps = config$stochastic$n_timesteps,
+  change_matrix = matrix(unlist(config$stochastic$change_matrix),
+    nrow = length(config$stochastic$change_matrix),
+    byrow = TRUE
+  ),
+  config$stochastic$n_sims
+)
+
+plot_stoch_model(modelout4c, compartments = "i1")
 ```
 
 Using config approach.

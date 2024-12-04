@@ -184,9 +184,11 @@ modelout3 <- run_sir_stochastic(
 # Plot will default to plotting "i" compartment as second argument to the
 # function. Additionally, default time_var is "t" so if output variable is
 # 'time', this will need to be specified. GillespieSSA returns t. NB: will need
-#  to rename to plot other compartments or for models with other names for the
-# infected compartment (eg. i1, i2, etc).
+# to rename to plot other compartments or for models with other names for the
+# infected compartment (eg. i1, i2, etc). You can also print more than one
+# compartment.
 plot_stoch_model(modelout3)
+plot_stoch_model(modelout3, compartments = c("s", "i"))
 ```
 
 ### Basic Stochastic SIR - Adaptive Tau Leaping Algorithm
@@ -234,7 +236,9 @@ modelout4 <- run_sir_stochastic_tau(
 # 'time', this will need to be specified. adaptivetau returns 'time'.
 #  NB: will need to rename to plot other compartments or for models with other
 #  names for the infected compartment (eg. i1, i2, etc).
+# You can also print more than one compartment.
 plot_stoch_model(modelout4, time_var = "time")
+plot_stoch_model(modelout4, time_var = "time", compartments = c("i", "s"))
 ```
 
 

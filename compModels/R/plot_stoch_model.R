@@ -3,7 +3,7 @@
 #' Plots stochastic compartmental model output using [ggplot2::ggplot()]
 #'
 #' @param output data frame output from a compartmental model
-#' @param compartment character string specifying which compartment to plot,
+#' @param compartments character string specifying which compartment to plot,
 #' defaults to "i" for infected
 #' @param time_var character string specifying the name of the time variable,
 #' defaults to t
@@ -18,6 +18,7 @@
 #' \dontrun{
 #' modelout <- run_sir_stochastic(
 #'   0.001, 0.1, 499, 100, 0, 500, 100,
+#'   c("beta*s*i", "gamma*i"),
 #'   matrix(c(-1, 0, +1, -1, 0, +1),
 #'     nrow = 3, byrow = TRUE
 #'   ), 10
@@ -32,7 +33,7 @@
 #' plot_stoch_model(modelout2)
 #' }
 plot_stoch_model <- function(output,
-                             compartment = "i",
+                             compartments = c("i"),
                              time_var = "t",
                              show_intervention_period = FALSE,
                              intervention_period = NULL) {
@@ -40,54 +41,38 @@ plot_stoch_model <- function(output,
     cbind(simulation = i, output[[i]])
   }), .id = "simulation_id")
 
-  if (show_intervention_period == TRUE) {
-    ggplot(
-      combined_sims_df,
-      aes(
-        x = !!rlang::sym(time_var),
-        y = !!rlang::sym(compartment)
-      )
-    ) +
-      # rrlang::.data used to address R package notes for no visible binding
-      geom_line(aes(group = .data$simulation_id),
-        alpha = 0.5
-      ) +
-      labs(
-        title = paste(
-          "Stochastic SIR Model Simulations - ",
-          compartment, " Compartment"
-        ),
-        x = "Time",
-        y = paste("Number of ", compartment, " Individuals")
-      ) +
-      theme_classic() +
-      geom_vline(
-        xintercept = intervention_period[1],
-        linetype = "longdash"
-      ) +
-      geom_vline(
-        xintercept = intervention_period[2],
-        linetype = "longdash"
-      )
-  } else {
-    ggplot(
-      combined_sims_df,
-      aes(
-        x = !!rlang::sym(time_var),
-        y = !!rlang::sym(compartment)
-      )
-    ) +
-      geom_line(aes(group = .data$simulation_id),
-        alpha = 0.5
-      ) +
-      labs(
-        title = paste(
-          "Stochastic SIR Model Simulations - ",
-          compartment, " Compartment"
-        ),
-        x = "Time",
-        y = paste("Number of ", compartment, " Individuals")
-      ) +
-      theme_classic()
+  p <- ggplot() +
+    theme_classic()
+
+  for (compartment in compartments) {
+    p <- p + geom_line(
+      data = combined_sims_df,
+      aes_string(
+        x = time_var,
+        y = compartment,
+        group = "simulation_id",
+        color = factor(compartment)
+      ),
+      alpha = 0.5
+    )
   }
+
+  if (show_intervention_period == TRUE && !is.null(intervention_period)) {
+    p <- p + geom_vline(
+      xintercept = intervention_period[1],
+      linetype = "longdash"
+    ) + geom_vline(
+      xintercept = intervention_period[2],
+      linetype = "longdash"
+    )
+  }
+
+  # Add labels and colors
+  p <- p + labs(
+    title = "Stochastic SIR Model Simulations",
+    x = "Time",
+    y = "Number of Individuals"
+  ) + scale_color_discrete(name = "Compartment")
+
+  return(p)
 }

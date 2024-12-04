@@ -6,7 +6,7 @@
 \usage{
 plot_stoch_model(
   output,
-  compartment = "i",
+  compartments = c("i"),
   time_var = "t",
   show_intervention_period = FALSE,
   intervention_period = NULL
@@ -15,7 +15,7 @@ plot_stoch_model(
 \arguments{
 \item{output}{data frame output from a compartmental model}
 
-\item{compartment}{character string specifying which compartment to plot,
+\item{compartments}{character string specifying which compartment to plot,
 defaults to "i" for infected}
 
 \item{time_var}{character string specifying the name of the time variable,
@@ -37,6 +37,7 @@ Plots stochastic compartmental model output using \code{\link[ggplot2:ggplot]{gg
 \dontrun{
 modelout <- run_sir_stochastic(
   0.001, 0.1, 499, 100, 0, 500, 100,
+  c("beta*s*i", "gamma*i"),
   matrix(c(-1, 0, +1, -1, 0, +1),
     nrow = 3, byrow = TRUE
   ), 10
