@@ -1,6 +1,9 @@
 ---
 title: "Basic SIR Models"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{basic-sir}
   %\VignetteEngine{knitr::rmarkdown}
