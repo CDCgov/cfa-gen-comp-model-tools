@@ -16,7 +16,7 @@
 #' run_sir(
 #'   init = c(s = 1e05 - 1, i = 1, r = 0),
 #'   time = seq(0.1, 100, by = 0.1),
-#'   parms = c(beta = 0.00001, gamma = 0.1)
+#'   parms = c(beta = 0.5, gamma = 0.1)
 #' )
 #' }
 run_sir <- function(init, time, parms) {

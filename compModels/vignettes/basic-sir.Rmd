@@ -41,7 +41,7 @@ plausible bounds. Output from run_sir() can be fed into
 modelout0 <- run_sir(
   init = c(s = 1e05 - 1, i = 1, r = 0),
   time = seq(0.1, 100, by = 0.1),
-  parms = c(beta = 0.5, gamma = 0.1)
+  parms = c(beta = 0.00001, gamma = 0.1)
 )
 ```
 
@@ -132,8 +132,8 @@ modelout2 <- run_sir_intervention(
 plot_determin_model(modelout2[, -5],
   show_intervention_period = TRUE,
   intervention_period = c(
-    config$intervention_start_time,
-    config$intervention_end_time
+    config$deterministic$intervention_start_time,
+    config$deterministic$intervention_end_time
   )
 )
 ```

@@ -19,11 +19,11 @@ deterministic:
     - [1, 1, 1, 1, 1]
 
 deterministic_stratify:
-  init_vals_base: {s: 99000, e: 0, i: 10000, r: 0}
+  init_vals_base: {s: 99000, e: 0, i: 60000, r: 0}
   times: {start: 0.1, end: 100, by: 0.1}
   comp_names_base: [s, e, i, r]
   beta: 0.9
-  sigma: 0.1
+  sigma: 0.9
   gamma: 0.05
   trans_matrix_base:
     - [0.9, 0, 0, 0,]

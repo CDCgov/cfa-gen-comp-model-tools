@@ -131,11 +131,11 @@ plot_determin_model(modelout)
 The user can also layer on stratifications to the model. Here is an example
 with stratifications and no intervention.
 ```{r gen determin stratify, fig.dim = c(7.5,14)}
-init_vals_base <- c(s = 99000, e = 0, i = 10000, r = 0)
+init_vals_base <- c(s = 99000, e = 0, i = 40000, r = 0)
 times <- seq(0.1, 100, by = 0.1)
 comp_names_base <- c("s", "e", "i", "r")
 beta <- .9 # transmission
-sigma <- .1 # progression E->I
+sigma <- .05 # progression E->I
 gamma <- 0.05 # recovery
 trans_matrix_base <- matrix(
   c(
@@ -209,7 +209,7 @@ plot_determin_model(modelout3, stratify_by = c("child", "adult", "elderly"))
 ```
 
 Same as model3c above, but making use of the config file.
-```{r gen deterministic config, fig.dim = c(6,4)}
+```{r gen deterministic config, fig.dim = c(7.5,14)}
 modelout3c <- run_gen_deterministic(
   init_vals_base = unlist(config$deterministic_stratify$init_vals_base),
   times = seq(config$deterministic_stratify$times$start,

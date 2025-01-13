@@ -2,11 +2,11 @@ deterministic:
   init: {s: 99999, i: 1, r: 0}
   time: {start: 0.1, end: 100, by: 0.1}
   parms:
-    beta: 0.5
+    beta: 0.00001
     gamma: 0.1
-  intervention_start_time: 5
-  intervention_end_time: 15
-  intervention_impact: 0.4
+  intervention_start_time: 10
+  intervention_end_time: 20
+  intervention_impact: 0.3
 
 stochastic:
   beta: 0.001

@@ -2,6 +2,8 @@
 #'
 #' Contains basic SIR model equations given parameters, times, and starting
 #' conditions with a calculation of the effective beta given an intervention.
+#' The flow from susceptible to infectious is explicit frequency dependent
+#' transmission.
 #'
 #' @param time time step (type: double) the model is currently running on
 #' @param state vector of initial values of s0 initial count of susceptibles,
@@ -15,7 +17,7 @@
 #'   times = seq(0.1, 100, by = 0.1),
 #'   state = c(s = 1e05 - 1, i = 1, r = 0),
 #'   parms = c(
-#'     beta = 0.00001, gamma = 0.1,
+#'     beta = 0.5, gamma = 0.1,
 #'     intervention_start_time = 10,
 #'     intervention_end_time = 20,
 #'     intervention_impact = 0.3
@@ -26,6 +28,7 @@ sir_deriv_intervention <- function(time, state, parms) {
   s <- state[[1]]
   i <- state[[2]]
   r <- state[[3]]
+  n <- s + i + r
 
   effective_beta <- if (is_intervention_period(
     time,
@@ -37,8 +40,8 @@ sir_deriv_intervention <- function(time, state, parms) {
     parms[["beta"]]
   }
 
-  ds <- -effective_beta * s * i
-  di <- effective_beta * s * i - parms[["gamma"]] * i
+  ds <- (-effective_beta * s * i) / n
+  di <- (effective_beta * s * i) / n - parms[["gamma"]] * i
   dr <- parms[["gamma"]] * i
   list(c(s = ds, i = di, r = dr), beta = effective_beta)
 }

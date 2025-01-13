@@ -20,9 +20,9 @@
 #'   init = c(s = 1e05 - 1, i = 1, r = 0),
 #'   time = seq(0.1, 100, by = 0.1),
 #'   parms = list(
-#'     beta = 0.00001, gamma = 0.1,
-#'     intervention_start_time = 10,
-#'     intervention_end_time = 20,
+#'     beta = 0.5, gamma = 0.1,
+#'     intervention_start_time = 20,
+#'     intervention_end_time = 30,
 #'     intervention_impact = 0.3
 #'   )
 #' )

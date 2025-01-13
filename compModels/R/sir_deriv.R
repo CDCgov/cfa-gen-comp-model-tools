@@ -1,7 +1,8 @@
 #' Calculates SIR compartment states
 #'
 #' Contains basic SIR model equations given parameters, times, and starting
-#' conditions.
+#' conditions. The flow from susceptible to infectious is explicit
+#' frequency dependent transmission.
 #'
 #' @param time time step (type: double) the model is currently running on
 #' @param state vector of initial values of s0 initial count of susceptibles,
@@ -14,15 +15,16 @@
 #' sir_deriv(
 #'   time = 1,
 #'   state = c(s = 1e05 - 1, i = 1, r = 0),
-#'   parms = c(beta = 0.00001, gamma = 0.1)
+#'   parms = c(beta = 0.5, gamma = 0.1)
 #' )
 #' }
 sir_deriv <- function(time, state, parms) {
   s <- state[1]
   i <- state[2]
   r <- state[3]
-  ds <- -parms["beta"] * s * i
-  di <- parms["beta"] * s * i - parms["gamma"] * i
+  n <- s + i + r
+  ds <- (-parms["beta"] * s * i) / n
+  di <- ((parms["beta"] * s * i) / n) - parms["gamma"] * i
   dr <- parms["gamma"] * i
   list(c(s = ds, i = di, r = dr))
 }
