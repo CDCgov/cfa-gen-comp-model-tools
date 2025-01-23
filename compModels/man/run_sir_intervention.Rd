@@ -24,7 +24,9 @@ data frame with columns for time and each state (compartment)
 \description{
 Runs a basic SIR model using \code{\link[deSolve:ode]{deSolve::ode()}} given parameters,
 times, and starting conditions and applies an intervention impacting
-transmission during a specific time range.
+transmission during a specific time range. This references
+\code{\link[=sir_deriv_intervention]{sir_deriv_intervention()}} which uses explicit frequency
+dependent transmission.
 }
 \examples{
 \dontrun{
@@ -32,9 +34,9 @@ run_sir_intervention(
   init = c(s = 1e05 - 1, i = 1, r = 0),
   time = seq(0.1, 100, by = 0.1),
   parms = list(
-    beta = 0.00001, gamma = 0.1,
-    intervention_start_time = 10,
-    intervention_end_time = 20,
+    beta = 0.5, gamma = 0.1,
+    intervention_start_time = 20,
+    intervention_end_time = 30,
     intervention_impact = 0.3
   )
 )

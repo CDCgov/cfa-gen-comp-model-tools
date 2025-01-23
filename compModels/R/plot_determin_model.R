@@ -18,7 +18,7 @@
 #' modelout <- run_sir(
 #'   init = c(s = 1e05 - 1, i = 1, r = 0),
 #'   time = seq(0.1, 100, by = 0.1),
-#'   parms = c(beta = 0.00001, gamma = 0.1)
+#'   parms = c(beta = 0.5, gamma = 0.1)
 #' )
 #' plot_determin_model(modelout)
 #'
@@ -26,15 +26,15 @@
 #'   init = c(s = 1e05 - 1, i = 1, r = 0),
 #'   time = seq(0.1, 100, by = 0.1),
 #'   parms = list(
-#'     beta = 0.00001, gamma = 0.1,
-#'     intervention_start_time = 10,
-#'     intervention_end_time = 20,
+#'     beta = 0.5, gamma = 0.1,
+#'     intervention_start_time = 20,
+#'     intervention_end_time = 30,
 #'     intervention_impact = 0.3
 #'   )
 #' )
 #' plot_determin_model(modelout2,
 #'   show_intervention_period = TRUE,
-#'   intervention_period = c(10, 20)
+#'   intervention_period = c(20, 30)
 #' )
 #'
 #' init_vals_base <- c(s = 99000, e = 0, i = 10000, r = 0)
@@ -87,10 +87,8 @@ plot_determin_model <- function(output, stratify_by = NULL,
     for (stratum in stratify_by) {
       pattern <- paste0("(^|_)", stratum, "($|_)")
       filtered_data <- subset(out_long, grepl(pattern, variable))
-      p <- ggplot(
-        filtered_data,
-        aes(x = time, y = value, color = variable)
-      ) +
+      p <- filtered_data |>
+        ggplot(aes(x = time, y = value, color = variable)) +
         geom_line() +
         xlab("Time") +
         ylab("Number") +
@@ -114,10 +112,8 @@ plot_determin_model <- function(output, stratify_by = NULL,
     }
     do.call(gridExtra::grid.arrange, c(plot_list, ncol = 1))
   } else {
-    p <- ggplot(
-      out_long,
-      aes(x = time, y = value, color = variable)
-    ) +
+    p <- out_long |>
+      ggplot(aes(x = time, y = value, color = variable)) +
       geom_line() +
       xlab("Time") +
       ylab("Number") +

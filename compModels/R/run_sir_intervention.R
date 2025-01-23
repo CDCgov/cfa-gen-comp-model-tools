@@ -2,7 +2,9 @@
 #'
 #' Runs a basic SIR model using [deSolve::ode()] given parameters,
 #' times, and starting conditions and applies an intervention impacting
-#' transmission during a specific time range.
+#' transmission during a specific time range. This references
+#' [compModels::sir_deriv_intervention()] which uses explicit frequency
+#' dependent transmission.
 #'
 #' @param init vector of named numeric initial values of s initial count of
 #' susceptibles, i initial count of infecteds, and r initial count of recovereds

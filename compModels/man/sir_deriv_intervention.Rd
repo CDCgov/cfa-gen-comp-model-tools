@@ -21,6 +21,8 @@ list with elements for each state (compartment) and effective beta
 \description{
 Contains basic SIR model equations given parameters, times, and starting
 conditions with a calculation of the effective beta given an intervention.
+The flow from susceptible to infectious is explicit frequency dependent
+transmission.
 }
 \examples{
 \dontrun{
@@ -28,7 +30,7 @@ sir_deriv_intervention(
   times = seq(0.1, 100, by = 0.1),
   state = c(s = 1e05 - 1, i = 1, r = 0),
   parms = c(
-    beta = 0.00001, gamma = 0.1,
+    beta = 0.05, gamma = 0.1,
     intervention_start_time = 10,
     intervention_end_time = 20,
     intervention_impact = 0.3

@@ -4,7 +4,7 @@ test_that("Test output is a data frame with expected dimensions", {
     run_sir(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = c(beta = 0.5, gamma = 0.1)
     )
   expect_equal(class(out), "data.frame")
   # Expect ncol = # compartments + 1 & nrows = length of provided time sequence
@@ -28,7 +28,7 @@ test_that("Invalid user-supplied parameters trigger an error", {
     run_sir(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = -0.1)
+      parms = c(beta = 0.5, gamma = -0.1)
     ),
     "gamma should be non-negative"
   )
@@ -38,7 +38,7 @@ test_that("Invalid user-supplied parameters trigger an error", {
     run_sir(
       init = c(s = -1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = c(beta = 0.5, gamma = 0.1)
     ),
     "s should be non-negative"
   )
@@ -46,7 +46,7 @@ test_that("Invalid user-supplied parameters trigger an error", {
     run_sir(
       init = c(s = 1e05 - 1, i = -1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = c(beta = 0.5, gamma = 0.1)
     ),
     "i should be non-negative"
   )
@@ -54,7 +54,7 @@ test_that("Invalid user-supplied parameters trigger an error", {
     run_sir(
       init = c(s = 1e05 - 1, i = 1, r = -1),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = c(beta = 0.5, gamma = 0.1)
     ),
     "r should be non-negative"
   )
@@ -72,28 +72,28 @@ test_that("Invalid user-supplied parameters trigger an error", {
   # expect_error(
   #   run_sir(init = c(s = 1e05 - 1, i = 1, r = 0),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = "invalid")
+  #           parms = c(beta = 0.5, gamma = "invalid")
   # ),
   #   "gamma must be numeric"
   # )
   # expect_error(
   #   run_sir(init = c(s = "invalid", i = 1, r = 0),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = 0.1)
+  #           parms = c(beta = 0.5, gamma = 0.1)
   # ),
   #   "s must be numeric"
   # )
   # expect_error(
   #   run_sir(init = c(s = 1e05 - 1, i = "invalid", r = 0),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = 0.1)
+  #           parms = c(beta = 0.5, gamma = 0.1)
   # ),
   #   "i must be numeric"
   # )
   # expect_error(
   #   run_sir(init = c(s = 1e05 - 1, i = 1, r = "invalid"),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = 0.1)
+  #           parms = c(beta = 0.5, gamma = 0.1)
   # ),
   #   "r must be numeric"
   # )
@@ -103,7 +103,7 @@ test_that("Invalid user-supplied parameters trigger an error", {
     run_sir(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = c(),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = c(beta = 0.5, gamma = 0.1)
     ),
     "time vector must have at least one element"
   )
@@ -113,7 +113,7 @@ test_that("Invalid user-supplied parameters trigger an error", {
     run_sir(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = c(10:5),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = c(beta = 0.5, gamma = 0.1)
     ),
     "time vector must be strictly increasing"
   )
@@ -126,7 +126,7 @@ test_that("Initial conditions are correctly set in the output", {
   out <- run_sir(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   # Check if initial conditions match the first row of the output
   # Initial conditions are integers and returned data frame gives float
@@ -146,7 +146,7 @@ test_that("Total population is conserved at each time step", {
   out <- run_sir(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   total_pop_initial <- (1e05 - 1) + 1 + 0
   tolerance <- .Machine$double.eps^0.5
@@ -162,12 +162,12 @@ test_that("Model output is deterministic", {
   out1 <- run_sir(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   out2 <- run_sir(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   # Check if both results are identical using all.equal()
   expect_true(all.equal(out1, out2))
@@ -179,12 +179,12 @@ test_that("Model output is stable across different time step granularities", {
   out1 <- run_sir(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   out2 <- run_sir(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   # Interpolate fine results at coarse time points for comparison
   interp_fine_s <- approx(out2$time, out2$s, xout = seq(0.1, 100, by = 1))$y
@@ -211,7 +211,7 @@ test_that("Model runs within acceptable performance bounds for large sims", {
       out1 <- run_sir(
         init = c(s = 1e05 - 1, i = 1, r = 0),
         time = seq(0.1, 10000, by = 0.1),
-        parms = c(beta = 0.00001, gamma = 0.1)
+        parms = c(beta = 0.5, gamma = 0.1)
       )
     })[3] # user + sys time
   # Define an acceptable threshold for the execution time (in seconds)
@@ -230,7 +230,7 @@ test_that("No epidemic occurs when there are 0 initial infecteds", {
   result_no_infecteds <- run_sir(
     init = c(s = 1e05 - 1, i = 0, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   # Check that there are still no infected over time since i was zero
   expect_equal(sum(result_no_infecteds$i), 0)
@@ -241,7 +241,7 @@ test_that("No changes occur when all individuals start as recovered", {
   result_all_recovered <- run_sir(
     init = c(s = 0, i = 0, r = 1e05),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = c(beta = 0.5, gamma = 0.1)
   )
   expect_equal(result_all_recovered$s[which.max(seq(0.1, 100, by = 0.1))], 0)
   expect_equal(result_all_recovered$i[which.max(seq(0.1, 100, by = 0.1))], 0)
@@ -274,4 +274,75 @@ test_that("Model behaves reasonably with extreme parameter values", {
   # quickly, so there should be a rapid decrease in infected individuals.
   # User defined tolerance_for_recovery on the far right
   expect_true(min(diff(result_extreme$i)) < -.09)
+})
+
+# Testing analytical solutions ----
+test_that("Iterative test of final size", {
+  # Run SIR model simulation with no initial recovered individuals
+  n <- 1e05
+  i <- 1
+  s <- n - i
+  r <- n - s - i
+  beta <- 0.5
+  gamma <- 0.1
+  time_seq <- seq(0.1, 150, by = 0.1)
+
+  out <- run_sir(
+    init = c(s = s, i = i, r = r),
+    time = time_seq,
+    parms = c(beta = beta, gamma = gamma)
+  )
+  # Get final size (count) from simulation
+  print(tail(out))
+  fs_sim <- tail(out$r, n = 1)
+
+  # Iterative process for final size
+  r_0 <- beta / gamma # same as parms above
+  homog_sir_final_size_pred <- function(r_0,
+                                        eps = 10^(-8),
+                                        maxit = 1000000) {
+    cat("Running with R0 =", r_0, "\n")
+    tol <- eps^2 # for determining when to stop calculations
+    a_old <- eps
+    counter <- 0
+
+    while (counter < maxit) {
+      a_new <- 1 - exp(-r_0 * a_old)
+      if (abs(a_old - a_new) < tol) { # stop if A doesn't change much
+        break
+      }
+      a_old <- a_new
+      counter <- counter + 1
+    }
+
+    cat("the convergence required", counter, "steps\n")
+    return(a_new)
+  }
+
+  print(paste("provided R0:", r_0))
+  r_0_values <- c(
+    0.1, 0.25, 0.5, 0.75, 0.9, 0.99, 1,
+    1.01, 1.1, 1.25, 1.5, 1.75, 2.0, r_0
+  )
+  print(paste("R0 values:", r_0_values))
+
+  plot(NULL,
+    xlim = range(r_0_values), ylim = c(0, 1),
+    xlab = "r0", ylab = "A", main = "Plot of A vs r0"
+  )
+
+  for (r_0 in r_0_values) {
+    a <- homog_sir_final_size_pred(r_0)
+    cat("found A=", a, "\n\n")
+    points(r_0, a, col = "blue", pch = 19)
+  }
+  points(r_0, homog_sir_final_size_pred(r_0), col = "red", pch = 3) # iterative
+  points(r_0, fs_sim / n, col = "green", pch = 4) # simulation
+
+  # Compare (with conversion from probability to count for fs_analytic)
+  cat("Final size (simulation)", fs_sim / 1e05, "\n")
+  cat("Analytical expected final size:", a, "\n")
+
+  # Check if equal (within a certain tolerance)
+  expect_equal(fs_sim / 1e05, a, tolerance = 0.00001)
 })

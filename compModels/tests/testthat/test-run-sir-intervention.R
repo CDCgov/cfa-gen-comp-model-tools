@@ -1,14 +1,19 @@
 # Basic Functionality ----
 test_that("Test output is a data frame with expected dimensions", {
   out <-
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = list(
+        beta = 0.5, gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     )
   expect_equal(class(out), "data.frame")
   # Expect ncol = # compartments + 1 & nrows = length of provided time sequence
-  expect_equal(ncol(out), 4)
+  expect_equal(ncol(out), 5)
   expect_equal(nrow(out), length(seq(0.1, 100, by = 0.1)))
 })
 
@@ -17,44 +22,69 @@ test_that("Test output is a data frame with expected dimensions", {
 test_that("Invalid user-supplied parameters trigger an error", {
   # Negative parameters (beta, gamma) should throw an error
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = -0.00001, gamma = 0.1)
+      parms = list(
+        beta = -0.5, gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "beta should be non-negative"
   )
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = -0.1)
+      parms = list(
+        beta = 0.5, gamma = -0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "gamma should be non-negative"
   )
 
   # Negative initial count in any compartment (state) should throw an error
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = -1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = list(
+        beta = 0.5, gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "s should be non-negative"
   )
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = -1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = list(
+        beta = 0.5, gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "i should be non-negative"
   )
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = 1, r = -1),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = list(
+        beta = 0.5, gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "r should be non-negative"
   )
@@ -62,58 +92,92 @@ test_that("Invalid user-supplied parameters trigger an error", {
   # Non-numeric input for parameters or compartments (states) should throw
   # an error
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = seq(0.1, 100, by = 0.1),
-      parms = c(beta = "invalid", gamma = 0.1)
+      parms = c(
+        beta = "invalid", gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "beta must be numeric"
   )
   # expect_error(
-  #   run_sir(init = c(s = 1e05 - 1, i = 1, r = 0),
+  #   run_sir_intervention(init = c(s = 1e05 - 1, i = 1, r = 0),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = "invalid")
+  #           parms = c(beta = 0.5, gamma = "invalid",
+  # intervention_start_time = 20,
+  # intervention_end_time = 30,
+  # intervention_impact = 0.3
+  # )
   # ),
   #   "gamma must be numeric"
   # )
   # expect_error(
-  #   run_sir(init = c(s = "invalid", i = 1, r = 0),
+  #   run_sir_intervention(init = c(s = "invalid", i = 1, r = 0),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = 0.1)
+  # #           parms = list(
+  #       beta = 0.5, gamma = 0.1,
+  #       intervention_start_time = 20,
+  #       intervention_end_time = 30,
+  #       intervention_impact = 0.3
+  #     )
   # ),
   #   "s must be numeric"
   # )
   # expect_error(
-  #   run_sir(init = c(s = 1e05 - 1, i = "invalid", r = 0),
+  #   run_sir_intervention(init = c(s = 1e05 - 1, i = "invalid", r = 0),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = 0.1)
+  #           parms = list(
+  #   beta = 0.5, gamma = 0.1,
+  #   intervention_start_time = 20,
+  #   intervention_end_time = 30,
+  #   intervention_impact = 0.3
+  # )
   # ),
   #   "i must be numeric"
   # )
   # expect_error(
-  #   run_sir(init = c(s = 1e05 - 1, i = 1, r = "invalid"),
+  #   run_sir_intervention(init = c(s = 1e05 - 1, i = 1, r = "invalid"),
   #           time = seq(0.1, 100, by = 0.1),
-  #           parms = c(beta = 0.00001, gamma = 0.1)
+  #           parms = list(
+  #   beta = 0.5, gamma = 0.1,
+  #   intervention_start_time = 20,
+  #   intervention_end_time = 30,
+  #   intervention_impact = 0.3
+  # )
   # ),
   #   "r must be numeric"
   # )
 
   # Empty time vector should throw an error
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = c(),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = list(
+        beta = 0.5, gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "time vector must have at least one element"
   )
 
   # Non-increasing time vector should throw an error
   expect_error(
-    run_sir(
+    run_sir_intervention(
       init = c(s = 1e05 - 1, i = 1, r = 0),
       time = c(10:5),
-      parms = c(beta = 0.00001, gamma = 0.1)
+      parms = list(
+        beta = 0.5, gamma = 0.1,
+        intervention_start_time = 20,
+        intervention_end_time = 30,
+        intervention_impact = 0.3
+      )
     ),
     "time vector must be strictly increasing"
   )
@@ -123,10 +187,15 @@ test_that("Invalid user-supplied parameters trigger an error", {
 
 # Initial Conditions ----
 test_that("Initial conditions are correctly set in the output", {
-  out <- run_sir(
+  out <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
   # Check if initial conditions match the first row of the output
   # Initial conditions are integers and returned data frame gives float
@@ -143,10 +212,15 @@ test_that("Initial conditions are correctly set in the output", {
 # Conservation ----
 # Total Population Conserved
 test_that("Total population is conserved at each time step", {
-  out <- run_sir(
+  out <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
   total_pop_initial <- (1e05 - 1) + 1 + 0
   tolerance <- .Machine$double.eps^0.5
@@ -159,15 +233,25 @@ test_that("Total population is conserved at each time step", {
 # Deterministic Output ----
 test_that("Model output is deterministic", {
   # Run SIR model simulation twice with the same parameters
-  out1 <- run_sir(
+  out1 <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
-  out2 <- run_sir(
+  out2 <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
   # Check if both results are identical using all.equal()
   expect_true(all.equal(out1, out2))
@@ -176,15 +260,25 @@ test_that("Model output is deterministic", {
 # Time Step Size Sensitivity ----
 test_that("Model output is stable across different time step granularities", {
   # Run SIR model simulation twice with different granularity time steps
-  out1 <- run_sir(
+  out1 <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
-  out2 <- run_sir(
+  out2 <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
   # Interpolate fine results at coarse time points for comparison
   interp_fine_s <- approx(out2$time, out2$s, xout = seq(0.1, 100, by = 1))$y
@@ -208,10 +302,15 @@ test_that("Model runs within acceptable performance bounds for large sims", {
   # of time steps
   elapsed_time <-
     system.time({
-      out1 <- run_sir(
+      out1 <- run_sir_intervention(
         init = c(s = 1e05 - 1, i = 1, r = 0),
         time = seq(0.1, 10000, by = 0.1),
-        parms = c(beta = 0.00001, gamma = 0.1)
+        parms = list(
+          beta = 0.5, gamma = 0.1,
+          intervention_start_time = 20,
+          intervention_end_time = 30,
+          intervention_impact = 0.3
+        )
       )
     })[3] # user + sys time
   # Define an acceptable threshold for the execution time (in seconds)
@@ -227,10 +326,15 @@ test_that("Model runs within acceptable performance bounds for large sims", {
 # Testing Edge Cases and Model Behavior ----
 test_that("No epidemic occurs when there are 0 initial infecteds", {
   # Run SIR model simulation with no initial infected individuals
-  result_no_infecteds <- run_sir(
+  result_no_infecteds <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 0, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
   # Check that there are still no infected over time since i was zero
   expect_equal(sum(result_no_infecteds$i), 0)
@@ -238,10 +342,15 @@ test_that("No epidemic occurs when there are 0 initial infecteds", {
 
 test_that("No changes occur when all individuals start as recovered", {
   # Run SIR model simulation with everyone recovered
-  result_all_recovered <- run_sir(
+  result_all_recovered <- run_sir_intervention(
     init = c(s = 0, i = 0, r = 1e05),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = 0.00001, gamma = 0.1)
+    parms = list(
+      beta = 0.5, gamma = 0.1,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
   expect_equal(result_all_recovered$s[which.max(seq(0.1, 100, by = 0.1))], 0)
   expect_equal(result_all_recovered$i[which.max(seq(0.1, 100, by = 0.1))], 0)
@@ -254,10 +363,15 @@ test_that("Model behaves reasonably with extreme parameter values", {
   gamma_extreme <- 1 # Extremely high recovery rate, very fast recovery
 
   # Run SIR model simulation with extreme parameters
-  result_extreme <- run_sir(
+  result_extreme <- run_sir_intervention(
     init = c(s = 1e05 - 1, i = 1, r = 0),
     time = seq(0.1, 100, by = 0.1),
-    parms = c(beta = beta_extreme, gamma = gamma_extreme)
+    parms = c(
+      beta = beta_extreme, gamma = gamma_extreme,
+      intervention_start_time = 20,
+      intervention_end_time = 30,
+      intervention_impact = 0.3
+    )
   )
 
   # Check if outputs remain reasonable (e.g., no negative values)

@@ -2,7 +2,8 @@
 #'
 #' Runs basic SIR model using [deSolve::ode()] given parameters,
 #' times, and starting conditions. Performs basic input validation via
-#' [compModels::validate_sir_input]
+#' [compModels::validate_sir_input]. This references [compModels::sir_deriv()]
+#' which uses explicit frequency dependent transmission.
 #'
 #' @param init vector of initial values of s0 initial count of susceptibles,
 #' i0 initial count of infecteds, and r0 initial count of recovereds

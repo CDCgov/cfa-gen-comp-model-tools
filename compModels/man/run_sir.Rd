@@ -21,14 +21,15 @@ data frame with columns for time and each state (compartment)
 \description{
 Runs basic SIR model using \code{\link[deSolve:ode]{deSolve::ode()}} given parameters,
 times, and starting conditions. Performs basic input validation via
-\link{validate_sir_input}
+\link{validate_sir_input}. This references \code{\link[=sir_deriv]{sir_deriv()}}
+which uses explicit frequency dependent transmission.
 }
 \examples{
 \dontrun{
 run_sir(
   init = c(s = 1e05 - 1, i = 1, r = 0),
   time = seq(0.1, 100, by = 0.1),
-  parms = c(beta = 0.00001, gamma = 0.1)
+  parms = c(beta = 0.5, gamma = 0.1)
 )
 }
 }

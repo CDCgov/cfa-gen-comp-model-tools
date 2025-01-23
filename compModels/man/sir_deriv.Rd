@@ -20,7 +20,8 @@ list with elements for each state (compartment)
 }
 \description{
 Contains basic SIR model equations given parameters, times, and starting
-conditions.
+conditions. The flow from susceptible to infectious is explicit
+frequency dependent transmission.
 }
 \examples{
 \dontrun{
