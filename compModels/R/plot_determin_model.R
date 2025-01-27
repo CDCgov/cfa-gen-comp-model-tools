@@ -11,6 +11,7 @@
 #' (type: numeric) with the start and end time of an intervention
 #' @return ggplot2 plot of compartmental model output
 #' @import ggplot2
+#' @import rlang
 #' @rdname plot_determin_model
 #' @export
 #' @examples
@@ -80,15 +81,16 @@ plot_determin_model <- function(output, stratify_by = NULL,
                                 show_intervention_period = FALSE,
                                 intervention_period = NULL) {
   out_long <- as.data.frame(output) |>
-    tidyr::pivot_longer(-time, names_to = "variable", values_to = "value")
+    tidyr::pivot_longer(-.data$time, names_to = "variable", values_to = "value")
   plot_list <- list()
 
   if (!is.null(stratify_by) && length(stratify_by) > 0) {
     for (stratum in stratify_by) {
       pattern <- paste0("(^|_)", stratum, "($|_)")
-      filtered_data <- subset(out_long, grepl(pattern, variable))
+      filtered_data <- subset(out_long, grepl(pattern, out_long$variable))
+      # it is 'variable' in the line above that causes a NOTE in check()
       p <- filtered_data |>
-        ggplot(aes(x = time, y = value, color = variable)) +
+        ggplot(aes(x = .data$time, y = .data$value, color = .data$variable)) +
         geom_line() +
         xlab("Time") +
         ylab("Number") +
@@ -113,7 +115,7 @@ plot_determin_model <- function(output, stratify_by = NULL,
     do.call(gridExtra::grid.arrange, c(plot_list, ncol = 1))
   } else {
     p <- out_long |>
-      ggplot(aes(x = time, y = value, color = variable)) +
+      ggplot(aes(x = .data$time, y = .data$value, color = .data$variable)) +
       geom_line() +
       xlab("Time") +
       ylab("Number") +

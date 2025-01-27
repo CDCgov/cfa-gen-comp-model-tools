@@ -5,8 +5,6 @@
 #' @param subgroups_list list of one or more vectors of subgroup names to be
 #' used for stratification
 #' @return stops with information or indicates checks passed
-#' }
-
 check_subgroups_list <- function(subgroups_list) {
   if (!is.null(subgroups_list)) {
     if (!is.list(subgroups_list)) {

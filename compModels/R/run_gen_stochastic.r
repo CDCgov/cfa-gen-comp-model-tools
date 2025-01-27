@@ -55,6 +55,17 @@
 #' }
 run_gen_stochastic <- function(parms_vec, propensity_fns, init_vals,
                                n_timesteps, change_matrix, n_sims) {
+  validate_gen_stoch_input(parms_vec, init_vals, n_timesteps,
+    method = "GillespieSSA",
+    propensity_fns = propensity_fns,
+    change_matrix = change_matrix,
+    transitions = NULL,
+    n_sims,
+    intervention_start_time = NULL,
+    intervention_end_time = NULL,
+    modifier = NULL
+  )
+
   nu <- change_matrix # State Change Matrix
   t <- n_timesteps
 

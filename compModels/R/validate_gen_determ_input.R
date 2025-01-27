@@ -20,7 +20,8 @@ validate_gen_determ_input <- function(init_vals, times,
                                       intervention_start_time,
                                       intervention_end_time,
                                       modifier) {
-  check_init_vals(init_vals, comp_names)
+  check_init_vals(init_vals)
+  check_initvals_compnames(init_vals, comp_names)
   check_times(times)
   check_trans_mtx(trans_matrix, comp_names)
   check_subgroups_list(subgroups_list)

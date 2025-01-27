@@ -4,9 +4,8 @@
 #' function
 #' @param trans_matrix matrix of transition rates between each of the
 #' compartments
+#' @param comp_names names of the compartments
 #' @return stops with information or indicates checks passed
-#' }
-
 check_trans_mtx <- function(trans_matrix, comp_names) {
   if (!all(
     rownames(trans_matrix) %in% comp_names

@@ -6,7 +6,6 @@
 #' @param modifier single value, matrix, or function to be applied to transition
 #' matrix during an intervention
 #' @return stops with information or indicates checks passed
-#' }
 check_modifier1 <- function(modifier) {
   is_null <- is.null(modifier)
   is_single_numeric <- is.numeric(modifier) && length(modifier) == 1

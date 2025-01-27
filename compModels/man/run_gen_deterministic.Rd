@@ -80,6 +80,7 @@ mod_mat <- matrix(
 )
 modelout <- run_gen_deterministic(
   initial_vals, time_seq, compartment_nms,
+  subgroups_list = NULL,
   transition_mtx,
   start, end,
   mod_mat

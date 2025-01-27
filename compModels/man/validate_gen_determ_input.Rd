@@ -4,7 +4,16 @@
 \alias{validate_gen_determ_input}
 \title{Checks validity of input to generalized compartmental model}
 \usage{
-validate_gen_determ_input(init_vals, times, comp_names, trans_matrix)
+validate_gen_determ_input(
+  init_vals,
+  times,
+  comp_names,
+  trans_matrix,
+  subgroups_list,
+  intervention_start_time,
+  intervention_end_time,
+  modifier
+)
 }
 \arguments{
 \item{init_vals}{the starting values for populations in each compartment}
@@ -13,7 +22,18 @@ validate_gen_determ_input(init_vals, times, comp_names, trans_matrix)
 
 \item{comp_names}{names of the compartments}
 
-\item{trans_matrix}{matrix of transition rates between each of the}
+\item{trans_matrix}{matrix of transition rates between each of the
+compartments}
+
+\item{subgroups_list}{list of one or more vectors of subgroup names to be
+used for stratification}
+
+\item{intervention_start_time}{time at which intervention will start}
+
+\item{intervention_end_time}{time at which intervention will end}
+
+\item{modifier}{single value, matrix, or function to be applied to transition
+matrix during an intervention}
 }
 \value{
 stops with information or indicates Input Checks Passed
@@ -21,25 +41,4 @@ stops with information or indicates Input Checks Passed
 \description{
 Helper function that runs checks on generalized compartmental model input
 parameters, times, and initial conditions
-}
-\examples{
-\dontrun{
-validate_gen_determ_input(
-  init_vals = c(1e05 - 1, 10, 5, 1, 0),
-  times = seq(0.1, 100, by = 0.1),
-  comp_names = c("A", "B", "C", "D", "E"),
-  trans_matrix <- matrix(
-    c(
-      -0.1, 0.1, 0, 0, 0,
-      0, -0.1, 0.1, 0, 0,
-      0, 0, -0.1, 0.1, 0,
-      0, 0, 0, -0.1, 0.1,
-      0.1, 0, 0, 0, -0.1
-    ),
-    nrow = length(c("A", "B", "C", "D", "E")),
-    byrow = TRUE,
-    dimnames = list(c("A", "B", "C", "D", "E"), c("A", "B", "C", "D", "E"))
-  )
-)
-}
 }

@@ -87,7 +87,7 @@ modelout0 <- run_gen_deterministic(
   times = time_seq,
   comp_names_base = compartment_nms,
   trans_matrix_base = transition_mtx,
-  subgroups_list = list(),
+  subgroups_list = NULL,
   intervention_start_time = start,
   intervention_end_time = end,
   modifier = mod_mat
@@ -113,7 +113,7 @@ modelout <- run_gen_deterministic(
       config$deterministic$compartment_nms
     )
   ),
-  subgroups_list = list(),
+  subgroups_list = NULL,
   intervention_start_time = config$deterministic$intervention_start_time,
   intervention_end_time = config$deterministic$intervention_end_time,
   modifier = matrix(unlist(config$deterministic$mod_mat),

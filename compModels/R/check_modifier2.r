@@ -6,7 +6,6 @@
 #' @param modifier single value, matrix, or function to be applied to transition
 #' matrix during an intervention
 #' @return stops with information or indicates checks passed
-#' }
 check_modifier2 <- function(modifier) {
   if (!check_modifier1(modifier)) {
     stop("Modifier must be either a single numeric value, a matrix of numeric

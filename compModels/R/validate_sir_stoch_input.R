@@ -20,7 +20,6 @@
 #' default NULL
 #' @param n_sims number of simulations desired
 #' @return stops with information or indicates Input Checks Passed
-#' @export
 #' @examples
 #' \dontrun{
 #' validate_sir_stoch_input(

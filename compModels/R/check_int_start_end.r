@@ -5,7 +5,6 @@
 #' @param intervention_start_time time at which intervention will start
 #' @param intervention_end_time time at which intervention will end
 #' @return stops with information or indicates checks passed
-#' }
 check_intervention_times <- function(intervention_start_time,
                                      intervention_end_time) {
   if (!is.null(

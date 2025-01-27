@@ -46,7 +46,17 @@ run_gen_stochastic_tau <- function(init_vals, transitions,
                                    n, n_sims) {
   # Note: arguments in the order of ssa.exact() arguments
 
-  # Validate input if necessary (you may need to create a new validation fn)
+  validate_gen_stoch_input(parms_vec, init_vals, n_timesteps,
+    method = "adaptivetau",
+    propensity_fns = NULL,
+    change_matrix = NULL,
+    transitions = transitions,
+    n_sims,
+    intervention_start_time = NULL,
+    intervention_end_time = NULL,
+    modifier = NULL
+  )
+
   t <- n_timesteps
 
   sims <- lapply(1:n_sims, function(i) {

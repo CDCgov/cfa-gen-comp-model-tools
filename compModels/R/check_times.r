@@ -4,7 +4,6 @@
 #' function
 #' @param times vector of time steps to run the model over
 #' @return stops with information or indicates checks passed
-#' }
 check_times <- function(times) {
   if (length(times) < 1) {
     stop("The times vector must have at least one element.")

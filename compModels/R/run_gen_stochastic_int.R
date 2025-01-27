@@ -42,7 +42,7 @@
 #'   nrow = 1,
 #'   dimnames = list(c("beta"), NULL)
 #' )
-#' results <- fn_run_gen_stochastic_int(
+#' results <- run_gen_stochastic_int(
 #'   parms_vec = c(
 #'     beta = 0.001, sigma = 0.1,
 #'     alpha = 0.05, gamma = 0.1
@@ -62,11 +62,21 @@
 #'   modifier_matrix = modifier_matrix
 #' )
 #' }
-fn_run_gen_stochastic_int <- function(parms_vec, propensity_fns, init_vals,
-                                      n_timesteps, change_matrix, n_sims,
-                                      intervention_start_time = NULL,
-                                      intervention_end_time = NULL,
-                                      modifier_matrix = NULL) {
+run_gen_stochastic_int <- function(parms_vec, propensity_fns, init_vals,
+                                   n_timesteps, change_matrix, n_sims,
+                                   intervention_start_time = NULL,
+                                   intervention_end_time = NULL,
+                                   modifier_matrix = NULL) {
+  validate_gen_stoch_input(parms_vec, init_vals, n_timesteps,
+    method = "GillespieSSA",
+    propensity_fns = propensity_fns,
+    change_matrix = change_matrix,
+    transitions = NULL,
+    n_sims,
+    intervention_start_time = intervention_start_time,
+    intervention_end_time = intervention_end_time,
+    modifier = modifier_matrix
+  )
   nu <- change_matrix
   t <- n_timesteps
 
