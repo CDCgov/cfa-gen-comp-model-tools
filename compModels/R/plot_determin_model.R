@@ -9,6 +9,9 @@
 #' add line(s) showing the start and/or end of the intervention
 #' @param intervention_period optional argument (default NULL) to add a vector
 #' (type: numeric) with the start and end time of an intervention
+#' @param colors optional argument taking a vector of colors to use in plotting,
+#' default is RColorBrewer::brewer.pal(8, "Dark2") and colors are used in
+#' [ggplot2::scale_color_manual()] values argument
 #' @return ggplot2 plot of compartmental model output
 #' @import ggplot2
 #' @import rlang
@@ -79,10 +82,21 @@
 #' }
 plot_determin_model <- function(output, stratify_by = NULL,
                                 show_intervention_period = FALSE,
-                                intervention_period = NULL) {
+                                intervention_period = NULL,
+                                colors = RColorBrewer::brewer.pal(8, "Dark2")) {
   out_long <- as.data.frame(output) |>
     tidyr::pivot_longer(-.data$time, names_to = "variable", values_to = "value")
   plot_list <- list()
+
+  unique_variables <- unique(out_long$variable)
+  num_colors <- length(unique_variables)
+  colors <- colors[1:num_colors]
+  print(paste0(
+    "There are ", num_colors, " unique compartments called ",
+    paste(unique_variables, collapse = ", "),
+    ", which are given these colors:",
+    paste(colors, collapse = ", ")
+  ))
 
   if (!is.null(stratify_by) && length(stratify_by) > 0) {
     for (stratum in stratify_by) {
@@ -92,6 +106,7 @@ plot_determin_model <- function(output, stratify_by = NULL,
       p <- filtered_data |>
         ggplot(aes(x = .data$time, y = .data$value, color = .data$variable)) +
         geom_line() +
+        scale_color_manual(values = colors) +
         xlab("Time") +
         ylab("Number") +
         labs(colour = "Compartment") +
@@ -117,6 +132,7 @@ plot_determin_model <- function(output, stratify_by = NULL,
     p <- out_long |>
       ggplot(aes(x = .data$time, y = .data$value, color = .data$variable)) +
       geom_line() +
+      scale_color_manual(values = colors) +
       xlab("Time") +
       ylab("Number") +
       labs(colour = "Compartment") +

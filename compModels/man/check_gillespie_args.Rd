@@ -15,6 +15,6 @@ check_gillespie_args(propensity_fns, change_matrix)
 stops with information or indicates checks passed
 }
 \description{
-Helper function to validate Gillespie argument values, used as part of a validation
-function
+Helper function to validate Gillespie argument values, used as part of a
+validation function
 }

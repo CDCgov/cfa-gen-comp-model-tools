@@ -8,7 +8,8 @@ plot_determin_model(
   output,
   stratify_by = NULL,
   show_intervention_period = FALSE,
-  intervention_period = NULL
+  intervention_period = NULL,
+  colors = RColorBrewer::brewer.pal(8, "Dark2")
 )
 }
 \arguments{
@@ -22,6 +23,10 @@ add line(s) showing the start and/or end of the intervention}
 
 \item{intervention_period}{optional argument (default NULL) to add a vector
 (type: numeric) with the start and end time of an intervention}
+
+\item{colors}{optional argument taking a vector of colors to use in plotting,
+default is RColorBrewer::brewer.pal(8, "Dark2") and colors are used in
+\code{\link[ggplot2:scale_manual]{ggplot2::scale_color_manual()}} values argument}
 }
 \value{
 ggplot2 plot of compartmental model output

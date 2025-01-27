@@ -25,6 +25,8 @@ Imports:
     GillespieSSA,
     gridExtra,
     Matrix,
+    RColorBrewer,
     rlang,
-    tidyr
+    tidyr,
+    tidyselect
 VignetteBuilder: knitr

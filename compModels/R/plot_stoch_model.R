@@ -12,6 +12,9 @@
 #' add line(s) showing the start and/or end of the intervention
 #' @param intervention_period optional argument (default NULL) to add a vector
 #' (type: numeric) with the start and end time of an intervention
+#' @param colors optional argument taking a vector of colors to use in plotting,
+#' default is RColorBrewer::brewer.pal(8, "Dark2") and colors are used in
+#' [ggplot2::scale_color_manual()] values argument
 #' @return ggplot2 object of compartmental model output
 #' @import ggplot2
 #' @export
@@ -24,7 +27,7 @@
 #'     nrow = 3, byrow = TRUE
 #'   ), 10
 #' )
-#' plot_stoch_model(modelout)
+#' plot_stoch_model(modelout, compartments = c("s", "i", "r"))
 #'
 #' modelout2 <- run_sir_stochastic_tau(
 #'   0.00001, 0.1, 1e05 - 1, 1, 0, 1e05, 100,
@@ -37,7 +40,8 @@ plot_stoch_model <- function(output,
                              compartments = c("i"),
                              time_var = NULL,
                              show_intervention_period = FALSE,
-                             intervention_period = NULL) {
+                             intervention_period = NULL,
+                             colors = RColorBrewer::brewer.pal(8, "Dark2")) {
   possible_time_vars <- c("t", "time")
 
   if (is.null(time_var)) {
@@ -59,21 +63,37 @@ plot_stoch_model <- function(output,
     cbind(simulation = i, output[[i]])
   }), .id = "simulation_id")
 
-  p <- ggplot() +
-    theme_classic()
+  unique_compartments <- unique(compartments)
+  num_colors <- length(unique_compartments)
+  colors <- colors[1:num_colors]
+  print(paste0(
+    "There are ", num_colors, " unique compartments called ",
+    paste(unique_compartments, collapse = ", "),
+    ", which are given these colors:",
+    paste(colors, collapse = ", ")
+  ))
 
-  for (compartment in compartments) {
-    p <- p + geom_line(
-      data = combined_sims_df,
-      aes_string(
-        x = time_var,
-        y = compartment,
-        group = "simulation_id",
-        color = factor(compartment)
-      ),
-      alpha = 0.5
+  combined_sims_df <- combined_sims_df |>
+    tidyr::pivot_longer(
+      cols = tidyselect::all_of(compartments),
+      names_to = "compartment",
+      values_to = "value"
     )
-  }
+
+  p <- ggplot(
+    combined_sims_df,
+    aes(
+      x = !!sym(time_var),
+      y = .data$value,
+      color = .data$compartment,
+      group = interaction(
+        .data$simulation_id,
+        .data$compartment
+      )
+    )
+  ) +
+    geom_line(alpha = 0.5) +
+    theme_classic()
 
   if (show_intervention_period == TRUE && !is.null(intervention_period)) {
     p <- p + geom_vline(
@@ -90,7 +110,7 @@ plot_stoch_model <- function(output,
     title = "Stochastic SIR Model Simulations",
     x = "Time",
     y = "Number of Individuals"
-  ) + scale_color_discrete(name = "Compartment")
+  ) + scale_color_manual(values = colors, name = "Compartment")
 
   return(p)
 }
