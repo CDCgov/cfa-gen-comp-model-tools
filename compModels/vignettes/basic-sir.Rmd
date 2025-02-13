@@ -41,7 +41,7 @@ plausible bounds. Output from run_sir() can be fed into
 modelout0 <- run_sir(
   init = c(s = 1e05 - 1, i = 1, r = 0),
   time = seq(0.1, 100, by = 0.1),
-  parms = c(beta = 0.00001, gamma = 0.1)
+  parms = c(beta = 0.5, gamma = 0.1)
 )
 ```
 
@@ -52,6 +52,7 @@ contains the needed data for this.
 ```{r deterministic2}
 config <- yaml::read_yaml("config-basic.yml") # passes package check()
 # full path: compModels/vignettes/config-basic.yml
+# config <- yaml::read_yaml("compModels/vignettes/config-basic.yml") #nolint
 
 modelout <- run_sir(
   init = unlist(config$deterministic$init),
@@ -263,9 +264,24 @@ Note: This r can then be used to estimate R0 with the relationship R0 = V*r + 1
 where V is the serial interval.
 ```{r estimate growth}
 # Basic Deterministic SIR Model (no intervention)
-calculate_initial_growth_rate(modelout, time_var = "time", i_var = "i")
+# Error differing argument lengths
+
+# nolint start
+# calculate_initial_growth_rate(modelout, time_var = "time", i_var = "i",
+#                               beta = config$deterministic$beta,
+#                               gamma = config$deterministic$gamma,
+#                               lower_time = 10,
+#                               upper_time = 25)
+
+# nolint end
 
 # Basic Stochastic SIR Model (Gillespie Algorithm) with 10 simulations,
 # no intervention
-calculate_initial_growth_rate(modelout3, time_var = "t", i_var = "i")
+calculate_initial_growth_rate(modelout3,
+  time_var = "t", i_var = "i",
+  beta = config$stochastic$beta,
+  gamma = config$stochastic$gamma,
+  lower_time = 1,
+  upper_time = 5
+)
 ```
