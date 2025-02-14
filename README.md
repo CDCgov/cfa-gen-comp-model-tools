@@ -33,6 +33,12 @@ Two vignettes currently exist to walk users through basic SIR deterministic and 
 7. EpiModel package: https://epimodel.github.io/epimodel-training/
    Key differences: TBD
 
+9. Epidemix: https://epidemix.app/
+   Key differences: Some functionality options are less flexible and more present, user interface as R Shiny much more advanced
+
+10. Python Compartmental Framework: https://github.com/ukhsa-collaboration/pygom
+    Key differences: Coding Language, TBD
+
 ## General Disclaimer
 This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/organization/mission.htm).  GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
 
