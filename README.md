@@ -6,6 +6,7 @@ generalized compartmental modeling tools to use in a response and on future anal
 
 # Contributors
 * Catherine M Herzog (uvw5@cdc.gov)
+* Bradford Taylor (zyh6@cdc.gov)
 * Dina Mistry (uqx8@cdc.gov)
 
 # Project Documents
