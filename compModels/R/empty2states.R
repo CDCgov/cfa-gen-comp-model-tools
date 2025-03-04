@@ -1,8 +1,8 @@
-#' Expands instructions to apply globally
+#' Replace "" in a vector with a given vector
 #'
-#' Replace "" with given list. Write unit
-#' test and check where used for difference
-#' between vectors and list.
+#' Return the given x vector replacing all occurrences of "" with the given
+#' states vector. Ordering of "" replacement is not maintained since it's a
+#' many-to-one replacement.
 #'
 #' @param x character vector.
 #' @param states list of values to replace
