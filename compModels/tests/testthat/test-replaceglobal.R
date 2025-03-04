@@ -1,0 +1,10 @@
+test_that("replaceglobal replaces \"\" with a vector", {
+  testtbl <- dplyr::tibble(col1 = c("", "a", "b"), col2 = c("c", "d", ""))
+  testtbl2 <- dplyr::tibble(col1 = c("", "a", ""), col2 = c("c", "d", ""))
+  replacevec <- c("e", "f", "g")
+  outtbl <- replaceglobal(testtbl, "col1", replacevec)
+  outtbl2 <- replaceglobal(testtbl2, "col1", replacevec)
+  expect_equal(unname(sapply(outtbl$col1, length)), c(3, 1, 1))
+  expect_equal(unname(sapply(outtbl$col2, length)), c(1, 1, 1))
+  expect_equal(unname(sapply(outtbl2$col1, length)), c(3, 1, 3))
+})

@@ -1,4 +1,4 @@
-1 #' Generates all combinations groups with different grouptypes
+#' Generates all combinations groups with different grouptypes
 #'
 #' Useful when stratifying populations in multiple ways.
 #'
@@ -42,12 +42,12 @@ groupcombinationsacrosstypes <- function(combinethesetypes, tblgroup) {
       dplyr::mutate(basestates = list(currbasestates))
   } else {
     tblout <- tblgroup |>
+      dplyr::filter(.data$grouptype == combinethesetypes) |>
       dplyr::select(
         .data$groupname, .data$interactionscale,
         .data$transitionscale, .data$basestates
       ) |>
       dplyr::rename(!!combinethesetypes := .data$groupname)
   }
-  # get names
   return(tblout)
 }

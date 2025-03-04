@@ -28,7 +28,7 @@ coerceinput2matchshape <- function(
       # check that element lengths are the same,
       # or coercible (i.e., replicate length 1 vectors)
       queryoutput <- unlist(
-        mapply(matchandpaste, queryinput, listofvectors_vectorlength)
+        mapply(matchlength, queryinput, listofvectors_vectorlength)
       )
     } else {
       # switch to vector

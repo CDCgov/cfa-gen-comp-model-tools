@@ -12,8 +12,7 @@ time2rate <- function(inputtimes) {
   } else if (is.character(inputtimes)) {
     outputrates <- paste0("(1/(", inputtimes, "))")
   } else {
-    stop("Input vector of times  normalize to a probability
-    distribution is neither numeric or a character.")
+    stop("Input time vector to normalize is neither numeric or a character.")
   }
   return(outputrates)
 }

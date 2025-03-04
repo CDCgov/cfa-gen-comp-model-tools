@@ -2,7 +2,6 @@
 #'
 #' Replicates length one vector and ensures n-length
 #' vectors are same size as given length.
-#' Same as matchandpaste.R
 #'
 #' @param vec character or numeric vector.
 #' @param desiredlength output vector length

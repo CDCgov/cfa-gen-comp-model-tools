@@ -21,10 +21,7 @@ peterrow2dxdt <- function(currrow, currprocessrates) {
   rowchar <- as.character(nzrow)
   rowchar <- paste0(rowchar, "*")
   rowchar[nzrowpositive] <- paste0("+", rowchar[nzrowpositive])
-  rowcharfinal <- remove1star(rowchar)
-  dxdtstr <- outer(rowcharfinal, nzprocess, paste0)
-  dxdtstr <- as.list(outer(rowcharfinal, nzprocess, paste0))
-  dxdtstr <- paste(paste0(rowcharfinal, nzprocess), collapse = "")
+  rowcharfinal <- sapply(rowchar, remove1star, USE.NAMES = FALSE)
   dxdtstr <- sub(
     "^\\+", "",
     paste(paste0(rowcharfinal, nzprocess), collapse = "")

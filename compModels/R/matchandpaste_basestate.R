@@ -1,4 +1,4 @@
-#' Convert list/vector to input length, keeps values as lists if
+#' Convert list/vector to input length, output is list
 #'
 #' Replicates length one vector and ensures n-length vectors
 #' are same size as given length. respects if input
