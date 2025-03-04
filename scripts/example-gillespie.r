@@ -11,7 +11,8 @@ library(stringr)
 library(deSolve)
 library(ggplot2)
 # load package w/o installing.
-load_all("SIRmodelbuilder")
+# SIRmodelbuilder functions are now in compModels/R
+load_all("compModels")
 
 
 # SIR instructions
@@ -25,141 +26,22 @@ sir_peter <- sircompiled$modeloutstructions$petermatrix
 sir_states <- sircompiled$modeloutstructions$updatedstates
 
 # SIR Gillespie
-x0 <- define_initialstate(
+dyn <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0),
   sircompiled,
-  c("S" = 999, "I" = 1, "R" = 0)
-) |>
-  output_initialstate()
+  c(beta = 2, tau = 1),
+  25,
+  1
+)
+plot_stoch_model(dyn, compartments = c("S", "I", "R"))
 
-parameters <- c(beta = 2, tau = 1, taue = .5)
-
-sir_peter2 <- matrix(as.numeric(sir_peter), ncol = 2, nrow = 3)
-dyn <- GillespieSSA::ssa(
-  x0 = x0,
-  a = sir_rates,
-  nu = sir_peter2,
-  parms = parameters,
-  tf = 25,
-  method = GillespieSSA::ssa.d(),
-  simName = "General Stochastic Model"
-)$data
-
-dynplt <- tibble::as_tibble(dyn) |>
-  tidyr::pivot_longer(!t) |>
-  dplyr::mutate(density = as.numeric(value), t = as.numeric(t))
-
-ggplot2::ggplot(dynplt, aes(x = t, y = density, color = name)) +
-  ggplot2::geom_line(linewidth = 2) +
-  ggplot2::theme_classic(base_size = 16)
-
-
-# Create Gillespie runner for multiple sims
-run_gillespie <- function(init_vals, propensity_fns,
-                          change_matrix, parameters,
-                          n_timesteps, n_sims) {
-  nu <- change_matrix
-  t <- n_timesteps
-
-  sims <- lapply(1:n_sims, function(i) {
-    current_parameters <- parameters
-
-    sim_data <- GillespieSSA::ssa(
-      x0 = init_vals,
-      a = propensity_fns,
-      nu = nu,
-      parms = current_parameters,
-      tf = t,
-      method = GillespieSSA::ssa.d(),
-      simName = "General Stochastic Model With Intervention"
-    )$data
-  })
-
-  lapply(sims, function(x) data.frame(x))
-}
-
-
-dyn2 <- run_gillespie(x0, sir_rates, sir_peter2, parameters, 25, 10)
-
-# Brining over plot functionality from compModels
-plot_stoch_model <- function(output,
-                             compartments = c("I"),
-                             time_var = NULL,
-                             show_intervention_period = FALSE,
-                             intervention_period = NULL,
-                             colors = RColorBrewer::brewer.pal(8, "Dark2")) {
-  possible_time_vars <- c("t", "time")
-
-  if (is.null(time_var)) {
-    found_time_var <- FALSE
-    for (possible_time_var in possible_time_vars) {
-      if (possible_time_var %in% colnames(output[[1]])) {
-        time_var <- possible_time_var
-        found_time_var <- TRUE
-        print(paste0("Found time variable:", possible_time_var))
-        break
-      }
-    }
-    if (!found_time_var) {
-      stop("Time variable not found in output data.")
-    }
-  }
-
-  combined_sims_df <- dplyr::bind_rows(lapply(seq_along(output), function(i) {
-    cbind(simulation = i, output[[i]])
-  }), .id = "simulation_id")
-
-  unique_compartments <- unique(compartments)
-  num_colors <- length(unique_compartments)
-  colors <- colors[1:num_colors]
-  print(paste0(
-    "There are ", num_colors, " unique compartments called ",
-    paste(unique_compartments, collapse = ", "),
-    ", which are given these colors:",
-    paste(colors, collapse = ", ")
-  ))
-
-  combined_sims_df <- combined_sims_df |>
-    tidyr::pivot_longer(
-      cols = tidyselect::all_of(compartments),
-      names_to = "compartment",
-      values_to = "value"
-    )
-
-  p <- ggplot(
-    combined_sims_df,
-    aes(
-      x = !!sym(time_var),
-      y = .data$value,
-      color = .data$compartment,
-      group = interaction(
-        .data$simulation_id,
-        .data$compartment
-      )
-    )
-  ) +
-    geom_line(alpha = 0.5) +
-    theme_classic()
-
-  if (show_intervention_period == TRUE && !is.null(intervention_period)) {
-    p <- p + geom_vline(
-      xintercept = intervention_period[1],
-      linetype = "longdash"
-    ) + geom_vline(
-      xintercept = intervention_period[2],
-      linetype = "longdash"
-    )
-  }
-
-  # Add labels and colors
-  p <- p + labs(
-    title = "Stochastic SIR Model Simulations",
-    x = "Time",
-    y = "Number of Individuals"
-  ) + scale_color_manual(values = colors, name = "Compartment")
-
-  return(p)
-}
-
+dyn2 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0),
+  sircompiled,
+  c(beta = 2, tau = 1),
+  25,
+  10
+)
 plot_stoch_model(dyn2, compartments = c("S", "I", "R"))
 
 
@@ -174,15 +56,13 @@ seir_rates <- seircompiled$modeloutstructions$processrates
 seir_peter <- seircompiled$modeloutstructions$petermatrix
 seir_states <- seircompiled$modeloutstructions$updatedstates
 
-x0 <- define_initialstate(
+dyn3 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0, "E" = 0),
   seircompiled,
-  c("S" = 999, "I" = 1, "R" = 0, "E" = 0)
-) |>
-  output_initialstate()
-parameters <- c(beta = 2, tau = 1, taue = .5)
-
-seir_peter2 <- matrix(as.numeric(seir_peter), ncol = 3, nrow = 4)
-dyn3 <- run_gillespie(x0, seir_rates, seir_peter2, parameters, 25, 10)
+  c(beta = 2, tau = 1, taue = .5),
+  25,
+  10
+)
 plot_stoch_model(dyn3, compartments = c("S", "E", "I", "R"))
 
 
@@ -198,16 +78,13 @@ sei2r_rates <- sei2rcompiled$modeloutstructions$processrates
 sei2r_peter <- sei2rcompiled$modeloutstructions$petermatrix
 sei2r_states <- sei2rcompiled$modeloutstructions$updatedstates
 
-x0 <- define_initialstate(
+dyn4 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0, "E" = 0),
   sei2rcompiled,
-  c("S" = 999, "I" = 1, "R" = 0, "E" = 0)
-) |>
-  output_initialstate()
-
-parameters <- c(beta = 2, tau = 1, taue = .5)
-
-sei2r_peter2 <- matrix(as.numeric(sei2r_peter), ncol = 5, nrow = 5)
-dyn4 <- run_gillespie(x0, sei2r_rates, sei2r_peter2, parameters, 25, 10)
+  c(beta = 2, tau = 1, taue = .5),
+  25,
+  10
+)
 plot_stoch_model(dyn4, compartments = c("S", "E", "I_chain1", "I_chain2", "R"))
 
 
@@ -224,15 +101,13 @@ sei2rh_rates <- sei2rhcompiled$modeloutstructions$processrates
 sei2rh_peter <- sei2rhcompiled$modeloutstructions$petermatrix
 sei2rh_states <- sei2rhcompiled$modeloutstructions$updatedstates
 
-x0 <- define_initialstate(
+dyn5 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0, "E" = 0, "H" = 0),
   sei2rhcompiled,
-  c("S" = 999, "I" = 1, "R" = 0, "E" = 0, "H" = 0)
-) |>
-  output_initialstate()
-parameters <- c(beta = 2, tau = 1, taue = .5, probH = .2)
-
-sei2rh_peter2 <- matrix(as.numeric(sei2rh_peter), ncol = 6, nrow = 6)
-dyn5 <- run_gillespie(x0, sei2rh_rates, sei2rh_peter2, parameters, 25, 10)
+  c(beta = 2, tau = 1, taue = .5, probH = .2),
+  25,
+  10
+)
 plot_stoch_model(dyn5, compartments = c(
   "S", "E", "I_chain1", "I_chain2",
   "R", "H"
@@ -251,17 +126,12 @@ sei2r_treat_rates <- sei2r_treatcompiled$modeloutstructions$processrates
 sei2r_treat_peter <- sei2r_treatcompiled$modeloutstructions$petermatrix
 sei2r_treat_states <- sei2r_treatcompiled$modeloutstructions$updatedstates
 
-x0 <- define_initialstate(
+dyn6 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0, "E" = 0),
   sei2r_treatcompiled,
-  c("S" = 999, "I" = 1, "R" = 0, "E" = 0)
-) |>
-  output_initialstate()
-parameters <- c(beta = 2, tau = 1, taue = .5, taut = 2)
-
-sei2r_treat_peter2 <- matrix(as.numeric(sei2r_treat_peter), ncol = 4, nrow = 4)
-dyn6 <- run_gillespie(
-  x0, sei2r_treat_rates, sei2r_treat_peter2,
-  parameters, 25, 10
+  c(beta = 2, tau = 1, taue = .5, taut = 2),
+  25,
+  10
 ) # try with end time = 50 to see more
 plot_stoch_model(dyn6, compartments = c("S", "E", "I", "R"))
 
@@ -279,16 +149,14 @@ outmeta_rates <- outmeta$modeloutstructions$processrates
 outmeta_peter <- outmeta$modeloutstructions$petermatrix
 outmeta_states <- outmeta$modeloutstructions$updatedstates
 
-x0meta <- define_initialstate(outmeta, c("S" = 999, "I" = 1, "R" = 0)) |>
-  output_initialstate()
-parameters <- c(beta = 2, tau = 1, mu = .1)
-
-
-outmeta_peter2 <- matrix(as.numeric(outmeta_peter), ncol = 10, nrow = 6)
-dyn7 <- run_gillespie(
-  x0meta, outmeta_rates, outmeta_peter2,
-  parameters, 25, 10
+dyn7 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0),
+  outmeta,
+  c(beta = 2, tau = 1, mu = .1),
+  25,
+  10
 )
+
 plot_stoch_model(dyn7, compartments = c(
   "S_metapopulationR0",
   "S_metapopulationR0times2",
@@ -309,20 +177,14 @@ sir1groupcomp_rates <- sir1groupcomp$modeloutstructions$processrates
 sir1groupcomp_peter <- sir1groupcomp$modeloutstructions$petermatrix
 sir1groupcomp_states <- sir1groupcomp$modeloutstructions$updatedstates
 
-x0group1 <- define_initialstate(
+dyn8 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0),
   sir1groupcomp,
-  c("S" = 999, "I" = 1, "R" = 0)
-) |>
-  output_initialstate()
-parameters <- c(beta = 1.5, tau = 1)
+  c(beta = 1.5, tau = 1),
+  25,
+  10
+)
 
-sir1groupcomp_peter2 <- matrix(as.numeric(sir1groupcomp_peter),
-  ncol = 6, nrow = 6
-)
-dyn8 <- run_gillespie(
-  x0group1, sir1groupcomp_rates, sir1groupcomp_peter2,
-  parameters, 25, 10
-)
 plot_stoch_model(dyn8, compartments = c(
   "S_groupSocial",
   "I_groupSocial",
@@ -349,31 +211,31 @@ sir2group_rates <- sir2group$modeloutstructions$processrates
 sir2group_peter <- sir2group$modeloutstructions$petermatrix
 sir2group_states <- sir2group$modeloutstructions$updatedstates
 
-x0group2 <- define_initialstate(sir2group, c("S" = 999, "I" = 1, "R" = 0)) |>
-  output_initialstate()
-parameters <- c(beta = 2, tau = 1)
+dyn9 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0),
+  sir2group,
+  c(beta = 2, tau = 1),
+  25,
+  10
+)
 
-sir2group_peter2 <- matrix(as.numeric(sir2group_peter),
-  ncol = 20, nrow = 12
+plot_stoch_model(dyn9,
+  compartments = c(
+    "S_AgeYoung_HospitalPatient",
+    "I_AgeYoung_HospitalPatient",
+    "R_AgeYoung_HospitalPatient",
+    "S_AgeOld_HospitalPatient",
+    "I_AgeOld_HospitalPatient",
+    "R_AgeOld_HospitalPatient",
+    "S_AgeYoung_HospitalHCW",
+    "I_AgeYoung_HospitalHCW",
+    "R_AgeYoung_HospitalHCW",
+    "S_AgeOld_HospitalHCW",
+    "I_AgeOld_HospitalHCW",
+    "R_AgeOld_HospitalHCW"
+  ),
+  colors = colorRampPalette(RColorBrewer::brewer.pal(8, "Dark2"))(12)
 )
-dyn9 <- run_gillespie(
-  x0group2, sir2group_rates, sir2group_peter2,
-  parameters, 25, 10
-)
-plot_stoch_model(dyn9, compartments = c(
-  "S_AgeYoung_HospitalPatient",
-  "I_AgeYoung_HospitalPatient",
-  "R_AgeYoung_HospitalPatient",
-  "S_AgeOld_HospitalPatient",
-  "I_AgeOld_HospitalPatient",
-  "R_AgeOld_HospitalPatient",
-  "S_AgeYoung_HospitalHCW",
-  "I_AgeYoung_HospitalHCW",
-  "R_AgeYoung_HospitalHCW",
-  "S_AgeOld_HospitalHCW",
-  "I_AgeOld_HospitalHCW",
-  "R_AgeOld_HospitalHCW"
-))
 
 
 # Full model
@@ -390,18 +252,14 @@ outlistfull_rates <- outlistfull$modeloutstructions$processrates
 outlistfull_peter <- outlistfull$modeloutstructions$petermatrix
 outlistfull_states <- outlistfull$modeloutstructions$updatedstates
 
-x0full <- define_initialstate(outlistfull, c("S" = 999, "I" = 1, "R" = 0)) |>
-  output_initialstate()
-parameters <- c(beta = 2, tau = 1, mu = 0.1) # guess mu for travel
+dyn10 <- wrap_gillespie(
+  c("S" = 999, "I" = 1, "R" = 0),
+  outlistfull,
+  c(beta = 2, tau = 1, mu = 0.1), # guess mu for travel,
+  25,
+  10
+)
 
-outlistfull_peter2 <- matrix(as.numeric(outlistfull_peter),
-  ncol = 160, nrow = 40
-)
-dyn10 <- run_gillespie(
-  x0full, outlistfull_rates, outlistfull_peter2,
-  parameters, 50, 1
-)
-# This plot will need some owrk - ran out of color palette!
 plot_stoch_model(dyn10,
   compartments = c(
     "S_AgeYoung_HospitalPatient_metapopulationUK",
@@ -444,5 +302,6 @@ plot_stoch_model(dyn10,
     "I_AgeOld_HospitalHCW_metapopulationUSA_chain3",
     "R_AgeOld_HospitalHCW_metapopulationUK",
     "R_AgeOld_HospitalHCW_metapopulationUSA"
-  )
+  ),
+  colors = colorRampPalette(RColorBrewer::brewer.pal(8, "Dark2"))(40)
 )

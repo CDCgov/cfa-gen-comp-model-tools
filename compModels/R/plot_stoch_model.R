@@ -14,7 +14,9 @@
 #' (type: numeric) with the start and end time of an intervention
 #' @param colors optional argument taking a vector of colors to use in plotting,
 #' default is RColorBrewer::brewer.pal(8, "Dark2") and colors are used in
-#' [ggplot2::scale_color_manual()] values argument
+#' [ggplot2::scale_color_manual()] values argument. To have more colors, modify
+#' the following for the palette and number you might need (e.g. 40 colors):
+#' colors = colorRampPalette(RColorBrewer::brewer.pal(8, "Dark2"))(40)
 #' @return ggplot2 object of compartmental model output
 #' @import ggplot2
 #' @export
@@ -107,7 +109,7 @@ plot_stoch_model <- function(output,
 
   # Add labels and colors
   p <- p + labs(
-    title = "Stochastic SIR Model Simulations",
+    title = "Stochastic Model Simulations",
     x = "Time",
     y = "Number of Individuals"
   ) + scale_color_manual(values = colors, name = "Compartment")

@@ -31,7 +31,9 @@ add line(s) showing the start and/or end of the intervention}
 
 \item{colors}{optional argument taking a vector of colors to use in plotting,
 default is RColorBrewer::brewer.pal(8, "Dark2") and colors are used in
-\code{\link[ggplot2:scale_manual]{ggplot2::scale_color_manual()}} values argument}
+\code{\link[ggplot2:scale_manual]{ggplot2::scale_color_manual()}} values argument. To have more colors, modify
+the following for the palette and number you might need (e.g. 40 colors):
+colors = colorRampPalette(RColorBrewer::brewer.pal(8, "Dark2"))(40)}
 }
 \value{
 ggplot2 object of compartmental model output
