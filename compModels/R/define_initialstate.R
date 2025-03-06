@@ -1,10 +1,10 @@
 #' Set initial population states for compiled
 #' model using base states
 #'
-#' Sets globally based on base states. Update for more flexibility.
+#' Sets initial conditions globally based on base states.
 #'
 #' @param outlist compiled model output
-#' @param namedvector numeric vector specifying inital populations
+#' @param namedvector numeric vector specifying initial populations
 #' for named basestates
 #' default is c() which specifies all 0 population
 #' for each basestate

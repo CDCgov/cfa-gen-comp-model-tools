@@ -1,6 +1,6 @@
 #' Simplify auto-generated math expressions
 #'
-#' This function appends "*" to rates and converts "1*"
+#' This function appends "*" to rates and then converts the rates "1*"
 #' and "*" to empty strings "".
 #' This facilitates and simplifies specifying rates
 #' auto-generated during model compilation
