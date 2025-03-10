@@ -18,6 +18,12 @@
 #'   parms = c(0.00001, 0.1)
 #' )
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 validate_sir_input <- function(init, time, parms, intervention = FALSE) {
   if (!is.numeric(parms[["beta"]])) stop("beta must be numeric")
   if (!is.numeric(parms[["gamma"]])) stop("gamma must be numeric")

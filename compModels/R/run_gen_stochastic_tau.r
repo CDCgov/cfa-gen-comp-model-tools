@@ -38,6 +38,13 @@
 #' )
 #' plot_stoch_model(out, time_var = "time")
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 run_gen_stochastic_tau <- function(init_vals, transitions,
                                    rate_func,
                                    parms_vec, n_timesteps,

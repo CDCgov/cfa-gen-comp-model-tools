@@ -10,6 +10,13 @@
 #' subgroups for stratification
 #' @return an expanded vector of compartment names for each state (compartment)
 #' and subgroup combination.
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 generate_comp_names <- function(comp_names_base, subgroup_combinations) {
   if (nrow(subgroup_combinations) == 0) {
     return(comp_names_base)

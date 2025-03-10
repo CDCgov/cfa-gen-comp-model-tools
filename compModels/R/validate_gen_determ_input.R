@@ -15,6 +15,14 @@
 #' @param modifier single value, matrix, or function to be applied to transition
 #' matrix during an intervention
 #' @return stops with information or indicates Input Checks Passed
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 validate_gen_determ_input <- function(init_vals, times,
                                       comp_names, trans_matrix, subgroups_list,
                                       intervention_start_time,

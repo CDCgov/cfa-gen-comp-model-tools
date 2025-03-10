@@ -4,6 +4,14 @@
 #'
 #' @param init_vals the starting values for populations in each compartment
 #' @return stops with information or indicates checks passed
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 check_init_vals <- function(init_vals) {
   if (!all(is.numeric(init_vals))) {
     stop("All initial values must be numeric.")

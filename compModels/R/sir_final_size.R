@@ -23,6 +23,13 @@
 #' sir_final_size(1, 3, .5, .5)
 #' sir_final_size(1, 3, .2, .8)
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 sir_final_size <- function(r_infinity, r_0, s0, r0) {
   # A = 1 -s(0) e^-R0(A-r(0)) where A is the final proportion infected (eg
   # the final value of r(infinity))

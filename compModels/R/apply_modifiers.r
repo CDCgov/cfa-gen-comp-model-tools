@@ -14,6 +14,13 @@
 #' @param subgroup_combinations a data frame containing all combinations of
 #' subgroups for stratification
 #' @return a matrix of modified transition rates between states (compartments)
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 apply_modifiers <- function(expanded_trans_matrix, modifier,
                             time, subgroup_combinations) {
   modified_trans_mtx <- expanded_trans_matrix

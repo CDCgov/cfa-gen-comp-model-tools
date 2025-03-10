@@ -24,6 +24,12 @@
 #'   )
 #' )
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 sir_deriv_intervention <- function(time, state, parms) {
   s <- state[[1]]
   i <- state[[2]]

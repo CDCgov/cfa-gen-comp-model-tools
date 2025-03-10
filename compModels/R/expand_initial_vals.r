@@ -10,6 +10,13 @@
 #' @param num_combinations the total number of all subgroup combinations
 #' @return an expanded vector of initial values for each state (compartment) and
 #' subgroup combination
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 expand_init_vals <- function(init_vals_base, num_combinations) {
   if (num_combinations == 0) {
     return(init_vals_base)

@@ -4,6 +4,14 @@
 #' function
 #' @param parms_vec vector of parameter values
 #' @return stops with information or indicates checks passed
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 check_parms_vec <- function(parms_vec) {
   if (!is.numeric(parms_vec)) {
     stop("Parameter values must be numeric.")

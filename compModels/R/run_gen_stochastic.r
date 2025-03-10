@@ -62,6 +62,13 @@
 #'   modifier_matrix = modifier_matrix
 #' )
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 run_gen_stochastic <- function(parms_vec, propensity_fns, init_vals,
                                n_timesteps, change_matrix, n_sims,
                                intervention_start_time = NULL,

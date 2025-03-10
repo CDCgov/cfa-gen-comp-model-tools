@@ -5,6 +5,14 @@
 #' @param intervention_start_time time at which intervention will start
 #' @param intervention_end_time time at which intervention will end
 #' @return stops with information or indicates checks passed
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 check_intervention_times <- function(intervention_start_time,
                                      intervention_end_time) {
   if (!is.null(

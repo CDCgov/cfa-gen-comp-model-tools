@@ -136,6 +136,13 @@
 #' head(output2)
 #' plot_determin_model(output2, stratify_by = c("child", "adult", "elderly"))
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 run_gen_deterministic <- function(init_vals_base, times, comp_names_base,
                                   trans_matrix_base,
                                   subgroups_list = list(),

@@ -11,6 +11,12 @@
 #' \dontrun{
 #' updated_parms_vec <- update_parameters(current_parms_vec, modifier_matrix)
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 update_parameters <- function(current_parms_vec, modifier_matrix) {
   if (!is.null(modifier_matrix)) {
     names_to_modify <- intersect(

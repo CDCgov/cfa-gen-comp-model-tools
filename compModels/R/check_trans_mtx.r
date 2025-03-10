@@ -6,6 +6,14 @@
 #' compartments
 #' @param comp_names names of the compartments
 #' @return stops with information or indicates checks passed
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 check_trans_mtx <- function(trans_matrix, comp_names) {
   if (!all(
     rownames(trans_matrix) %in% comp_names

@@ -29,6 +29,12 @@
 #'   ), 10
 #' )
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 run_sir_stochastic <- function(beta, gamma, s0, i0, r0, n_pop, n_timesteps,
                                propensity_fns, change_matrix, n_sims) {
   validate_sir_stoch_input(

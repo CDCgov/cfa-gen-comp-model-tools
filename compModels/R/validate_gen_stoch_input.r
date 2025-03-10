@@ -21,6 +21,14 @@
 #' to be multiplied against transition matrix
 #' @return stops with information or indicates Input Checks Passed
 #' @export
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
+##############################################################################
 validate_gen_stoch_input <- function(parms_vec, init_vals,
                                      n_timesteps,
                                      method = NULL,

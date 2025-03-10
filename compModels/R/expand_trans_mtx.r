@@ -10,6 +10,13 @@
 #' @param num_combinations the total number of all subgroup combinations
 #' @return an expanded matrix of transition rates between for each state
 #' (compartment) and subgroup combination.
+
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 expand_trans_mtx <- function(trans_matrix_base, num_combinations) {
   # Create block-diagonal matrix with trans_matrix_base replicated for each
   # subgroup combination

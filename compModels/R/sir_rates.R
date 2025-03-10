@@ -18,6 +18,12 @@
 #'   tf = seq(0.1, 100, by = 0.1)
 #' )
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 sir_rates <- function(init_values, params, tf) {
   s <- init_values[1]
   i <- init_values[2]

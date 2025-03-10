@@ -15,6 +15,12 @@
 #'   intervention_modifiers
 #' )
 #' }
+##############################################################################
+# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
+#       merge of compModels with SIRmodelbuilder functionality. It may be
+#       determined that part of the functionality is useful and, if so, it will
+#       be incorporated into other functionality.
+##############################################################################
 modify_trans_mtx <- function(trans_matrix, intervention_modifiers) {
   if (!is.null(intervention_modifiers)) {
     # Intervention_modifiers is a matrix with the same dimensions as
