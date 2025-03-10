@@ -39,6 +39,9 @@ Two vignettes currently exist to walk users through basic SIR deterministic and 
 10. Python Compartmental Framework: https://github.com/ukhsa-collaboration/pygom
     Key differences: Coding Language, TBD
 
+11. Epiverse products: https://epiverse-trace.github.io/
+    Key differences: not as abstracted for input as SIRmodelbuilder, more functionality than we currently have
+
 ## General Disclaimer
 This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/organization/mission.htm).  GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
 
