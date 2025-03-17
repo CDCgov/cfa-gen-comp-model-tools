@@ -15,7 +15,7 @@ tibble with updated interactionscale
 and transitionscale values
 }
 \description{
-This function appends "\emph{" to rates and converts "1}"
+This function appends "\emph{" to rates and then converts the rates "1}"
 and "*" to empty strings "".
 This facilitates and simplifies specifying rates
 auto-generated during model compilation

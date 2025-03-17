@@ -29,6 +29,6 @@ wrap_ode <- function(y, times, compiledmodel, parms) {
     output_initialstate()
   parameters <- parms
   times <- times
-  dyn <- ode(y = x0, times = times, func = odefun, parms = parameters)
+  dyn <- deSolve::ode(y = x0, times = times, func = odefun, parms = parameters)
   return(dyn)
 }

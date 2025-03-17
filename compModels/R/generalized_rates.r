@@ -18,11 +18,7 @@
 generalized_rates <- function(rate_eqns) {
   function(state, params, t) {
     sapply(rate_eqns, function(eq) {
-      t <- c(t = t)
-      eval(parse(text = eq),
-        envir = as.list(c(state, params, t)),
-        enclos = NULL
-      )
+      eval(parse(text = eq), envir = as.list(c(state, params, t)))
     })
   }
 }

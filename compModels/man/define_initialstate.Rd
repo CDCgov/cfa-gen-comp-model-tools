@@ -10,7 +10,7 @@ define_initialstate(outlist, namedvector = c())
 \arguments{
 \item{outlist}{compiled model output}
 
-\item{namedvector}{numeric vector specifying inital populations
+\item{namedvector}{numeric vector specifying initial populations
 for named basestates
 default is c() which specifies all 0 population
 for each basestate}
@@ -20,5 +20,5 @@ tibble with columns of updated state names
 (updatedstates) and initial conditions (X0)
 }
 \description{
-Sets globally based on base states. Update for more flexibility.
+Sets initial conditions globally based on base states.
 }
