@@ -14,10 +14,11 @@
 #' @export
 
 ##############################################################################
-# NOTE: This function is PLANNED TO BE REMOVED from this repo as part of the
-#       merge of compModels with SIRmodelbuilder functionality. It may be
-#       determined that part of the functionality is useful and, if so, it will
-#       be incorporated into other functionality.
+# NOTE: This function is PLANNED TO BE MODIFIED / INCORPORATED DIFFERENTLY in
+#       this repo as part of the merge of compModels with SIRmodelbuilder
+#       functionality. It may be determined that part of the functionality is
+#       useful and, if so, it will remain or be incorporated into other
+#       functionality.
 ##############################################################################
 calculate_cuminf <- function(output, i_var = "i") {
   lapply(
