@@ -1,47 +1,43 @@
-# Tools for generalized compartmental modeling
-⚠️ This is a work in progress
+# Programmatically Building Compartmental Models
+⚠️ This package and repository is a work in progress.
 
-This repository is for development of generalized deterministic and stochastic compartmental modeling functions that are flexible enough to handle a user-defined number of compartments and transitions and handle common modeling features such as interventions that modify transmission, stratifications in to subgroups, and incorporation of contact matrix data. Additionally, in the future the repository will be enable users to apply a variety of inference methods to these models. The goal is to have ready-made, off-the-shelf
-generalized compartmental modeling tools to use in a response and on future analyses following CFA standard modeling, versioning, and documenting practices without having to spin up new code in the future. Initial work has been conducted in R with a package-first development approach. This repository contains the R package compModels. Future work may translate this package into a Python package.
 
-# Contributors
-* Catherine M Herzog (uvw5@cdc.gov)
-* Bradford Taylor (zyh6@cdc.gov)
-* Dina Mistry (uqx8@cdc.gov)
+## Overview
 
-# Project Documents
-Two vignettes currently exist to walk users through basic SIR deterministic and stochastic compartmental model functionality and plotting, as well as basic generalized deterministic and stochastic modeling functionality and plotting. These will be expanded as functionatlity expands.
+This repository contains the R package `compModels`, which is a tool to enable users to programmatically build compartmental models using descriptive input, as opposed to math. The package includes deterministic and stochastic modeling functionality and the compiled model object produced can be used to connection a variety of other packages and modeling tools. The generalizability and modularity of the package tools speeds up both simple and complex model development and enables users to easily add/remove/stratify/chain compartments and automatically generates states and processes.
 
-# Related Projects
-1. Scenarios model: https://github.com/cdcent/cfa-scenarios-model https://github.com/CDCgov/DynODE
-   Key differences: only deterministic model available with specific compartments (not generalized). Nice input configuration allowing more generalization.
 
-2. ASPR flumodels: https://github.com/HHS/ASPR-flumodels/tree/dev
-   Key differences: still specific compartments (not generalized)
+## Project Admin
+* Catherine M Herzog, PhD MPH, uvw5@cdc.gov, CDC/IOD/ORR/CFA
+* Bradford Taylor, PhD, zyh6@cdc.gov, CDC/IOD/ORR/CFA
+* Dina Mistry, PhD, uqx8@cdc.gov, CDC/IOD/ORR/CFA
 
-3. IDM-CMS: https://github.com/InstituteforDiseaseModeling/IDM-CMS https://docs.idmod.org/projects/cms/en/latest/index.html
-   Key differences: different setup involving JSONs but has deterministic and stochastic functionality and user defined compartments and flows
 
-4. CFA's e-ode: https://github.com/cdcent/cfa-eode/tree/main
-   Key differences: language is Python, not yet as built out to all of the models and options as this tool.
+## Getting Started
+To install compModels, we recommend cloning the repo locally:
 
-5. CFA's simwrapper https://github.com/cdcent/cfa-sim-wrapper/
-   Key differences: goal is not to develop generalized models but to generalize the process of running simulations but wrapping the simulation input and output. Some architecture design may overlap and/or be useful.
+```
+git clone https://github.com/cdcent/cfa-gen-comp-model-tools.git
+```
 
-6. epirecipes website. http://epirecip.es/epicookbook/chapters/kr08
-   Key differences: not a package
+And then in a R terminal, when you are located in the root of the repository as your working directory you can chose to install or simply load the package:
+```r
+library(devtools)
+# Run one of the following:
+install("compModels")
+load_all("compModels")
+```
 
-7. EpiModel package: https://epimodel.github.io/epimodel-training/
-   Key differences: TBD
 
-9. Epidemix: https://epidemix.app/
-   Key differences: Some functionality options are less flexible and more present, user interface as R Shiny much more advanced
+## Folder Overview
+- `compModels`: the package folder created with R packages functionality. You will find the following subdirectories: automated documentation (man/), code (R/), test suite (tests/), and vignettes and articles (vignettes/).
+- `scripts`: R scripts to demonstrate usage of various compModels functions applied to a variety of models.
 
-10. Python Compartmental Framework: https://github.com/ukhsa-collaboration/pygom
-    Key differences: Coding Language, TBD
 
-11. Epiverse products: https://epiverse-trace.github.io/
-    Key differences: not as abstracted for input as SIRmodelbuilder, more functionality than we currently have
+## Future Directions
+- Connections (via helper or wrapper functions) to other pre-processing, model calibration, or post-processing tools.
+- Future functionality development for increasingly complex interventions, linkage/translation to other coding languages.
+
 
 ## General Disclaimer
 This repository was created for use by CDC programs to collaborate on public health related projects in support of the [CDC mission](https://www.cdc.gov/about/organization/mission.htm).  GitHub is not hosted by the CDC, but is a third party website used by CDC and its partners to share information and collaborate on software. CDC use of GitHub does not imply an endorsement of any one particular service, product, or enterprise.
