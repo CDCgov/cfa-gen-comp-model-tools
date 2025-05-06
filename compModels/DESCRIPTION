@@ -1,6 +1,7 @@
 Package: compModels
 Title: Programmatically building compartmental models
 Version: 0.0.0.9001
+URL: https://github.com/cdcent/cfa-gen-comp-model-tools
 Authors@R:
     c(person("Catherine", "Herzog", , "uvw5@cdc.gov", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3021-888X")),
