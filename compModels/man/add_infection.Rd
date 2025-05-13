@@ -11,10 +11,10 @@ add_infection(
   infected,
   rate,
   normlogic = TRUE,
-  environment = "",
   metapopulation = "",
-  name = "infection",
-  groups = ""
+  processname = NA,
+  processgroup = NA,
+  groupnames = ""
 )
 }
 \arguments{
@@ -30,24 +30,25 @@ converts to following infectious}
 \item{rate}{character/numeric value specifying
 PER CAPITA rate of interaction}
 
-\item{normlogic}{logical specifying if rate should be
-divided by total population in given environment/metapopulation.
-default is TRUE which scales rate by
-total population (e.g., beta\emph{S}I/N)}
+\item{normlogic}{logical specifying if rate
+should be divided by total population in given
+metapopulation}
 
-\item{environment}{character vector of environments where
-this interaction occurs.
-default is "" which specifies all environments}
-
-\item{metapopulation}{character vector of metapopulations
-where this interaction occurs.
+\item{metapopulation}{character vector of
+metapopulations where this interaction occurs
 default is "" which specifies all metapopulations}
 
-\item{name}{character value to allow scaling by other functions.
-default is "infection"}
+\item{processname}{character value for referencing the added process
+by other functions
+default to NA}
 
-\item{groups}{specifies grouptypes that engage in this interaction.
-default is "" which specifies all types.}
+\item{processgroup}{character value that groups named process to quickly
+reference multiple processes by other functions
+default to NA}
+
+\item{groupnames}{specifies which stratified groups
+transition
+default is "" which specifies all groups.}
 }
 \value{
 updated instruction list

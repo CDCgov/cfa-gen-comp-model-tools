@@ -4,17 +4,14 @@ test_that("define_initialstate assigns according to basestates", {
   basestates <- c("S", "S", "I", "I", "R", "R")
   tblupdatedstates <- dplyr::tibble(
     updatedstate = updatedstates,
-    basestates = basestates,
-    interactionscale = 0,
-    transitionscale = 0,
-    environment_names = 0
+    basestates = basestates
   )
   outlist <- list(
     modeloutstructions = list(updatedstates = updatedstates),
     modelinstructions = list(tblupdatedstates = tblupdatedstates)
   )
 
-  output <- define_initialstate(outlist, namedvector = basestatex0)
+  output <- define_initialstate(outlist, basestatevector = basestatex0)
 
   expect_equal(output$X0, c(999, 999, 1, 1, 0, 0))
 })

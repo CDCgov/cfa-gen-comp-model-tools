@@ -5,12 +5,12 @@
 \title{Set initial population states for compiled
 model using base states}
 \usage{
-define_initialstate(outlist, namedvector = c())
+define_initialstate(compiledmodel, basestatevector = c())
 }
 \arguments{
-\item{outlist}{compiled model output}
+\item{compiledmodel}{compiled model output}
 
-\item{namedvector}{numeric vector specifying initial populations
+\item{basestatevector}{numeric vector specifying initial populations
 for named basestates
 default is c() which specifies all 0 population
 for each basestate}

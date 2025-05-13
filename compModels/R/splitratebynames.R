@@ -16,7 +16,7 @@ splitratebynames <- function(currrate, oldnames, newnames) {
   for (currlogicidx in seq(splittokenlogic)) {
     if (splittokenlogic[currlogicidx]) {
       curroldnamelogic <- currrate_tokened[currlogicidx] == oldnames
-      currpaste0 <- paste0(currpaste0, newnames[curroldnamelogic, ])
+      currpaste0 <- paste0(currpaste0, newnames[curroldnamelogic])
     } else {
       currpaste0 <- paste0(currpaste0, currrate_tokened[currlogicidx])
     }

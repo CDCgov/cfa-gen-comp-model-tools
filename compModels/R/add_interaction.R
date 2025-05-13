@@ -13,25 +13,26 @@
 #' PER CAPITA rate of interaction
 #' @param normlogic logical specifying if rate
 #' should be divided by total population in given
-#' environment/metapopulation
-#' @param environment character vector of environments
-#' where this interaction occurs.
-#' default is "" which specifies all environments
+#' metapopulation
 #' @param metapopulation character vector of
 #' metapopulations where this interaction occurs
 #' default is "" which specifies all metapopulations
-#' @param name character value to allow scaling
+#' @param processname character value for referencing the added process
 #' by other functions
-#' default is ""
-#' @param groups specifies grouptypes the engage
-#' in this interaction
-#' default is "" which specifies all groups
+#' default to NA
+#' @param processgroup character value that groups named process to quickly
+#' reference multiple processes by other functions
+#' default to NA
+#' @param groupnames Groups the transition applies to.
+#' Either a character vector of groupnames or named list with grouptype names
+#' and groupname values
+#' default is "" which specifies all groups.
 #' @return updated instruction list
 #' @export
 add_interaction <- function(
     peterlist, states_in, states_out, rate,
-    normlogic = TRUE, environment = "",
-    metapopulation = "", name = "", groups = "") {
+    normlogic = TRUE, metapopulation = "", processname = NA, processgroup = NA,
+    groupnames = "") {
   if (("" %in% states_in) || ("" %in% states_in)) {
     stop("Empty state listed in interaction.
     Birth/death functionality currently not supported.
@@ -46,10 +47,10 @@ add_interaction <- function(
     states_out = states_out,
     rate = rate,
     normlogic = normlogic,
-    environment = environment,
     metapopulation = metapopulation,
-    name = name,
-    groups = groups
+    processname = processname,
+    processgroup = processgroup,
+    groupname = groupnames
   ))
   peterlist$interactions <- rbind(peterlist$interactions, tibble2add)
   return(peterlist)

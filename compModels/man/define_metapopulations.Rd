@@ -6,38 +6,47 @@
 \usage{
 define_metapopulations(
   peterlist,
-  metapop_names = "",
-  environment_names = "",
-  interactionscale = 1,
-  transitionscale = 1,
-  basestates = ""
+  metapopulation = "",
+  scaleinteractions = 1,
+  scaletransitions = 1,
+  scaleprocessbyname = list(),
+  scaleprocessbygroup = list(),
+  basestates = "",
+  groups = ""
 )
 }
 \arguments{
 \item{peterlist}{list of instructions for piping |>}
 
-\item{metapop_names}{character vector specifying
-metapopulation names
+\item{metapopulation}{vector of metapopulation names
 default is ""}
 
-\item{environment_names}{character vector specifying
-environment names
-default is ""}
-
-\item{interactionscale}{numeric vector that scales
-interactions in
-each specified metapopulation
+\item{scaleinteractions}{vector same length as
+input metapopulations/environment_names that
+scales all interactions in given metapop/environment
 default is 1}
 
-\item{transitionscale}{numeric vector that scales
-transitions in
-each specified metapopulation
+\item{scaletransitions}{vector same length as
+input metapopulations/environment_names that
+scales all transitions in given metapop/environment
 default is 1}
 
-\item{basestates}{character vector specifying
-which basestates exist
-in each metapopulations
+\item{scaleprocessbyname}{named list with either vectors of the same length
+as the input metapopulations or length 1. Scales named processes in
+each metapopulation.}
+
+\item{scaleprocessbygroup}{named list with either vectors of the same length
+as the input metapopulations or length 1. Scales grouped named processes in
+each metapopulation.}
+
+\item{basestates}{specifies which states can
+visit metapopulation/environment.
 default is "" which specifies all basestates}
+
+\item{groups}{specifies which groups can visit metapopulation. This can be a
+named list with grouptypes as names and groups as elements
+or a vector of group names
+default is "" which species all groups}
 }
 \value{
 model instructions

@@ -8,7 +8,7 @@
 #' @return lengthened vector same type as input
 matchlength <- function(vec, desiredlength) {
   if (length(vec) == 1) {
-    vec <- rep(vec, desiredlength)
+    vec <- rep_len(vec, desiredlength)
   }
   if (length(vec) != desiredlength) {
     stop("Can not coerce input vector.

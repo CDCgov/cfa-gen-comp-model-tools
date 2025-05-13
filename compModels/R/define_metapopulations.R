@@ -1,64 +1,53 @@
-1 #' Define metapopulation names
+#' Define metapopulation names
 #'
 #' Removes all prior add_metapopulation instructions and sets
 #' them according to input
 #'
 #' @param peterlist list of instructions for piping |>
-#' @param metapop_names character vector specifying
-#' metapopulation names
+#' @param metapopulation vector of metapopulation names
 #' default is ""
-#' @param environment_names character vector specifying
-#' environment names
-#' default is ""
-#' @param interactionscale numeric vector that scales
-#' interactions in
-#' each specified metapopulation
+#' @param scaleinteractions vector same length as
+#' input metapopulations/environment_names that
+#' scales all interactions in given metapop/environment
 #' default is 1
-#' @param transitionscale numeric vector that scales
-#' transitions in
-#' each specified metapopulation
+#' @param scaletransitions vector same length as
+#' input metapopulations/environment_names that
+#' scales all transitions in given metapop/environment
 #' default is 1
-#' @param basestates character vector specifying
-#' which basestates exist
-#' in each metapopulations
+#' @param scaleprocessbyname named list with either vectors of the same length
+#' as the input metapopulations or length 1. Scales named processes in
+#' each metapopulation.
+#' @param scaleprocessbygroup named list with either vectors of the same length
+#' as the input metapopulations or length 1. Scales grouped named processes in
+#' each metapopulation.
+#' @param basestates specifies which states can
+#' visit metapopulation/environment.
 #' default is "" which specifies all basestates
+#' @param groups specifies which groups can visit metapopulation. This can be a
+#' named list with grouptypes as names and groups as elements
+#' or a vector of group names
+#' default is "" which species all groups
 #' @return model instructions
 #' @export
 define_metapopulations <- function(peterlist,
-                                   metapop_names = "",
-                                   environment_names = "",
-                                   interactionscale = 1,
-                                   transitionscale = 1,
-                                   basestates = "") {
-  # Removes all prior metapopulations and sets
-  # them according to input. There are multiple ways to define metapopulations
-  # by defining "metapop_names" we give explit
-  # names to the metapopulations e.g., adding 2 metpopulations c("US","UK")
-  # environment_names sets environment names in metapopulations.
-  # if its a character vector or list the same number
-  # of elements as metapop_names then
-  # there is 1 environment in each metapopulation.
-  # If it is a list of lists, then the names in each
-  # element list give multiple environments in the metapopulations
-  # interactionscale -- scales interaction rates,
-  # can be numeric or character (i.e., different infection rates
-  # between locations),cmust be same size as metapop_names,
-  # environment_names or a scalar
-  # transitionscale -- scales transition rates, can be
-  # numeric or character (e.g., parameter name). This allows,
-  # different recovery rates between locations, consider the biological
-  # reasonableness of using this. Must be same size as metapop_names,
-  # environment_names or a scalar
-  # basestates -- assigns which populations interact in given
-  # environments or metapopulations
-
-  coercedinputs <- make_metapopulations(
-    metapop_names = metapop_names,
-    environment_names = environment_names,
-    interactionscale = interactionscale,
-    transitionscale = transitionscale,
-    basestates = basestates
+                                   metapopulation = "",
+                                   scaleinteractions = 1,
+                                   scaletransitions = 1,
+                                   scaleprocessbyname = list(),
+                                   scaleprocessbygroup = list(),
+                                   basestates = "",
+                                   groups = "") {
+  peterlist$space <- make_metapopulations(
+    metapopulation = metapopulation,
+    scaleinteractions = scaleinteractions,
+    scaletransitions = scaletransitions,
+    scaleprocessbyname =
+      scaleprocessbyname,
+    scaleprocessbygroup =
+      scaleprocessbygroup,
+    basestates = basestates,
+    groups = groups
   )
-  peterlist$space <- tibble::as_tibble(coercedinputs)
+
   return(peterlist)
 }

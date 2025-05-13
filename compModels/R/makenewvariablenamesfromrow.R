@@ -9,7 +9,7 @@
 #' @importFrom rlang .data
 makenewvariablenamesfromrow <- function(tibblerow) {
   currbasestate <- tibblerow |> dplyr::pull("basestates")
-  newname <- currbasestate
+  newname <- make.names(currbasestate)
   # remove columns with only NA
   tibblerow <- tibblerow |>
     dplyr::select(-"basestates") |>
@@ -18,8 +18,8 @@ makenewvariablenamesfromrow <- function(tibblerow) {
     for (currcol in colnames(tibblerow)) {
       newname <- paste0(
         newname, "_",
-        currcol,
-        as.character(tibblerow |> dplyr::pull(currcol))
+        make.names(currcol),
+        make.names(tibblerow |> dplyr::pull(currcol))
       )
     }
   }

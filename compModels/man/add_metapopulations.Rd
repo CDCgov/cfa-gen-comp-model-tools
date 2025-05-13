@@ -6,44 +6,54 @@
 \usage{
 add_metapopulations(
   peterlist,
-  metapop_names = "",
-  environment_names = "",
-  interactionscale = 1,
-  transitionscale = 1,
-  basestates = ""
+  metapopulation = "",
+  scaleinteractions = 1,
+  scaletransitions = 1,
+  scaleprocessbyname = list(),
+  scaleprocessbygroup = list(),
+  basestates = "",
+  groups = ""
 )
 }
 \arguments{
 \item{peterlist}{list of instructions for piping |>}
 
-\item{metapop_names}{character vector of
+\item{metapopulation}{character vector of
 metapopulation names to add.
 default is "" where compilation automatically
-generates a placeholder name for
-each add_metapopulation use}
+generates a placeholder name for each add_metapopulation use}
 
-\item{environment_names}{character vector of
-environment names to add
-default is ""}
-
-\item{interactionscale}{character/numeric vector
+\item{scaleinteractions}{character/numeric vector
 specifying multiplicative scaling of interaction
 rates in each specifed metapopulation
 default is 1}
 
-\item{transitionscale}{character/numeric vector
+\item{scaletransitions}{character/numeric vector
 specifying multiplicative scaling of transition
 rates in each specifed metapopulation
 default is 1}
 
+\item{scaleprocessbyname}{named list with either vectors of the same length
+as the input metapopulations or length 1. Scales named processes in
+each metapopulation.}
+
+\item{scaleprocessbygroup}{named list with either vectors of the same length
+as the input metapopulations or length 1. Scales grouped named processes in
+each metapopulation.}
+
 \item{basestates}{specifies which basestates can
-visit metapopulation/environment
+visit metapopulation
 default is "" which species all basestates}
+
+\item{groups}{specifies which groups can visit metapopulation. This can be a
+named list with grouptypes as names and groups as elements
+or a vector of group names
+default is "" which species all groups}
 }
 \value{
 updated instruction list
 }
 \description{
-Allows nested input of metapopulations and
-environments. Maybe clean this up.
+Adds metapopulations to instructions, automatically renames
+empty metapopulation names
 }

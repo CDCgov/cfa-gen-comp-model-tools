@@ -7,29 +7,40 @@
 #'
 #'
 #' @param currtbl A dataframe/tibble with columns
-#' "interactionscale" and "transitionscale"
-#' @return tibble with updated interactionscale
-#' and transitionscale values
+#' "scaleinteractions", "scaletransitions", "scalemigrations"
+#' @return tibble with updated scaleinteractions, scaletransitions, and
+#' scalemigrations values
 #' @importFrom rlang .data
 cleanscale <- function(currtbl) {
-  tblout <- currtbl |>
-    dplyr::mutate(
-      interactionscale = paste0(as.character(.data$interactionscale), "*"),
-      transitionscale = paste0(as.character(.data$transitionscale), "*")
-    ) |>
-    dplyr::mutate(
-      interactionscale =
-        dplyr::case_when(.data$interactionscale == "*" ~ "",
-          .data$interactionscale == "1*" ~ "",
-          .default = .data$interactionscale
-        )
-    ) |>
-    dplyr::mutate(
-      transitionscale =
-        dplyr::case_when(.data$transitionscale == "*" ~ "",
-          .data$transitionscale == "1*" ~ "",
-          .default = .data$transitionscale
-        )
+  loopcols <- c("scaleinteractions", "scaletransitions", "scalemigrations")
+  loopcols <- intersect(colnames(currtbl), loopcols)
+
+  cleanfun <- function(x) {
+    currnames <- names(x)
+    x <- paste0(as.character(x), "*")
+    x <- dplyr::case_when(x == "*" ~ "",
+      x == "1*" ~ "",
+      .default = x
     )
-  return(tblout)
+    names(x) <- currnames
+    return(x)
+  }
+  # scale process name
+  loopcols <- c(
+    "scaleinteractions",
+    "scaletransitions",
+    "scalemigrations",
+    "scaleprocessbyname",
+    "scaleprocessbygroup"
+  )
+  loopcols <- intersect(colnames(currtbl), loopcols)
+  for (currcol in loopcols) {
+    if (is.list(currtbl[[currcol]])) {
+      currtbl[[currcol]] <- lapply(currtbl[[currcol]], cleanfun)
+    } else {
+      currtbl[[currcol]] <- cleanfun(currtbl[[currcol]])
+    }
+  }
+
+  return(currtbl)
 }

@@ -1,13 +1,13 @@
-#' add transition in model
+#' add transition between groups
 #'
-#' Add transitions between basestates fixing all other state features. Assumes
+#' Add transitions between basestates AND specified groups, fixing all other
+#' state features (e.g., other groups, metapopulations). Assumes
 #' a "pitchfork" shape where 1 state transitions to one of multiple states after
 #' one or multiple steps.
 #'
 #' @param peterlist list of instructions for piping |>
-#' @param fromstate basestate to transition from
-#' @param tostates character vector of basestates to
-#' transition to
+#' @param fromgroup character specifying group name to transition from
+#' @param togroups character vector specifying named group(s) to transition to
 #' @param meantime character/numeric value specifying
 #' average time to go from fromstate to all tostates
 #' @param rate character/numeric value specifying rate to go from fromstate to
@@ -39,28 +39,52 @@
 #' capita value so the total change to population
 #' should be scaled by the tostate
 #' default is TRUE
+#' @param fromstate basestate to transition from
+#' @param tostates character vector of basestates to
+#' transition to
 #' @param metapopulation character vector of metapopulation
 #' names this transitions occurs in.
 #' default "" is which specifies all metapopulations
-#' @param groupname Groups the transition applies to.
-#' Either a character vector of groupnames or named list with grouptype names
-#' and groupname values
-#' default is "" which specifies all groups.
 #' @return updated instruction list
 #' @export
-add_transition <- function(peterlist, # nolint: cyclocomp_linter.
-                           fromstate,
-                           tostates,
-                           meantime = NA, rate = NA,
-                           processname = NA, processgroup = NA,
-                           chainlength = 1, chaintimescale = NA,
-                           forkprobability = NA,
-                           percapita = TRUE,
-                           metapopulation = "",
-                           groupname = "") {
-  if (length(fromstate) > 1) {
-    stop("Transitions can only come from one state, multiple states are input.")
+add_grouptransition <- function(peterlist, # nolint: cyclocomp_linter.
+                                fromgroup,
+                                togroups,
+                                meantime = NA, rate = NA,
+                                processname = NA, processgroup = NA,
+                                chainlength = 1, chaintimescale = NA,
+                                forkprobability = NA,
+                                percapita = TRUE,
+                                fromstate = "", tostates = "",
+                                metapopulation = "") {
+  # check the right length of inputs
+  if (identical(fromstate, "")) {
+    fromstate <- peterlist$states
   }
+  if (identical(tostates, "")) {
+    tostates <- peterlist$states
+  }
+
+  if (length(fromgroup) > 1) {
+    stop("Transitions can only come from one group, multiple groups are input.")
+  }
+
+  multilogic <- FALSE
+  if (length(fromstate) > 1) {
+    if (length(fromstate) != length(tostates)) {
+      stop("Input fromstate must be length = 1 or be same length as tostates")
+    }
+  } else {
+    if (length(tostates) > 1) {
+      multilogic <- TRUE
+      if (length(tostates) != length(togroups)) {
+        stop("Input tostate must be same length as fromstate or fromgroup")
+      }
+    }
+  }
+
+
+
   if (
     (!(NA %in% chaintimescale)) &&
       (chainlength > 1) &&
@@ -76,19 +100,20 @@ add_transition <- function(peterlist, # nolint: cyclocomp_linter.
   } else {
     pitchforklength <- chainlength
   }
+
   if (!(NA %in% forkprobability)) {
-    if (length(forkprobability) != length(tostates)) {
-      stop("Length of states to transition into is
+    if (length(forkprobability) != length(togroups)) {
+      stop("Length of groups to transition into is
       different than the input forkprobability rates.")
     }
   } else {
     # assume equal probability of splitting between states
-    if (length(tostates) > 1) {
-      warning("Mulitple final states but relative rates (forkprobability)
+    if (length(togroups) > 1) {
+      warning("Multiple final groups but relative rates (forkprobability)
       are not defined or contain NA. Assuming equal
       probability to transition between them")
     }
-    forkprobability <- rep(1, length(tostates))
+    forkprobability <- rep_len(1, length(togroups))
   }
   forkprobability <- normalize2probability(forkprobability)
 
@@ -124,18 +149,19 @@ add_transition <- function(peterlist, # nolint: cyclocomp_linter.
     }
 
     toptibble <- tibble::tibble(
-      fromstate = fromstate,
-      tostate = fromstate,
+      fromstate = list(fromstate),
       fromchain = seq(pitchforklength - 1),
       tochain = seq(pitchforklength - 1) + 1,
-      fromgroups = list(groupname),
-      togroups = list(groupname),
+      fromgroups = fromgroup,
+      togroups = fromgroup,
       rate = baserate[1:(pitchforklength - 1)],
       percapitastate = percapita,
       metapopulation = metapopulation,
       processname = processname,
       processgroup = processgroup
-    )
+    ) |>
+      tidyr::unnest("fromstate") |>
+      dplyr::mutate(tostate = fromstate)
   } else {
     toptibble <- tibble::tibble(
       fromstate = character(),
@@ -156,19 +182,38 @@ add_transition <- function(peterlist, # nolint: cyclocomp_linter.
   if (length(forkprobability) > 1) {
     bottomrate <- paste0(as.character(forkprobability), "*", bottomrate)
   }
-  bottomtibble <- tibble::tibble(
-    fromstate = fromstate,
-    tostate = tostates,
-    fromchain = pitchforklength,
-    tochain = 1,
-    fromgroups = list(groupname),
-    togroups = list(groupname),
-    rate = bottomrate,
-    percapitastate = percapita,
-    metapopulation = metapopulation,
-    processname = processname,
-    processgroup = processgroup
-  )
+
+  if (multilogic) {
+    bottomtibble <- tibble::tibble(
+      fromstate = fromstate,
+      tostate = tostates,
+      fromchain = pitchforklength,
+      tochain = 1,
+      fromgroups = fromgroup,
+      togroups = togroups,
+      rate = bottomrate,
+      percapitastate = percapita,
+      metapopulation = metapopulation,
+      processname = processname,
+      processgroup = processgroup
+    )
+  } else {
+    bottomtibble <- tibble::tibble(
+      fromstate = list(fromstate),
+      fromchain = pitchforklength,
+      tochain = 1,
+      fromgroups = fromgroup,
+      togroups = togroups,
+      rate = bottomrate,
+      percapitastate = percapita,
+      metapopulation = metapopulation,
+      processname = processname,
+      processgroup = processgroup
+    ) |>
+      tidyr::unnest("fromstate") |>
+      dplyr::mutate(tostate = fromstate)
+  }
+
   if (nrow(peterlist$transitions) == 0) {
     compileid <- 1
   } else {

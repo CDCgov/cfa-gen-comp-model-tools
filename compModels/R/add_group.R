@@ -6,37 +6,28 @@
 #' @param grouptype character vector of grouptype (e.g., c("Age"))
 #' default is NA which automatically generates a type during
 #' model compilation
-#' @param combinewithgrouptype character vector
-#' specifying which group types to create combinations
-#' of state names. default is "" which stratifies given
-#' grouptype with all other grouptypes
 #' @param basestates character vector of basestates
 #' to stratify. default is "" which specifies all basestates
-#' @param interactionscale character/numeric specifies
+#' @param metapopulation chracter vector of metapopulations where
+#' basestates are split
+#' @param scaleinteractions character/numeric specifies
 #' how to scale interaction rates for each group. default is 1
-#' @param transitionscale character/numeric specifies
+#' @param scaletransitions character/numeric specifies
 #' how to scale transition rates for each group. default is 1.
+#' @param scalemigrations character/numeric specifies
+#' how to scale migration rates for each group. default is 1.
+#' @param scaleprocessbyname named list w/ character/numeric values that
+#' scale named processes, allows user defined flexibility
+#' @param scaleprocessbygroup named list w/ character/numeric values that
+#' scale processes by grouped name, allows user defined flexibility
 #' @return updated model instructions
 #' @export
 add_group <- function(
-    peterlist, groupnames, grouptype = NA,
-    combinewithgrouptype = "", basestates = "",
-    interactionscale = 1, transitionscale = 1) {
-  # maybe add metapopulation? split group in some
-  # places and they never travel, dunno if needed
-  # groupnames -- names of groups which
-  # splut the basestate, must me a character vector
-  # grouptype
-  # should basestates be optional? when would
-  # groups not have all states (if you don't vax certain groups?
-  # that exhibit variation in type)
-
-  # this can be simplified by pulling in column names
+    peterlist, groupnames, grouptype = NA, basestates = "", metapopulation = "",
+    scaleinteractions = 1, scaletransitions = 1, scalemigrations = 1,
+    scaleprocessbyname = list(), scaleprocessbygroup = list()) {
   if (!is.vector(groupnames)) {
     stop("Input groupnames must be a character or numeric vector")
-  }
-  if (!is.vector(combinewithgrouptype)) {
-    stop("Input combinegrouptypes must be a character or numeric vector")
   }
   if (!is.vector(basestates)) {
     stop("Input basestates must be a character or numeric vector,
@@ -47,27 +38,46 @@ add_group <- function(
          specified even if inputting multiple groupnames (e.g.,c(Young,Old))")
   }
 
-  peterlist$combinetypes[[length(peterlist$combinetypes) + 1]] <-
-    c(grouptype, combinewithgrouptype)
-
+  if (is.na(grouptype)) {
+    priortypes <- unique(peterlist$groups$grouptype)
+    priordummyidx <- grep("dummygroup", priortypes)
+    grouptype <- paste0(
+      "dummygroup",
+      as.character(length(priordummyidx) + 1)
+    )
+  }
   # coerce input to correct shape to apply
   numgroups <- length(groupnames)
-  grouptype <- rep(grouptype, numgroups)
-  interactionscale <- matchlength(interactionscale, numgroups)
-  transitionscale <- matchlength(transitionscale, numgroups)
+  grouptype <- matchlength(grouptype, numgroups)
+  scaleinteractions <- matchlength(scaleinteractions, numgroups)
+  scaletransitions <- matchlength(scaletransitions, numgroups)
+  scalemigrations <- matchlength(scalemigrations, numgroups)
 
+  scaleprocessbyname <- matchlength_namedlist(
+    scaleprocessbyname,
+    numgroups
+  )
+  scaleprocessbygroup <- matchlength_namedlist(
+    scaleprocessbygroup,
+    numgroups
+  )
   bindthese <- list()
   for (seqidx in seq(numgroups)) {
     currnamedlist <- list(
       groupname = groupnames[[seqidx]],
       grouptype = grouptype[[seqidx]],
       basestates = basestates,
-      interactionscale = interactionscale[[seqidx]],
-      transitionscale = transitionscale[[seqidx]]
+      scaleinteractions = scaleinteractions[[seqidx]],
+      scaletransitions = scaletransitions[[seqidx]],
+      scalemigrations = scalemigrations[[seqidx]]
     )
     bindthese[[seqidx]] <- namedlist2tibblerow(currnamedlist)
   }
-  tblout <- do.call("rbind", bindthese)
+  tblout <- do.call("rbind", bindthese) |>
+    dplyr::mutate(
+      scaleprocessbyname = scaleprocessbyname,
+      scaleprocessbygroup = scaleprocessbygroup
+    )
   peterlist$groups <- rbind(peterlist$groups, tblout)
 
   return(peterlist)

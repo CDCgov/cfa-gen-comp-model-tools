@@ -8,11 +8,11 @@ cleanscale(currtbl)
 }
 \arguments{
 \item{currtbl}{A dataframe/tibble with columns
-"interactionscale" and "transitionscale"}
+"scaleinteractions", "scaletransitions", "scalemigrations"}
 }
 \value{
-tibble with updated interactionscale
-and transitionscale values
+tibble with updated scaleinteractions, scaletransitions, and
+scalemigrations values
 }
 \description{
 This function appends "\emph{" to rates and then converts the rates "1}"

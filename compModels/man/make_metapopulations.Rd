@@ -5,42 +5,49 @@
 \title{Set metapopulations in model}
 \usage{
 make_metapopulations(
-  metapop_names = "",
-  environment_names = "",
-  interactionscale = 1,
-  transitionscale = 1,
-  basestates = ""
+  metapopulation = "",
+  scaleinteractions = 1,
+  scaletransitions = 1,
+  scaleprocessbyname = list(),
+  scaleprocessbygroup = list(),
+  basestates = "",
+  groups = ""
 )
 }
 \arguments{
-\item{metapop_names}{vector of metapopulation names
+\item{metapopulation}{vector of metapopulation names
 default is ""}
 
-\item{environment_names}{vector/list of environment names
-default is ""}
-
-\item{interactionscale}{vector same length as
+\item{scaleinteractions}{vector same length as
 input metapopulations/environment_names that
 scales all interactions in given metapop/environment
 default is 1}
 
-\item{transitionscale}{vector same length as
+\item{scaletransitions}{vector same length as
 input metapopulations/environment_names that
 scales all transitions in given metapop/environment
 default is 1}
 
+\item{scaleprocessbyname}{named list with either vectors of the same length
+as the input metapopulations or length 1. Scales named processes in
+each metapopulation.}
+
+\item{scaleprocessbygroup}{named list with either vectors of the same length
+as the input metapopulations or length 1. Scales grouped named processes in
+each metapopulation.}
+
 \item{basestates}{specifies which states can
 visit metapopulation/environment.
 default is "" which specifies all basestates}
+
+\item{groups}{specifies which groups can visit metapopulation. This can be a
+named list with grouptypes as names and groups as elements
+or a vector of group names
+default is "" which species all groups}
 }
 \value{
-list combining all information.
+tibble combining all information.
 }
 \description{
-This function may be deprecated, check input
-output. Inputs instructions specifying metapopulations
-in model. Overwrites any prior
-instructions to add_metapopulation. Input can be
-nested, although this functionality is
-unnecessarilly complex and should be simplified.
+Checks user input and outputs tibble to add metapopulations to instructions
 }

@@ -9,14 +9,14 @@ add_replacement(
   statesout,
   statesin,
   meantime,
-  name = "replacement",
+  rate,
+  processname = "replacement",
+  processgroup = NA,
   chainlength = 1,
   chaintimescale = NA,
   percapita = TRUE,
   metapopulation = "",
-  environment = "",
-  groupname = "",
-  grouptype = ""
+  groupname = ""
 )
 }
 \arguments{
@@ -29,52 +29,51 @@ to transition from}
 transition to}
 
 \item{meantime}{character/numeric value specifying
-average time to go from fromstate to all tostates}
+average time to go from statesout to statesin}
 
-\item{name}{character value to allow scaling by
-other functions
+\item{rate}{character/numeric value specifying rate to go from statesout to
+statesin}
+
+\item{processname}{character value for referencing the added process
+by other functions
 default is "replacement"}
 
-\item{chainlength}{total steps from fromstate to
-tostates (i.e., boxcars or length of pitchfork).
+\item{processgroup}{character value that groups named process to quickly
+reference multiple processes by other functions
+default to NA}
+
+\item{chainlength}{total steps from statesout to
+statesin (i.e., boxcars or length of pitchfork)
 Alters distribution of transition times during
 stochastic implementation
-default is 1 for exponentially distributed wait times}
+default to 1 which gives exponentially distributed transition times}
 
-\item{chaintimescale}{character/numeric vector with
-length chainlength scales rate transitioning between
-steps along chains. Allows deviating transition time
-distribution from a gamma distributions
-default is NA which defaults to the same transition
-times between all chained states}
+\item{chaintimescale}{character/numeric vector
+with length chainlength scales rate transitioning
+between steps along chains. Allows deviating
+transition time distribution from a gamma distributions
+default to NA which is same transition times between
+all chained states (e.g., gamma distributed wait times)}
 
-\item{percapita}{specifies rates are given as per capita
-value so the total change to population should be
-scaled by the tostate
-default to TRUE}
+\item{percapita}{specifies rates are given as per
+capita value so the total change to population
+should be scaled by the tostate
+default is TRUE}
 
-\item{metapopulation}{character vector of
-metapopulation
-names this transitions occurs in. default "" specifies
-all metapopulations
-default to "" which specifies all metapopulations}
+\item{metapopulation}{character vector of metapopulation
+names this transitions occurs in.
+default "" is which specifies all metapopulations}
 
-\item{environment}{character vector of environment names
-this transitions occurs in
-default to "" which specifies all environments}
-
-\item{groupname}{specifies which stratified groups transition
-default to "" which specifies all groups.}
-
-\item{grouptype}{specifies which stratified
-group types transition
-default to "" which specifies all grouptypes.}
+\item{groupname}{Groups the transition applies to.
+Either a character vector of groupnames or named list with grouptype names
+and groupname values
+default is "" which specifies all groups.}
 }
 \value{
 updated instruction list
 }
 \description{
-Helper fucntion that is same as transiton,
-but allows simplifies specifying independent transitions
+Helper function that is same as transiton,
+but simplifies specifying independent transitions
 from multiple states to a single state.
 }

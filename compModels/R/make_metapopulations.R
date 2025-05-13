@@ -1,82 +1,91 @@
 #' Set metapopulations in model
 #'
-#' This function may be deprecated, check input
-#' output. Inputs instructions specifying metapopulations
-#' in model. Overwrites any prior
-#' instructions to add_metapopulation. Input can be
-#' nested, although this functionality is
-#' unnecessarilly complex and should be simplified.
+#' Checks user input and outputs tibble to add metapopulations to instructions
 #'
-#' @param metapop_names vector of metapopulation names
+#' @param metapopulation vector of metapopulation names
 #' default is ""
-#' @param environment_names vector/list of environment names
-#' default is ""
-#' @param interactionscale vector same length as
+#' @param scaleinteractions vector same length as
 #' input metapopulations/environment_names that
 #' scales all interactions in given metapop/environment
 #' default is 1
-#' @param transitionscale vector same length as
+#' @param scaletransitions vector same length as
 #' input metapopulations/environment_names that
 #' scales all transitions in given metapop/environment
 #' default is 1
+#' @param scaleprocessbyname named list with either vectors of the same length
+#' as the input metapopulations or length 1. Scales named processes in
+#' each metapopulation.
+#' @param scaleprocessbygroup named list with either vectors of the same length
+#' as the input metapopulations or length 1. Scales grouped named processes in
+#' each metapopulation.
 #' @param basestates specifies which states can
 #' visit metapopulation/environment.
 #' default is "" which specifies all basestates
-#' @return list combining all information.
+#' @param groups specifies which groups can visit metapopulation. This can be a
+#' named list with grouptypes as names and groups as elements
+#' or a vector of group names
+#' default is "" which species all groups
+#' @return tibble combining all information.
 #' @export
 #' @importFrom rlang .data
 make_metapopulations <- function(
-    metapop_names = "",
-    environment_names = "", interactionscale = 1,
-    transitionscale = 1, basestates = "") {
-  variablenames <- c(
-    "environment_names", "metapop_names",
-    "interactionscale", "transitionscale"
-  )
-  variables <- lapply(variablenames, function(x) {
-    eval(parse(text = x))
-  })
-  names(variables) <- variablenames
-  parsevariablelength <- function(x) {
-    eval(parse(text = paste0("length(unlist(", x, "))")))
+    metapopulation = "", scaleinteractions = 1, scaletransitions = 1,
+    scaleprocessbyname = list(), scaleprocessbygroup = list(),
+    basestates = "", groups = "") {
+  if (!is.list(scaleprocessbyname)) {
+    stop("Input scaleprocessbyname must be a list")
   }
-  variablenameslength <- sapply(variables, function(x) {
-    length(unlist(x))
-  })
-  # choose (first) variable with most elements to match to
-  matchthisvariablestring <- names(
-    variablenameslength
-  )[variablenameslength == max(
-    variablenameslength
-  )][1]
-  matchthisvariable <- variables[[matchthisvariablestring]]
-  # coerce all inputs to have same length as matched variable
-  coercelengths <- sapply(matchthisvariable, length)
-  total_elements <- sum(coercelengths)
-  coercedinputs <- lapply(
-    variables,
-    function(x) {
-      coerceinput2matchshape(x, matchthisvariable)
+  if (!is.list(scaleprocessbygroup)) {
+    stop("Input scaleprocessbygroup must be a list")
+  }
+  # check that interactionscale and transitionscale are correct size
+  metapoplength <- length(metapopulation)
+  scaletlength <- length(scaletransitions)
+  scaleilength <- length(scaleinteractions)
+  if (metapoplength == 1) {
+    if (scaletlength > 1) {
+      stop("Only one metapopulation named but multiple scaletransitions named")
     }
+    if (scaleilength > 1) {
+      stop("Only one metapopulation named but multiple scaleinteractions named")
+    }
+  } else {
+    if (scaletlength == 1) {
+      if (scaletransitions != 1) {
+        warning("Multiple metapopulations named but single scaleinteraction
+                named. It will be repeated")
+      }
+    }
+    scaletransitions <- matchlength(scaletransitions, metapoplength)
+
+    if (scaleilength == 1) {
+      if (scaleinteractions != 1) {
+        warning("Multiple metapopulations named but single scaleinteractions
+                named. It will be repeated")
+      }
+      scaleinteractions <- matchlength(scaleinteractions, metapoplength)
+    }
+  }
+  scaleprocessbyname <- matchlength_namedlist(
+    scaleprocessbyname,
+    metapoplength
+  )
+  scaleprocessbygroup <- matchlength_namedlist(
+    scaleprocessbygroup,
+    metapoplength
   )
 
-  # there is a nested structure, update metapop
-  # names if it's a single value
-  vnamelengthlogic <- variablenameslength[["metapop_names"]] == 1
-  if ((max(coercelengths) > 1) && (vnamelengthlogic)) {
-    warning("An input variable has a nested
-    structure, but input metapopulation names
-    contain only one element. Renaming metapopulations
-    by numerical indices.")
-    newmetapopnames <- as.character(seq_along(matchthisvariable))
-    coercedinputs[["metapop_names"]] <- coerceinput2matchshape(
-      newmetapopnames, matchthisvariable
-    )
+  if (!is.list(groups)) {
+    groups <- list(groups)
   }
-  # deal with base states, make sure each element
-  # base_state is a character vector and then
-  # repeat appropriately
-  coercedinputs[["basestates"]] <-
-    coerceinput2matchshape_basestate(basestates, matchthisvariable)
-  return(coercedinputs)
+  tblout <- tibble::tibble(
+    metapopulation = metapopulation,
+    scaleinteractions = scaleinteractions,
+    scaletransitions = scaletransitions,
+    scaleprocessbyname = scaleprocessbyname,
+    scaleprocessbygroup = scaleprocessbygroup,
+    basestates = list(basestates),
+    groups = groups
+  )
+  return(tblout)
 }

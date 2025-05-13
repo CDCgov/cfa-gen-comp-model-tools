@@ -3,8 +3,8 @@
 #'
 #' Sets initial conditions globally based on base states.
 #'
-#' @param outlist compiled model output
-#' @param namedvector numeric vector specifying initial populations
+#' @param compiledmodel compiled model output
+#' @param basestatevector numeric vector specifying initial populations
 #' for named basestates
 #' default is c() which specifies all 0 population
 #' for each basestate
@@ -12,34 +12,33 @@
 #' (updatedstates) and initial conditions (X0)
 #' @export
 #' @importFrom rlang .data
-define_initialstate <- function(outlist, namedvector = c()) {
+define_initialstate <- function(compiledmodel, basestatevector = c()) {
+  # ensure proper order
   tblupdatestate <- tibble::tibble(
     updatedstate =
-      outlist$modeloutstructions$updatedstates
+      compiledmodel$modeloutstructions$updatedstates
   ) |>
-    dplyr::left_join(outlist$modelinstructions$tblupdatedstates |>
-      dplyr::select(
-        -.data$interactionscale,
-        -.data$transitionscale,
-        -.data$environment_names
-      ) |>
-      dplyr::distinct(.data$updatedstate,
-        .keep_all = TRUE
-      ), by = "updatedstate")
+    dplyr::left_join(
+      compiledmodel$modelinstructions$tblupdatedstates |>
+        dplyr::distinct(.data$updatedstate, .keep_all = TRUE),
+      by = "updatedstate"
+    )
+
   tblout <- tblupdatestate |> dplyr::mutate(X0 = 0)
-  if (length(namedvector) > 0) {
+  if (length(basestatevector) > 0) {
     currbasestates <- tblupdatestate |>
       dplyr::distinct(.data$basestates) |>
       dplyr::pull()
     # check that the input names are uniquely defined basestates
-    if (FALSE %in% (names(namedvector) %in% currbasestates)) {
+    bstatenames <- names(basestatevector)
+    if (FALSE %in% (bstatenames %in% currbasestates)) {
       stop("initial condition vector must have names that match basestates")
     }
-    if (length(names(namedvector)) != length(unique(names(namedvector)))) {
+    if (length(bstatenames) != length(unique(bstatenames))) {
       stop("basestates must be uniquely")
     }
-    jointhistbl <- tibble::enframe(namedvector) |>
-      dplyr::rename(basestates = .data$name, X0 = .data$value)
+    jointhistbl <- tibble::enframe(basestatevector) |>
+      dplyr::rename(basestates = "name", X0 = "value")
     tblout <- tblupdatestate |>
       dplyr::left_join(jointhistbl, by = "basestates") |>
       tidyr::replace_na(list(X0 = 0))

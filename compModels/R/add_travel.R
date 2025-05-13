@@ -2,46 +2,66 @@
 #'
 #' @param peterlist list of instructions for piping |>
 #' @param rates character/numeric vector movement rate/s
-#' @param metapop_from character vector of origin
+#' @param frommetapopulation character vector of origin
 #' metapopulations
 #' default is "" which specifies all metapopulations
-#' @param metapop_to character vector of destination
+#' @param tometapopulation character vector of destination
 #' metapopulations. default is "" which specifies all
 #' metapopulations
-#' @param travelstates character vector of basestates that
-#' trave between metapopulations
+#' @param processname string to name process
+#' @param processgroup string to group process
+#' @param travelbasestates character vector of basestates that
+#' travel between metapopulations
+#' default is "" which specifies all basestates
+#' @param travelgroups character vector of groups that
+#' travel between metapopulations
 #' default is "" which specifies all basestates
 #' @return updated instruction list
 #' @export
 add_travel <- function(peterlist,
                        rates,
-                       metapop_from = "",
-                       metapop_to = "",
-                       travelstates = "") {
-  numtravel <- length(metapop_from)
-  if (length(rates) == 1) {
-    rates <- rep(rates, numtravel)
-  }
-  # bad, clean this for edge cases
-  if (is.vector(travelstates)) {
-    travelstates <- rep(list(travelstates), numtravel)
-  }
-  if ((is.list(travelstates)) && (length(travelstates) != numtravel)) {
-    stop("List of travel states is
-    not same length as input metapopulations")
-  }
-  if (length(metapop_from) != length(metapop_to)) {
+                       frommetapopulation = "",
+                       tometapopulation = "",
+                       processname = NA,
+                       processgroup = NA,
+                       travelbasestates = "",
+                       travelgroups = "") {
+  if (length(frommetapopulation) != length(tometapopulation)) {
     stop("to and from metapopulations are not same length.")
   }
+  numtravel <- length(frommetapopulation)
 
-  peterlist$travel <- rbind(
+  rates <- matchlength(rates, numtravel)
+  processname <- matchlength(processname, numtravel)
+  processgroup <- matchlength(processgroup, numtravel)
+
+  if (!is.list(travelbasestates)) {
+    travelbasestates <- list(travelbasestates)
+  }
+  travelbasestates <- matchlength(travelbasestates, numtravel)
+
+  if (!is.list(travelgroups)) {
+    travelgroups <- list(travelgroups)
+  }
+
+  travelgroups <- matchlength(travelgroups, numtravel)
+  # scaleprocessbyname <- matchlength_namedlist(scaleprocessbyname,
+  #                                            numtravel)
+  # scaleprocessbygroup <- matchlength_namedlist(scaleprocessbygroup,
+  #                                             numtravel)
+
+  peterlist$travel <- dplyr::bind_rows(
     peterlist$travel,
     tibble::tibble(
-      frommetapopulation = metapop_from,
-      tometapopulation = metapop_to,
+      frommetapopulation = frommetapopulation,
+      tometapopulation = tometapopulation,
       rate = rates,
-      travelpops = travelstates
+      processname = processname,
+      processgroup = processgroup,
+      travelbasestates = travelbasestates,
+      travelgroups = travelgroups
     )
   )
+
   return(peterlist)
 }

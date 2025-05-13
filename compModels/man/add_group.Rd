@@ -8,10 +8,13 @@ add_group(
   peterlist,
   groupnames,
   grouptype = NA,
-  combinewithgrouptype = "",
   basestates = "",
-  interactionscale = 1,
-  transitionscale = 1
+  metapopulation = "",
+  scaleinteractions = 1,
+  scaletransitions = 1,
+  scalemigrations = 1,
+  scaleprocessbyname = list(),
+  scaleprocessbygroup = list()
 )
 }
 \arguments{
@@ -24,19 +27,26 @@ in a given grouptype (e.g., c("Old","Young"))}
 default is NA which automatically generates a type during
 model compilation}
 
-\item{combinewithgrouptype}{character vector
-specifying which group types to create combinations
-of state names. default is "" which stratifies given
-grouptype with all other grouptypes}
-
 \item{basestates}{character vector of basestates
 to stratify. default is "" which specifies all basestates}
 
-\item{interactionscale}{character/numeric specifies
+\item{metapopulation}{chracter vector of metapopulations where
+basestates are split}
+
+\item{scaleinteractions}{character/numeric specifies
 how to scale interaction rates for each group. default is 1}
 
-\item{transitionscale}{character/numeric specifies
+\item{scaletransitions}{character/numeric specifies
 how to scale transition rates for each group. default is 1.}
+
+\item{scalemigrations}{character/numeric specifies
+how to scale migration rates for each group. default is 1.}
+
+\item{scaleprocessbyname}{named list w/ character/numeric values that
+scale named processes, allows user defined flexibility}
+
+\item{scaleprocessbygroup}{named list w/ character/numeric values that
+scale processes by grouped name, allows user defined flexibility}
 }
 \value{
 updated model instructions

@@ -7,9 +7,12 @@
 add_travel(
   peterlist,
   rates,
-  metapop_from = "",
-  metapop_to = "",
-  travelstates = ""
+  frommetapopulation = "",
+  tometapopulation = "",
+  processname = NA,
+  processgroup = NA,
+  travelbasestates = "",
+  travelgroups = ""
 )
 }
 \arguments{
@@ -17,16 +20,24 @@ add_travel(
 
 \item{rates}{character/numeric vector movement rate/s}
 
-\item{metapop_from}{character vector of origin
+\item{frommetapopulation}{character vector of origin
 metapopulations
 default is "" which specifies all metapopulations}
 
-\item{metapop_to}{character vector of destination
+\item{tometapopulation}{character vector of destination
 metapopulations. default is "" which specifies all
 metapopulations}
 
-\item{travelstates}{character vector of basestates that
-trave between metapopulations
+\item{processname}{string to name process}
+
+\item{processgroup}{string to group process}
+
+\item{travelbasestates}{character vector of basestates that
+travel between metapopulations
+default is "" which specifies all basestates}
+
+\item{travelgroups}{character vector of groups that
+travel between metapopulations
 default is "" which specifies all basestates}
 }
 \value{

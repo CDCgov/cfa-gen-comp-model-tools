@@ -4,15 +4,12 @@
 \alias{define_states}
 \title{Initializes model instructions with given base states}
 \usage{
-define_states(base_state, environment_name = "", metapop_name = "")
+define_states(base_state, metapopulation = "")
 }
 \arguments{
 \item{base_state}{character vector of base states.}
 
-\item{environment_name}{character vector environment names
-default is ""}
-
-\item{metapop_name}{character vector of metapopulation names
+\item{metapopulation}{character vector of metapopulation names
 default is ""}
 }
 \value{
