@@ -7,10 +7,10 @@
 cuminc2inc(t, cuminc, keepfirst = TRUE)
 }
 \arguments{
-\item{t}{compiled model output}
+\item{t}{numeric vector of times}
 
 \item{cuminc}{named list/vector vector specifying updatedstate population
-sizes}
+sizes, same length as t}
 
 \item{keepfirst}{logical whether first element of cuminc should be included
 as incident}

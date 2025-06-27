@@ -3,9 +3,9 @@
 #' Requires times vector and cumulative incidence vector, finds where cumulative
 #' incidence changes, and then outputs when the change occurs and the magnitude
 #'
-#' @param t compiled model output
+#' @param t numeric vector of times
 #' @param cuminc named list/vector vector specifying updatedstate population
-#' sizes
+#' sizes, same length as t
 #' @param keepfirst logical whether first element of cuminc should be included
 #' as incident
 #' @return numeric vector of incidence if keepfirst and
