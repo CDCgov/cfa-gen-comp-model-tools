@@ -24,7 +24,7 @@
 #'   add_infection("I", "S", "I", "beta") |>
 #'   add_transition("I", "R", "tau")
 #' sircompiled <- compilemodel(sir)
-#' wrap_adaptivetau(
+#' test1 <- wrap_adaptivetau(
 #'   c("S" = 999, "I" = 1, "R" = 0),
 #'   sircompiled,
 #'   rate_func = NULL,
