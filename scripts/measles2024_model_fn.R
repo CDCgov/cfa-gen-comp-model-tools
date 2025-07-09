@@ -442,13 +442,12 @@ run_measles_chicago_2024 <- function(config_path) {
   list(all_dyn, obs_df)
 }
 
-
-measles_dyn <- list(run_measles_chicago_2024("scripts/measles_params.yaml"))
-measles_states <- names(measles_dyn[[1]][[1]][-1])
-dynamics <- measles_dyn[[1]][1]
+measles_dyn <- run_measles_chicago_2024("scripts/measles_params.yaml")
+measles_states <- names(measles_dyn[[1]][-1])
+dynamics <- measles_dyn[1]
 
 # Looking at latent and delayed cumulative incidence
-inctbl <- measles_dyn[[1]][[2]]
+inctbl <- measles_dyn[[2]]
 ggplot(inctbl, aes(x = time)) +
   geom_line(aes(y = incI_cum_latent, color = "Latent")) +
   geom_line(aes(y = incI_latent_d, color = "Observed")) +
@@ -465,12 +464,10 @@ ggplot(inctbl, aes(x = time)) +
 
 # Running multiple simulations
 config_path <- "scripts/measles_params.yaml"
-sims <- list()
 sims <- purrr::map(1:50, ~ run_measles_chicago_2024(config_path))
 dynamics <- purrr::map(sims, 1)
 
 # Run simulations in parallel
-sims <- list()
 future::plan(future::multisession, workers = parallel::detectCores() - 1)
 sims <- furrr::future_map(1:100, ~ run_measles_chicago_2024(config_path),
   .options =
