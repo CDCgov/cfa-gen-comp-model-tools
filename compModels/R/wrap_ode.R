@@ -1,6 +1,6 @@
 #' Wrapper to run [deSolve::ode()] from compiled model and formatted inputs
 #'
-#' @param y the initial (state) values for the ODE system, a named vector
+#' @param x0 the initial (state) values for the ODE system, a named vector
 #' @param times vector of sequence of times for which output is wanted; first
 #' value must be the initial time
 #' @param compiledmodel compiled model as a list, output from compilemodel()
@@ -23,10 +23,8 @@
 #' )
 #' #'
 #' }
-wrap_ode <- function(y, times, compiledmodel, parms) {
+wrap_ode <- function(x0, times, compiledmodel, parms) {
   odefun <- model2desolvefunction(compiledmodel)
-  x0 <- define_initialstate(compiledmodel, y) |>
-    output_initialstate()
   parameters <- parms
   times <- times
   dyn <- deSolve::ode(y = x0, times = times, func = odefun, parms = parameters)

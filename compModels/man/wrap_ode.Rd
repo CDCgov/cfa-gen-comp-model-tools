@@ -4,10 +4,10 @@
 \alias{wrap_ode}
 \title{Wrapper to run \code{\link[deSolve:ode]{deSolve::ode()}} from compiled model and formatted inputs}
 \usage{
-wrap_ode(y, times, compiledmodel, parms)
+wrap_ode(x0, times, compiledmodel, parms)
 }
 \arguments{
-\item{y}{the initial (state) values for the ODE system, a named vector}
+\item{x0}{the initial (state) values for the ODE system, a named vector}
 
 \item{times}{vector of sequence of times for which output is wanted; first
 value must be the initial time}
