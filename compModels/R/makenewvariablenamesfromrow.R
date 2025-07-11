@@ -6,6 +6,7 @@
 #' @param tibblerow tibble row to generate state names from
 #' Ignore columns with all NA.
 #' @return string of updated name
+#' @family internal
 #' @importFrom rlang .data
 makenewvariablenamesfromrow <- function(tibblerow) {
   currbasestate <- tibblerow |> dplyr::pull("basestates")

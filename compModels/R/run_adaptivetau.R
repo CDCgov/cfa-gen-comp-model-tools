@@ -12,6 +12,7 @@
 #' @return list of dataframes object of the data part of GillespieSSA object
 #' containing the time and states of the simulation. Number of elements should
 #' match the number of simulations
+#' @family simulation
 #' @export
 run_adaptivetau <- function(x0, compiledmodel, rate_func = NULL,
                             parameters, t,

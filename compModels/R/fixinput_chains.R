@@ -11,6 +11,7 @@
 #' values
 #' @return chains coerced into named list with respective chainid as name
 #' @importFrom rlang .data
+#' @family internal
 fixinput_chains <- function(chains, tblwgroupcols) {
   if (!identical(chains, NA)) {
     tblwgroupcols <- tblwgroupcols |>

@@ -6,8 +6,9 @@
 #' @return list with updated instructions $modelinstructions to
 #' aid user in verifying model and $modeloustrcutions list
 #' with petersen matrix, process rates, and updated state names
-#' @export
+#' @family model_building
 #' @importFrom rlang .data
+#' @export
 compilemodel <- function(inputpeter) { # nolint: cyclocomp_linter.
   updatedstates <- inputpeter$states
 

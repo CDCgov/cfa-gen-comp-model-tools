@@ -10,6 +10,7 @@
 #' as incident
 #' @return numeric vector of incidence if keepfirst and
 #' a named list with time and incidence vectors
+#' @family conversions
 #' @export
 cuminc2inc <- function(t, cuminc, keepfirst = TRUE) {
   if (length(t) != length(cuminc)) {

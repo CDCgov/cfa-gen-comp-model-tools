@@ -8,6 +8,7 @@
 #' according to the latent counts associated with the times
 #' default is TRUE which designates sorting
 #' @return updated times
+#' @family conversions
 #' @export
 delaytime_exp <- function(t, meandelay, sortlogic = TRUE) {
   delayt <- t + stats::rexp(length(t), 1 / meandelay)

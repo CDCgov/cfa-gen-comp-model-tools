@@ -8,6 +8,7 @@
 #' @param tblgroup tibble specifying groups in each group type
 #' @return tibble where each row is a combination of groups
 #' with grouptype columns and scaled process rates
+#' @family internal
 #' @importFrom rlang .data
 #' @importFrom rlang :=
 groupcombinations <- function(combinethesetypes, tblgroup) {

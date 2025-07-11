@@ -5,6 +5,7 @@
 #'
 #' @param inputtimes numeric or character vector
 #' @return vector of same type as input with inverse values
+#' @family internal
 time2rate <- function(inputtimes) {
   # Converts vector into rate. Output is same class as input
   if (is.numeric(inputtimes)) {

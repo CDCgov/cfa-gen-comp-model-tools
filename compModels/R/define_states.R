@@ -4,6 +4,7 @@
 #' @param metapopulation character vector of metapopulation names
 #' default is ""
 #' @return list of model instructions
+#' @family initial_conditions
 #' @export
 define_states <- function(base_state, metapopulation = "") {
   # check space input

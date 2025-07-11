@@ -10,7 +10,8 @@
 #' @param statelist character vector of state names
 #' that specifies order in output matrix
 #' @return Column vector (as a matrix) with length(statelist) rows and
-#' values the total integer changes to population.
+#' values the total integer changes to population
+#' @family internal
 states2petercolumn <- function(statesdown, statesup, statelist) {
   outcol <- Matrix::Matrix(0, nrow = length(statelist), ncol = 1, sparse = TRUE)
   for (currstate in statesdown) {

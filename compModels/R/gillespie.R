@@ -15,8 +15,9 @@
 #' until process rates are zero
 #' @return tibble of dynamics with column t and
 #' columns of state names
-#' @export
+#' @family simulation
 #' @importFrom rlang .data
+#' @export
 gillespie <- function(listmodel,
                       params,
                       x0,

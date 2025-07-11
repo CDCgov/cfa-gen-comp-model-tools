@@ -13,6 +13,7 @@
 #' default is RColorBrewer::brewer.pal(8, "Dark2") and colors are used in
 #' [ggplot2::scale_color_manual()] values argument
 #' @return ggplot2 plot of compartmental model output
+#' @family plotting
 #' @import ggplot2
 #' @importFrom rlang .data
 #' @rdname plot_determin_model

@@ -10,6 +10,7 @@
 #' rates to be added together
 #' @return String specifying total instaneous change
 #' across the row (ie for a state)
+#' @family internal
 peterrow2dxdt <- function(currrow, currprocessrates) {
   # combine row of petersen matrix and
   # process vec into string interpretable by R

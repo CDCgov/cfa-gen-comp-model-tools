@@ -30,6 +30,7 @@
 #' or a vector of group names
 #' default is "" which species all groups
 #' @return updated instruction list
+#' @family model_building
 #' @export
 add_metapopulations <- function(
     peterlist, metapopulation = "",

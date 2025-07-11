@@ -3,6 +3,7 @@
 #' @param expressions expressions of instantaneous
 #' population changes
 #' @return deSolve input function
+#' @family internal
 odegenerator <- function(expressions) {
   outode <- function(t, state, parameters) {
     with(as.list(c(state, parameters)), {

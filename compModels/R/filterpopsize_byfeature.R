@@ -18,6 +18,8 @@
 #' @return tibble with columns of updated state names
 #' (updatedstates) and current conditions (popsize)
 #' @importFrom rlang .data
+#' @family model_building
+#' @export
 filterpopsize_byfeature <- function(tblpopsize, # nolint: cyclocomp_linter.
                                     basestates = NA,
                                     groupnames = NA,

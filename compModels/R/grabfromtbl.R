@@ -8,6 +8,7 @@
 #' (named)list. If a named list is input, then some column names match the
 #' namedlist names.
 #' @return table with rows that contain the named values
+#' @family internal
 grabfromtbl <- function(namedlist, tbl2grab) {
   if (identical(namedlist, "")) {
     tblout <- tbl2grab

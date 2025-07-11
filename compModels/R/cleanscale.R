@@ -10,6 +10,7 @@
 #' "scaleinteractions", "scaletransitions", "scalemigrations"
 #' @return tibble with updated scaleinteractions, scaletransitions, and
 #' scalemigrations values
+#' @family internal
 #' @importFrom rlang .data
 cleanscale <- function(currtbl) {
   loopcols <- c("scaleinteractions", "scaletransitions", "scalemigrations")

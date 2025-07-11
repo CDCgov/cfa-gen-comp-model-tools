@@ -13,6 +13,7 @@
 #' @return list of data frames object of the data part of adaptivetau object
 #' containing the time and states of the simulation. Number of elements should
 #' match the number of simulations
+#' @family simulation
 #' @export
 #' @examples
 #' \dontrun{

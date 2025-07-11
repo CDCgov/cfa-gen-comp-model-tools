@@ -5,6 +5,7 @@
 #' @param peterlist list of instructions for piping |>
 #' @param grouptypes2combine character vector of grouptypes to combine
 #' @return updated model instructions
+#' @family model_building
 #' @export
 combine_groups <- function(
     peterlist, grouptypes2combine = "") {

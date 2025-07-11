@@ -17,6 +17,7 @@
 #' travel between metapopulations
 #' default is "" which specifies all basestates
 #' @return updated instruction list
+#' @family model_building
 #' @export
 add_travel <- function(peterlist,
                        rates,

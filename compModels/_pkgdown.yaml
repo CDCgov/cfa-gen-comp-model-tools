@@ -6,3 +6,34 @@ navbar:
   structure:
     left: [intro, reference, articles]
     right: [search, github, lightswitch]
+
+
+reference:
+- title: Model Building
+  desc: Functions for building a model for compilation
+  contents:
+  - has_concept("model_building")
+- title: Setting Initial Conditions
+  desc: Functions for working with initial conditions
+  contents:
+  - has_concept("initial_conditions")
+- title: Simulation
+  desc: Functions for simulating data from a compiled model object
+  contents:
+  - has_concept("simulation")
+- title: Plotting
+  desc: Functions for plotting model output
+  contents:
+  - has_concept("plotting")
+- title: Internals
+  desc: Non-exported functions used internally by the package
+  contents:
+  - has_concept("internal")
+- title: Conversions
+  desc: Helper functions for converting between types of output
+  contents:
+  - has_concept("conversions")
+- title: Calculations
+  desc: Functions conducting calculations of interest to the user
+  contents:
+  - has_concept("calculations")

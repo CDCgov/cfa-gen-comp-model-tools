@@ -41,6 +41,7 @@
 #' and groupname values
 #' default is "" which specifies all groups.
 #' @return updated instruction list
+#' @family model_building
 #' @export
 add_replacement <- function(
     peterlist,

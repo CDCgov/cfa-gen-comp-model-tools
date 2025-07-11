@@ -12,6 +12,7 @@
 #' default is 0 meaning the first box contains all incident times between 0 and
 #' the first element of t_report
 #' @return numeric vector of new incidence at reporting times
+#' @family calculations
 #' @export
 report_incidence <- function(t_incident,
                              t_report,

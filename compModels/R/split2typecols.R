@@ -8,6 +8,7 @@
 #' @param listgroupcombinations the combined
 #' groupnames based on group types
 #' @return tibble
+#' @family internal
 #' @importFrom rlang .data
 split2typecols <- function(currtbl, combinelist, listgroupcombinations) {
   currtypelist <- currtbl$grouptype[[1]]

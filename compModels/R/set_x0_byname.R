@@ -7,6 +7,7 @@
 #' @param inputvec named list with state names as names and
 #' values for population abundances
 #' @return Same tibble with "X0" column added with values
+#' @family internal
 set_x0_byname <- function(tblx0, inputvec) {
   if (length(inputvec) == 0) {
     stop("list specifying initial conditions can't be empty")

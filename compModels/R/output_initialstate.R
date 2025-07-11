@@ -6,6 +6,7 @@
 #' with columns
 #' x0 and updatedstate
 #' @return named list with names updated state and values x0
+#' @family initial_conditions
 output_initialstate <- function(x0tbl) {
   x0 <- x0tbl$X0
   names(x0) <- x0tbl$updatedstate

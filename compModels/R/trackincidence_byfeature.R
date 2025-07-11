@@ -13,6 +13,7 @@
 #' default is NA which designates all chain steps
 #' @param trackname character vector to name tracked population
 #' @return updated compiled model with added populations
+#' @family calculations
 #' @export
 trackincidence_byfeature <- function(compiledmodel,
                                      basestates = NA,

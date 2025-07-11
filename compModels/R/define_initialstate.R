@@ -10,8 +10,9 @@
 #' for each basestate
 #' @return tibble with columns of updated state names
 #' (updatedstates) and initial conditions (X0)
-#' @export
+#' @family initial_conditions
 #' @importFrom rlang .data
+#' @export
 define_initialstate <- function(compiledmodel, basestatevector = c()) {
   # ensure proper order
   tblupdatestate <- tibble::tibble(

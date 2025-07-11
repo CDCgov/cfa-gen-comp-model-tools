@@ -10,6 +10,7 @@
 #' @param tblwgroupcols table that has grouptype columns with groupnames as
 #' values
 #' @return groupnames coerced into named list with respective grouptype as name
+#' @family internal
 #' @importFrom rlang .data
 fixinput_groupnames <- function(groupnames, tblwgroupcols) {
   if (!identical(groupnames, NA)) {

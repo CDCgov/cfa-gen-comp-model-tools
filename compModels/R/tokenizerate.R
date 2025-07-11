@@ -5,6 +5,7 @@
 #' @return Character vector where each element
 #' are the substrings separated by common
 #' mathematical operations.
+#' @family internal
 tokenizerate <- function(ratestr) {
   tokensplits <- c("+", "-", "*", "/", "(", ")", "^")
   whichtoken <-

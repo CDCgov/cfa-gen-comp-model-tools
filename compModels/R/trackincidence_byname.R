@@ -4,6 +4,7 @@
 #' @param namevec vector of updated state names to aggregate
 #' @param trackname character vector to name tracked population
 #' @return updated compiled model with added populations
+#' @family calculations
 #' @export
 trackincidence_byname <- function(compiledmodel, namevec, trackname = NA) {
   tblnames <- compiledmodel[["modelinstructions"]][["tblupdatedstates"]]

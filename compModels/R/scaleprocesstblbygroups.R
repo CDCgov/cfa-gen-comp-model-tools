@@ -7,6 +7,7 @@
 #' @param scalecol column name to scale processes by type (e.g., transition,
 #' migration, interaction)
 #' @return named vector with immediate names
+#' @family internal
 scaleprocesstblbygroups <- function(tblprocess, tblgroups, scalecol) {
   tblprocess <- tblprocess |> dplyr::mutate(scalerate = "")
   tblprocess_hasname <- TRUE %in% !is.na(tblprocess$processname)

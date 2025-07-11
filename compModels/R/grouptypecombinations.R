@@ -9,6 +9,7 @@
 #' @param typecolumn column name for types in tblgrouptype
 #' @param groupcolumn column name for groups in tblgrouptype
 #' @return tibble of all group combinations with types as columns
+#' @family internal
 #' @importFrom rlang .data
 #' @importFrom rlang :=
 grouptypecombinations <- function(combinethesetypes,

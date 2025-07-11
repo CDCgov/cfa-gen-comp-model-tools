@@ -8,6 +8,7 @@
 #' @param newnames Replacing substrings in same order
 #' as oldnames (commonly updated state names)
 #' @return Full string with replaced substrings
+#' @family internal
 splitratebynames <- function(currrate, oldnames, newnames) {
   currrate_tokened <- tokenizerate(currrate)
   splittokenlogic <- currrate_tokened %in% oldnames

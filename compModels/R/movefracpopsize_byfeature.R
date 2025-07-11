@@ -54,8 +54,9 @@
 #' fractional amount (FALSE) with rounding when integer populations.
 #' @return tibble with columns of updated state names
 #' (updatedstates) and current conditions (popsize)
-#' @export
+#' @family model_building
 #' @importFrom rlang .data
+#' @export
 movefracpopsize_byfeature <- function(tblpopsize, # nolint: cyclocomp_linter.
                                       fracpopsize,
                                       basestates_before = NA,

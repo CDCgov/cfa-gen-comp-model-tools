@@ -2,6 +2,7 @@
 #'
 #' @param input input to check
 #' @return error if missing column
+#' @family internal
 
 check_inputpopsize <- function(input) {
   if (!("popsize" %in% colnames(input))) {

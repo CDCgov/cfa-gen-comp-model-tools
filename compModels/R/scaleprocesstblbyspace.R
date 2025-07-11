@@ -6,6 +6,7 @@
 #' @param tblspace table of how processes scale between metapopulations
 #' @param scalecol column name to scale processes by type (e.g., scaletranstion)
 #' @return named vector with immediate names
+#' @family internal
 scaleprocesstblbyspace <- function(tblprocess, tblspace, scalecol) {
   tblprocess_hasname <- TRUE %in% !is.na(tblprocess$processname)
   tblprocess_hasgroup <- TRUE %in% !is.na(tblprocess$processgroup)

@@ -26,8 +26,9 @@
 #' or a vector of group names
 #' default is "" which species all groups
 #' @return tibble combining all information.
-#' @export
+#' @family model_building
 #' @importFrom rlang .data
+#' @export
 make_metapopulations <- function(
     metapopulation = "", scaleinteractions = 1, scaletransitions = 1,
     scaleprocessbyname = list(), scaleprocessbygroup = list(),

@@ -2,7 +2,7 @@
 #'
 #' @param inputvector Numeric or character vector.
 #' @return normalized vector of same type
-#'
+#' @family internal
 normalize2mean1 <- function(inputvector) {
   currsum <- sumvector(inputvector)
   if (is.numeric(inputvector)) {

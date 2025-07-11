@@ -20,8 +20,9 @@
 #' default is NA which designates all chain steps
 #' @return tibble with columns of updated state names
 #' (updatedstates) and current conditions (popsize)
-#' @export
+#' @family model_building
 #' @importFrom rlang .data
+#' @export
 removepopsize_byfeature <- function(tblpopsize,
                                     removepopsize,
                                     basestates = NA,

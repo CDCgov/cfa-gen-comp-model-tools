@@ -9,8 +9,9 @@
 #' Unspecified populations are set to 0
 #' @return tibble with columns of updated state names
 #' (updatedstates) and current conditions (popsize)
-#' @export
+#' @family initial_conditions
 #' @importFrom rlang .data
+#' @export
 define_popsize <- function(compiledmodel, inputpops = c()) {
   # check input
   compiledstates <- compiledmodel$modelinstructions$tblupdatedstates

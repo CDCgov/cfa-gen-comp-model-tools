@@ -5,8 +5,9 @@
 #' values to set. Does not impact unnamed states.
 #' @return tibble with columns of updated state names
 #' (updatedstates) and current conditions (popsize)
-#' @export
+#' @family model_building
 #' @importFrom rlang .data
+#' @export
 setpopsize_byname <- function(tblpopsize, namevec) {
   check_inputpopsize(tblpopsize)
   intlogic_before <- intlogic(tblpopsize)

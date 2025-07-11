@@ -46,6 +46,7 @@
 #' names this transitions occurs in.
 #' default "" is which specifies all metapopulations
 #' @return updated instruction list
+#' @family model_building
 #' @export
 add_grouptransition <- function(peterlist, # nolint: cyclocomp_linter.
                                 fromgroup,

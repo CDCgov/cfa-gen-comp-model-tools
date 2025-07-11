@@ -12,6 +12,7 @@
 #' according to the latent counts associated with the times
 #' default is TRUE which designates sorting
 #' @return updated times
+#' @family conversions
 #' @export
 delaytime_byfunction <- function(t, delayfunction, sortlogic = TRUE) {
   if (is.numeric(delayfunction)) {

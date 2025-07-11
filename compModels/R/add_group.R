@@ -21,6 +21,7 @@
 #' @param scaleprocessbygroup named list w/ character/numeric values that
 #' scale processes by grouped name, allows user defined flexibility
 #' @return updated model instructions
+#' @family model_building
 #' @export
 add_group <- function(
     peterlist, groupnames, grouptype = NA, basestates = "", metapopulation = "",

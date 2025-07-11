@@ -6,6 +6,7 @@
 #'                  listed in the same order as the transitions supplied to the
 #'                  model runner function
 #' @return the rate(s) at a specific time point
+#' @family model_building
 #' @export
 generalized_rates <- function(rate_eqns) {
   function(state, params, t) {

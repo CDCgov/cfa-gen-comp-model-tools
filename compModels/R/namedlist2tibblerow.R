@@ -4,6 +4,7 @@
 #' @param namedlist named list
 #' @return 1 row tibble with names as columns
 #' and values as lists
+#' @family internal
 namedlist2tibblerow <- function(namedlist) {
   tibblerow <- tibble::as_tibble(purrr::map(namedlist, function(x) {
     if (length(x) == 1) {

@@ -2,6 +2,7 @@
 #'
 #' @param tblpopsize table with popsize column
 #' @return logical for containing integers
+#' @family internal
 intlogic <- function(tblpopsize) {
   vec <- tblpopsize[["popsize"]]
   logic_decimal <- !(FALSE %in% (vec %% 1 == 0))

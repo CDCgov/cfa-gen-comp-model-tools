@@ -6,6 +6,7 @@
 #' @param vec character or numeric vector.
 #' @param desiredlength output vector length
 #' @return lengthened vector same type as input
+#' @family internal
 matchlength <- function(vec, desiredlength) {
   if (length(vec) == 1) {
     vec <- rep_len(vec, desiredlength)

@@ -55,8 +55,9 @@
 #' before chains.
 #' @return tibble with columns of updated state names
 #' (updatedstates) and current conditions (popsize)
-#' @export
+#' @family model_building
 #' @importFrom rlang .data
+#' @export
 movepopsize_byfeature <- function(tblpopsize, # nolint: cyclocomp_linter.
                                   movepopsize,
                                   basestates_before = NA,

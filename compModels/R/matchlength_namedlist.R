@@ -6,6 +6,7 @@
 #' @param namedlist named list to split
 #' @param desiredlength output list length
 #' @return list of lists for tibble input
+#' @family internal
 matchlength_namedlist <- function(namedlist, desiredlength) {
   if (length(namedlist) == 0) {
     namedlist <- list(namedlist)

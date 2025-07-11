@@ -7,6 +7,7 @@
 #'
 #' @param inputvector numeric or character vector
 #' @return 1 element numeric or character vector respecting input type
+#' @family internal
 sumvector <- function(inputvector) {
   # sums a vector respecting its class, output is same class
   if (is.numeric(inputvector)) {

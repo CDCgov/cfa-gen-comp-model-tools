@@ -4,6 +4,7 @@
 #'
 #' @param string Character vector to remove "1*" substring
 #' @return string with "1*" removed
+#' @family internal
 remove1star <- function(string) {
   outstring <- string
   tokenizedstr <- tokenizerate(string)

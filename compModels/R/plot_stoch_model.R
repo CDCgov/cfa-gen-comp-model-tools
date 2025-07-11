@@ -18,6 +18,7 @@
 #' the following for the palette and number you might need (e.g. 40 colors):
 #' colors = colorRampPalette(RColorBrewer::brewer.pal(8, "Dark2"))(40)
 #' @return ggplot2 object of compartmental model output
+#' @family plotting
 #' @import ggplot2
 #' @export
 #' @examples

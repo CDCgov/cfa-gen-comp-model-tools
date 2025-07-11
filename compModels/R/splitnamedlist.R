@@ -6,7 +6,7 @@
 #'
 #' @param namedlist named list of vectors
 #' @return list of named lists of 1-element vectors
-
+#' @family internal
 splitnamedlist <- function(namedlist) {
   currnames <- names(namedlist)
   maxlength <- max(sapply(namedlist, length))

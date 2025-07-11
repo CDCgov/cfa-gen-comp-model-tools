@@ -7,6 +7,7 @@
 #' @param parms named vector of parameters passed to the ode function created by
 #' model2desolvefunction using the compiledmodel
 #' @return data frame of deSolve output run on provided input
+#' @family simulation
 #' @export
 #' @examples
 #' \dontrun{

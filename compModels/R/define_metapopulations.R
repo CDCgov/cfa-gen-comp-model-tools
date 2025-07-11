@@ -28,6 +28,7 @@
 #' or a vector of group names
 #' default is "" which species all groups
 #' @return model instructions
+#' @family model_building
 #' @export
 define_metapopulations <- function(peterlist,
                                    metapopulation = "",

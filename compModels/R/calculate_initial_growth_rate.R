@@ -26,6 +26,7 @@
 #' or more plots of the simulated observations, calculated theoretical growth
 #' rate in the user-specified time range, and observed growth rate based on the
 #' calculated growth rate r.
+#' @family calculations
 #' @export
 #' @examples
 #' \dontrun{

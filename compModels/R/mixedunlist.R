@@ -5,6 +5,7 @@
 #'
 #' @param mixedlist list of named vectors
 #' @return named vector with immediate names
+#' @family internal
 mixedunlist <- function(mixedlist) {
   unlistvec <- c()
   for (mlidx in seq_along(mixedlist)) {
