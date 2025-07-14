@@ -30,3 +30,11 @@ columns of state names
 \description{
 Work in progress. fix list2env.
 }
+\seealso{
+Other simulation:
+\code{\link{run_adaptivetau}()},
+\code{\link{wrap_adaptivetau}()},
+\code{\link{wrap_gillespie}()},
+\code{\link{wrap_ode}()}
+}
+\concept{simulation}

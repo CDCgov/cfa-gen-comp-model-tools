@@ -19,3 +19,10 @@ updated compiled model with added populations
 \description{
 Update compiled model with incident populations aggregated by name
 }
+\seealso{
+Other calculations:
+\code{\link{calculate_initial_growth_rate}()},
+\code{\link{report_incidence}()},
+\code{\link{trackincidence_byfeature}()}
+}
+\concept{calculations}

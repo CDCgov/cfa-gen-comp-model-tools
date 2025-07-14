@@ -18,9 +18,42 @@ that specifies order in output matrix}
 }
 \value{
 Column vector (as a matrix) with length(statelist) rows and
-values the total integer changes to population.
+values the total integer changes to population
 }
 \description{
 Counts occurrences of values in input vectors and combine to get total
 increase or decrease of a population due to a process
 }
+\seealso{
+Other internal:
+\code{\link{apply_growth_rate_calc}()},
+\code{\link{check_inputpopsize}()},
+\code{\link{cleanscale}()},
+\code{\link{fixinput_chains}()},
+\code{\link{fixinput_groupnames}()},
+\code{\link{grabfromtbl}()},
+\code{\link{groupcombinations}()},
+\code{\link{grouptypecombinations}()},
+\code{\link{intlogic}()},
+\code{\link{makenewvariablenamesfromrow}()},
+\code{\link{matchlength}()},
+\code{\link{matchlength_namedlist}()},
+\code{\link{mixedunlist}()},
+\code{\link{namedlist2tibblerow}()},
+\code{\link{normalize2mean1}()},
+\code{\link{normalize2probability}()},
+\code{\link{odegenerator}()},
+\code{\link{peterrow2dxdt}()},
+\code{\link{remove1star}()},
+\code{\link{replaceglobal}()},
+\code{\link{scaleprocesstblbygroups}()},
+\code{\link{scaleprocesstblbyspace}()},
+\code{\link{set_x0_byname}()},
+\code{\link{split2typecols}()},
+\code{\link{splitnamedlist}()},
+\code{\link{splitratebynames}()},
+\code{\link{sumvector}()},
+\code{\link{time2rate}()},
+\code{\link{tokenizerate}()}
+}
+\concept{internal}

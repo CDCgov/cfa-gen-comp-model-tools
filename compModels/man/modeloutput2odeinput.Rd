@@ -16,3 +16,12 @@ to instantaneous population change as values.
 \description{
 Generate deSolve input from compiled model
 }
+\seealso{
+Other conversions:
+\code{\link{cuminc2inc}()},
+\code{\link{delaytime_byfunction}()},
+\code{\link{delaytime_exp}()},
+\code{\link{delaytime_gamma}()},
+\code{\link{model2desolvefunction}()}
+}
+\concept{conversions}

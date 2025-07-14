@@ -15,3 +15,36 @@ string with "1*" removed
 \description{
 Remove "1*" from string only if no other numbers or decimals precede 1
 }
+\seealso{
+Other internal:
+\code{\link{apply_growth_rate_calc}()},
+\code{\link{check_inputpopsize}()},
+\code{\link{cleanscale}()},
+\code{\link{fixinput_chains}()},
+\code{\link{fixinput_groupnames}()},
+\code{\link{grabfromtbl}()},
+\code{\link{groupcombinations}()},
+\code{\link{grouptypecombinations}()},
+\code{\link{intlogic}()},
+\code{\link{makenewvariablenamesfromrow}()},
+\code{\link{matchlength}()},
+\code{\link{matchlength_namedlist}()},
+\code{\link{mixedunlist}()},
+\code{\link{namedlist2tibblerow}()},
+\code{\link{normalize2mean1}()},
+\code{\link{normalize2probability}()},
+\code{\link{odegenerator}()},
+\code{\link{peterrow2dxdt}()},
+\code{\link{replaceglobal}()},
+\code{\link{scaleprocesstblbygroups}()},
+\code{\link{scaleprocesstblbyspace}()},
+\code{\link{set_x0_byname}()},
+\code{\link{split2typecols}()},
+\code{\link{splitnamedlist}()},
+\code{\link{splitratebynames}()},
+\code{\link{states2petercolumn}()},
+\code{\link{sumvector}()},
+\code{\link{time2rate}()},
+\code{\link{tokenizerate}()}
+}
+\concept{internal}

@@ -102,3 +102,10 @@ calculate_initial_growth_rate(modelout,
 )
 }
 }
+\seealso{
+Other calculations:
+\code{\link{report_incidence}()},
+\code{\link{trackincidence_byfeature}()},
+\code{\link{trackincidence_byname}()}
+}
+\concept{calculations}

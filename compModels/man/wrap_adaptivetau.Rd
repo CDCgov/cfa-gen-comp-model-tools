@@ -94,3 +94,11 @@ test2 <- wrap_adaptivetau(
 )
 }
 }
+\seealso{
+Other simulation:
+\code{\link{gillespie}()},
+\code{\link{run_adaptivetau}()},
+\code{\link{wrap_gillespie}()},
+\code{\link{wrap_ode}()}
+}
+\concept{simulation}

@@ -21,3 +21,10 @@ tibble with columns of updated state names
 \description{
 Sets conditions globally based on current states.
 }
+\seealso{
+Other initial_conditions:
+\code{\link{define_initialstate}()},
+\code{\link{define_states}()},
+\code{\link{output_initialstate}()}
+}
+\concept{initial_conditions}

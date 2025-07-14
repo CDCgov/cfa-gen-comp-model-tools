@@ -21,3 +21,32 @@ Calculates rates along model in/out flows from compartments
 Helper function to calculate modified change rates for in and out flows in
 a stochastic generalized compartmental model using \code{\link[adaptivetau:ssa.exact]{adaptivetau::ssa.exact()}}
 }
+\seealso{
+Other model_building:
+\code{\link{add_group}()},
+\code{\link{add_grouptransition}()},
+\code{\link{add_infection}()},
+\code{\link{add_interaction}()},
+\code{\link{add_metapopulations}()},
+\code{\link{add_replacement}()},
+\code{\link{add_transition}()},
+\code{\link{add_travel}()},
+\code{\link{addpopsize_byfeature}()},
+\code{\link{addpopsize_byname}()},
+\code{\link{combine_groups}()},
+\code{\link{compilemodel}()},
+\code{\link{define_metapopulations}()},
+\code{\link{filterpopsize_byfeature}()},
+\code{\link{make_metapopulations}()},
+\code{\link{movefracpopsize_byfeature}()},
+\code{\link{movefracpopsize_byname}()},
+\code{\link{movepopsize_byfeature}()},
+\code{\link{movepopsize_byname}()},
+\code{\link{movethresholdpopsize_byfeature}()},
+\code{\link{movethresholdpopsize_byname}()},
+\code{\link{removepopsize_byfeature}()},
+\code{\link{removepopsize_byname}()},
+\code{\link{setpopsize_byfeature}()},
+\code{\link{setpopsize_byname}()}
+}
+\concept{model_building}

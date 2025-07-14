@@ -98,3 +98,8 @@ plot_determin_model(modelout3,
 )
 }
 }
+\seealso{
+Other plotting:
+\code{\link{plot_stoch_model}()}
+}
+\concept{plotting}

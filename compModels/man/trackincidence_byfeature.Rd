@@ -38,3 +38,10 @@ updated compiled model with added populations
 \description{
 Update compiled model with incident populations aggregated by feature
 }
+\seealso{
+Other calculations:
+\code{\link{calculate_initial_growth_rate}()},
+\code{\link{report_incidence}()},
+\code{\link{trackincidence_byname}()}
+}
+\concept{calculations}

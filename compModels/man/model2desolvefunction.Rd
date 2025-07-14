@@ -16,3 +16,12 @@ deSolve input function.
 \description{
 Generate deSolve input function from compiled model
 }
+\seealso{
+Other conversions:
+\code{\link{cuminc2inc}()},
+\code{\link{delaytime_byfunction}()},
+\code{\link{delaytime_exp}()},
+\code{\link{delaytime_gamma}()},
+\code{\link{modeloutput2odeinput}()}
+}
+\concept{conversions}

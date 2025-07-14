@@ -22,3 +22,10 @@ tibble with columns of updated state names
 \description{
 Sets initial conditions globally based on base states.
 }
+\seealso{
+Other initial_conditions:
+\code{\link{define_popsize}()},
+\code{\link{define_states}()},
+\code{\link{output_initialstate}()}
+}
+\concept{initial_conditions}

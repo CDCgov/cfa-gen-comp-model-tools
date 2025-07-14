@@ -18,3 +18,10 @@ list of model instructions
 \description{
 Initializes model instructions with given base states
 }
+\seealso{
+Other initial_conditions:
+\code{\link{define_initialstate}()},
+\code{\link{define_popsize}()},
+\code{\link{output_initialstate}()}
+}
+\concept{initial_conditions}

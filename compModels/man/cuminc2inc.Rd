@@ -23,3 +23,12 @@ a named list with time and incidence vectors
 Requires times vector and cumulative incidence vector, finds where cumulative
 incidence changes, and then outputs when the change occurs and the magnitude
 }
+\seealso{
+Other conversions:
+\code{\link{delaytime_byfunction}()},
+\code{\link{delaytime_exp}()},
+\code{\link{delaytime_gamma}()},
+\code{\link{model2desolvefunction}()},
+\code{\link{modeloutput2odeinput}()}
+}
+\concept{conversions}

@@ -23,3 +23,12 @@ updated times
 \description{
 Randomly delay times according to exponential distribution
 }
+\seealso{
+Other conversions:
+\code{\link{cuminc2inc}()},
+\code{\link{delaytime_byfunction}()},
+\code{\link{delaytime_gamma}()},
+\code{\link{model2desolvefunction}()},
+\code{\link{modeloutput2odeinput}()}
+}
+\concept{conversions}

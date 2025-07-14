@@ -25,3 +25,12 @@ updated times
 Function can be deterministic (e.g., a single number) or stochastic (e.g.,
 sampling from a distribution like rgamma()).
 }
+\seealso{
+Other conversions:
+\code{\link{cuminc2inc}()},
+\code{\link{delaytime_exp}()},
+\code{\link{delaytime_gamma}()},
+\code{\link{model2desolvefunction}()},
+\code{\link{modeloutput2odeinput}()}
+}
+\concept{conversions}

@@ -29,3 +29,10 @@ numeric vector of new incidence at reporting times
 \description{
 Aggregate incidence at reporting times
 }
+\seealso{
+Other calculations:
+\code{\link{calculate_initial_growth_rate}()},
+\code{\link{trackincidence_byfeature}()},
+\code{\link{trackincidence_byname}()}
+}
+\concept{calculations}

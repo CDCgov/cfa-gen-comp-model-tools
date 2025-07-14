@@ -38,3 +38,11 @@ match the number of simulations
 Wrapper to run adaptivetau functions \code{\link[adaptivetau:ssa.exact]{adaptivetau::ssa.exact()}} or
 \code{\link[adaptivetau:ssa.adaptivetau]{adaptivetau::ssa.adaptivetau()}} from compiled model and formatted inputs
 }
+\seealso{
+Other simulation:
+\code{\link{gillespie}()},
+\code{\link{wrap_adaptivetau}()},
+\code{\link{wrap_gillespie}()},
+\code{\link{wrap_ode}()}
+}
+\concept{simulation}

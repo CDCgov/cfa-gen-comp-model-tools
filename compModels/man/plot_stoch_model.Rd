@@ -60,3 +60,8 @@ modelout2 <- run_sir_stochastic_tau(
 plot_stoch_model(modelout2)
 }
 }
+\seealso{
+Other plotting:
+\code{\link{plot_determin_model}()}
+}
+\concept{plotting}

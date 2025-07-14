@@ -17,3 +17,10 @@ named list with names updated state and values x0
 \description{
 Useful as input to deSolve
 }
+\seealso{
+Other initial_conditions:
+\code{\link{define_initialstate}()},
+\code{\link{define_popsize}()},
+\code{\link{define_states}()}
+}
+\concept{initial_conditions}

@@ -27,3 +27,12 @@ Note: if an integer shape is input then the sampled gamma distribution
 matches an erlang distribution, which is the distribution of times resulting
 from chained transition processes.
 }
+\seealso{
+Other conversions:
+\code{\link{cuminc2inc}()},
+\code{\link{delaytime_byfunction}()},
+\code{\link{delaytime_exp}()},
+\code{\link{model2desolvefunction}()},
+\code{\link{modeloutput2odeinput}()}
+}
+\concept{conversions}
