@@ -1,15 +1,6 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 
-# Added 7/10/25 per CFA GH Authentication practice update
-#name: Authenticate with GitHub App
-id: auth
-uses: actions/create-github-app-token@v1
-with:
-  app-id: ${{ secrets.CFA_CDCENT_APP_TOKEN_GH_APP_ID }}
-  private-key: ${{ secrets.CFA_CDCENT_APP_TOKEN_GH_APP_KEY }}
-
-
 on:
   push:
     branches: [main, prod]
@@ -46,6 +37,13 @@ jobs:
       pages: write
 
     steps:
+    # Added 7/10/25 per CFA GH Authentication practice update
+    - name: Authenticate with GitHub App
+      id: auth
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.CFA_CDCENT_APP_TOKEN_GH_APP_ID }}
+        private-key: ${{ secrets.CFA_CDCENT_APP_TOKEN_GH_APP_KEY }}
 
     - uses: actions/checkout@v4
 
