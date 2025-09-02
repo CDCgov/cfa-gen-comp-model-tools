@@ -23,17 +23,28 @@
 #' @param processgroup character value that groups named process to quickly
 #' reference multiple processes by other functions
 #' default to NA
-#' @param groupnames Groups the transition applies to.
+#' @param groupnames specifies which stratified groups interact.
 #' Either a character vector of groupnames or named list with grouptype names
-#' and groupname values
+#' and groupname values or un-named list same length as states_in
 #' default is "" which specifies all groups.
+#' @param crossgroupnames to specify cross infection terms
+#' Either a character vector of groupnames or named list with grouptype names
+#' and groupname values or un-named list
+#' default is "" which generates all cross terms, specify with vector or named
+#' list. specify multiple cross terms by specifying in un-named list  with each
+#' value a character vector of groupnames or named list with grouptype names
+#' @param symmetric logical denoting whether rate specifies symmetric
+#' interactions
+#' Relevant when groupnames is an un-named list
 #' @return updated instruction list
 #' @family model_building
 #' @export
 add_interaction <- function(
     peterlist, states_in, states_out, rate,
     normlogic = TRUE, metapopulation = "", processname = NA, processgroup = NA,
-    groupnames = "") {
+    groupnames = "",
+    crossgroupnames = NA, symmetric = TRUE) {
+  samelogic <- TRUE
   if (("" %in% states_in) || ("" %in% states_in)) {
     stop("Empty state listed in interaction.
     Birth/death functionality currently not supported.
@@ -43,6 +54,7 @@ add_interaction <- function(
     stop("interaction can only lead to changes in state.
     states_in and states_out must be same length")
   }
+
   tibble2add <- namedlist2tibblerow(list(
     states_in = states_in,
     states_out = states_out,
@@ -51,8 +63,11 @@ add_interaction <- function(
     metapopulation = metapopulation,
     processname = processname,
     processgroup = processgroup,
-    groupname = groupnames
+    groupnames = groupnames,
+    crossgroupnames = crossgroupnames,
+    symmetric = symmetric
   ))
+
   peterlist$interactions <- rbind(peterlist$interactions, tibble2add)
   return(peterlist)
 }

@@ -53,8 +53,9 @@ define_states <- function(base_state, metapopulation = "") {
     metapopulation = character(),
     processname = character(),
     processgroup = character(),
-    groupname = character(),
-    grouptype = character()
+    groupnames = character(),
+    crossgroupnames = character(),
+    symmetric = logical()
   )
 
   peterlist$transitions <- tibble::tibble(

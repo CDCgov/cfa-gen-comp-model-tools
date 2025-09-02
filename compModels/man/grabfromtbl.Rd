@@ -4,7 +4,7 @@
 \alias{grabfromtbl}
 \title{Grabs rows that matches values in (named)list}
 \usage{
-grabfromtbl(namedlist, tbl2grab)
+grabfromtbl(namedlist, tbl2grab, andlogic = FALSE)
 }
 \arguments{
 \item{namedlist}{(named)list of groups to grab. If names are given they
@@ -13,6 +13,10 @@ correspond to types}
 \item{tbl2grab}{table with that has columns with values matching those in the
 (named)list. If a named list is input, then some column names match the
 namedlist names.}
+
+\item{andlogic}{logical specifying input named list are selected using AND
+logic between elements
+default is FALSE for OR logic}
 }
 \value{
 table with rows that contain the named values

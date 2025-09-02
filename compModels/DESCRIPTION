@@ -45,5 +45,6 @@ Imports:
     stringr,
     tibble,
     odin,
-    dde
+    dde,
+    RcppAlgos
 VignetteBuilder: knitr

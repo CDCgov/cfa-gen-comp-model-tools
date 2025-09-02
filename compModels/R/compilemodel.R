@@ -589,12 +589,11 @@ compilemodel <- function(inputpeter) { # nolint: cyclocomp_linter.
   }
 
   # Interactions
-  tblinteractions <-
-    inputpeter$interactions |> dplyr::rename(groupnames = .data$groupname)
 
   if (nrow(tblinteractions) > 0) {
     print("Adding interactions to dynamics")
 
+    # check
     if (!identical(
       sapply(tblinteractions$states_in, length),
       sapply(tblinteractions$states_in, length)
@@ -614,56 +613,133 @@ compilemodel <- function(inputpeter) { # nolint: cyclocomp_linter.
     # split by metapopulation
     tblinteractions <- tblinteractions |>
       replaceglobal("metapopulation", allmetapops) |>
-      tidyr::unnest("metapopulation") |>
-      dplyr::mutate(groupnames = replace(
-        .data$groupnames,
-        .data$groupnames == "",
-        list(allgroupslist)
-      ))
+      tidyr::unnest("metapopulation")
 
-    # grab groups
-    tblinteractions_grab <-
-      lapply(tblinteractions$groupnames, grabfromtbl, tblupdatestate)
+    # loop and get combinations -- START HERE
     list2bind <- list()
-    for (loopidx in seq_along(tblinteractions_grab)) {
+    for (loopidx in seq_len(nrow(tblinteractions))) {
       currtblinteractions <- tblinteractions[loopidx, ]
       currmetapopulation <- currtblinteractions$metapopulation
-      currtblinteractions_grab <- tblinteractions_grab[[loopidx]]
-      statesin2combo <- lapply(currtblinteractions$states_in[[1]], function(x) {
-        currtblinteractions_grab |>
-          dplyr::filter(
-            .data$basestates == x,
-            .data$metapopulation == currmetapopulation
-          ) |>
-          dplyr::pull("updatedstate")
-      })
-      combostatesin <- expand.grid(statesin2combo)
-      # loop through changestateidx, make 2nd table
-      combostatesin_after <- combostatesin
-      for (changeidx in currtblinteractions$changestateidx) {
-        currcol2change <- combostatesin_after[, changeidx]
-        newstate <- currtblinteractions$states_out[[1]][changeidx]
-        currleft <- dplyr::tibble(updatedstate = currcol2change) |>
-          dplyr::left_join(tblupdatestate, by = "updatedstate") |>
-          dplyr::select(-dplyr::contains("chainid")) |>
-          dplyr::select(-"basestates")
-        currright <- tblupdatestate |>
-          dplyr::filter(
-            .data$basestates == newstate,
-            .data$metapopulation == currmetapopulation
-          ) |>
-          dplyr::select(-dplyr::contains("chainid")) |>
-          dplyr::distinct(dplyr::across(-"updatedstate"), .keep_all = TRUE) |>
-          dplyr::select(-"basestates")
-        bynames <- setdiff(colnames(currleft), "updatedstate")
-        currjoin <- dplyr::left_join(currleft, currright, by = bynames)
-        combostatesin_after[, changeidx] <- currjoin$updatedstate.y
+      currgroupnames <- currtblinteractions$groupnames[[1]]
+      currcrossgroupnames <- currtblinteractions$crossgroupnames[[1]]
+      currstatesin <- currtblinteractions$states_in[[1]]
+      currstatesout <- currtblinteractions$states_out[[1]]
+      currchangeidx <- currtblinteractions$changestateidx
+      interactionsize <- length(currstatesin)
+      currtblupdatestate <-
+        tblupdatestate |>
+        dplyr::filter(.data$metapopulation == currmetapopulation)
+
+      initializegrab <- rep(list(currtblupdatestate), interactionsize)
+      if (!identical(currgroupnames, "")) {
+        initializegrab[[1]] <- grabfromtbl(currgroupnames, currtblupdatestate,
+          andlogic = TRUE
+        )
+      }
+      if (!identical(currcrossgroupnames, "")) {
+        # unnamed list
+        currchecklogic <-
+          is.list(currcrossgroupnames) && is.null(names(currcrossgroupnames))
+        if (currchecklogic) {
+          for (currcrossidx in seq_along(currcrossgroupnames)) {
+            initializegrab[[currcrossidx + 1]] <-
+              grabfromtbl(
+                currcrossgroupnames[[currcrossidx]],
+                currtblupdatestate,
+                andlogic = TRUE
+              )
+          }
+        } else { # named list or vector
+          if (is.list(currcrossgroupnames)) {
+            initializegrab[[2]] <-
+              grabfromtbl(currcrossgroupnames, currtblupdatestate,
+                andlogic = TRUE
+              )
+          } else {
+            for (crossgroupidx in seq_along(currcrossgroupnames)) {
+              initializegrab[[1 + crossgroupidx]] <-
+                grabfromtbl(
+                  currcrossgroupnames[[crossgroupidx]],
+                  currtblupdatestate,
+                  andlogic = TRUE
+                )
+            }
+          }
+        }
       }
 
-      # on og table set rate, then scale by processes/etc
-      colnames2loop <- colnames(combostatesin)
+      # Get all permutations of basestates and groups
+      currsymlogic <- currtblinteractions$symmetric
+      perminitializegrab <- list(initializegrab)
+      if (currsymlogic) {
+        permidx <- RcppAlgos::permuteGeneral(seq(1, interactionsize))
+        perminitializegrab <- apply(permidx, 1, function(x) {
+          initializegrab[x]
+        })
+      }
+
+      perminitializegrab_in <- lapply(
+        perminitializegrab,
+        function(x, y) {
+          for (yidx in seq_along(y)) {
+            x[[yidx]] <- x[[yidx]] |>
+              dplyr::filter(.data$basestates == y[[yidx]]) |>
+              dplyr::pull("updatedstate")
+          }
+          x
+        },
+        currstatesin
+      )
+
+      # get all combinations of input states
+      incombo <- lapply(perminitializegrab_in, expand.grid)
+
+      currchangefun <-
+        function(comboin, currchangeidx, currstatesout, currtblupdatestate) {
+          combostatesin_after <- comboin
+          for (changeidx in currchangeidx) {
+            currcol2change <- comboin[, changeidx]
+            newstate <- currstatesout[changeidx]
+            currleft <- dplyr::tibble(updatedstate = currcol2change) |>
+              dplyr::left_join(currtblupdatestate, by = "updatedstate") |>
+              dplyr::select(-dplyr::contains("chainid")) |>
+              dplyr::select(-"basestates")
+            currright <- currtblupdatestate |>
+              dplyr::filter(.data$basestates == newstate) |>
+              dplyr::select(-dplyr::contains("chainid")) |>
+              dplyr::distinct(dplyr::across(-"updatedstate"),
+                .keep_all = TRUE
+              ) |>
+              dplyr::select(-"basestates")
+            bynames <- setdiff(colnames(currleft), "updatedstate")
+            currjoin <- dplyr::left_join(currleft, currright, by = bynames)
+            combostatesin_after[, changeidx] <- currjoin$updatedstate.y
+          }
+          combostatesin_after
+        }
+
+      outcombo <-
+        lapply(
+          incombo, currchangefun,
+          currchangeidx, currstatesout, currtblupdatestate
+        )
+
+      # sort to eliminate double counting
+      # e.g., S I -> I I is the same as I S -> I I
+      bindincombo <- dplyr::bind_rows(incombo)
+      bindincombomat <- unname(as.matrix(bindincombo))
+      sortbindin <- t(apply(bindincombomat, 1, sort))
+      bindoutcombo <- dplyr::bind_rows(outcombo)
+      bindoutcombomat <- unname(as.matrix(bindoutcombo))
+      sortbindout <- t(apply(bindoutcombomat, 1, sort))
+
+      keeplogic <- !duplicated(cbind(sortbindin, sortbindout))
+      bindincombo <- bindincombo[keeplogic, ]
+      bindoutcombo <- bindoutcombo[keeplogic, ]
+
+      colnames2loop <- colnames(bindincombo)
       combostatesin_test <-
-        combostatesin |>
+        bindincombo |>
         dplyr::mutate(
           rate = 1,
           processname = currtblinteractions$processname,
@@ -689,6 +765,7 @@ compilemodel <- function(inputpeter) { # nolint: cyclocomp_linter.
           scaleprocesstblbygroups(currtbl2fix, tblgroups, "scaleinteractions")
         combostatesin_test$rate <- currtbl2fix$rate
       }
+
       # take harmonic mean
       combostatesin_test$rate <- paste0(
         "((",
@@ -698,18 +775,20 @@ compilemodel <- function(inputpeter) { # nolint: cyclocomp_linter.
         "))*",
         currtblinteractions$rate
       )
-      # combine, re-list the var cols
-      states_in <- combostatesin |>
+
+      states_in <- bindincombo |>
         dplyr::rowwise() |>
         dplyr::mutate(states_in = list(dplyr::c_across(dplyr::everything()))) |>
         dplyr::select("states_in")
-      states_out <- combostatesin_after |>
+
+      states_out <- bindoutcombo |>
         dplyr::rowwise() |>
         dplyr::mutate(
           states_out =
             list(dplyr::c_across(dplyr::everything()))
         ) |>
         dplyr::select("states_out")
+
 
       tblnowexpand <-
         dplyr::bind_cols(
@@ -720,10 +799,13 @@ compilemodel <- function(inputpeter) { # nolint: cyclocomp_linter.
               -"rate",
               -"states_in",
               -"states_out",
-              -"groupnames"
+              -"groupnames",
+              -"crossgroupnames",
+              -"symmetric"
             )
         )
       tblnowexpand[, "rate"] <- combostatesin_test$rate
+      tblnowexpand <- dplyr::distinct(tblnowexpand, .keep_all = TRUE)
       # scale by metapopulation
       tblnowexpand <-
         scaleprocesstblbyspace(tblnowexpand, tblspace, "spacescaleinteractions")

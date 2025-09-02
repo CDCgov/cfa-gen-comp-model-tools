@@ -7,9 +7,12 @@
 #' @param tbl2grab table with that has columns with values matching those in the
 #' (named)list. If a named list is input, then some column names match the
 #' namedlist names.
+#' @param andlogic logical specifying input named list are selected using AND
+#' logic between elements
+#' default is FALSE for OR logic
 #' @return table with rows that contain the named values
 #' @family internal
-grabfromtbl <- function(namedlist, tbl2grab) {
+grabfromtbl <- function(namedlist, tbl2grab, andlogic = FALSE) {
   if (identical(namedlist, "")) {
     tblout <- tbl2grab
   } else {
@@ -20,7 +23,7 @@ grabfromtbl <- function(namedlist, tbl2grab) {
     } else {
       currcolnames <- names(namedlist)
       curridx <- 0
-      andlogic <- rep(TRUE, nrow(tbl2grab))
+      xandlogic <- rep(TRUE, nrow(tbl2grab))
       orlogic <- rep(FALSE, nrow(tbl2grab))
       for (currvec in namedlist) {
         curridx <- curridx + 1
@@ -29,10 +32,14 @@ grabfromtbl <- function(namedlist, tbl2grab) {
           stop("Check instructions. Value not in named column.")
         }
         currlogic <- currcol %in% currvec
-        andlogic <- andlogic & currlogic
+        xandlogic <- xandlogic & currlogic
         orlogic <- orlogic | currlogic
       }
-      tblout <- tbl2grab |> dplyr::filter(orlogic)
+      if (andlogic) {
+        tblout <- tbl2grab |> dplyr::filter(xandlogic)
+      } else {
+        tblout <- tbl2grab |> dplyr::filter(orlogic)
+      }
     }
   }
   return(tblout)

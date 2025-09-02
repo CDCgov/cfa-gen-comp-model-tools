@@ -331,4 +331,67 @@ compiledmodel <- compilemodel(modelinstructions)
 
 tblpopsize <- define_popsize(compiledmodel) |>
   setpopsize_byfeature(.99, basestates = c("S"), groupnames = list(type1 = c("group1", "group2")), chains = 1)
+
+# debug
+basestates <- c("S", "I", "R")
+
+modelinstructions <- define_states(basestates) |>
+  add_transition("I", "R", "tau", chainlength = 2) |>
+  add_infection("I", "S", "I", "beta") |>
+  add_group(c("group1", "group2"), grouptype = "type1") |>
+  add_group(c("group3", "group4"), grouptype = "type2") |>
+  combine_groups()
+compiledmodel <- compilemodel(modelinstructions)
+
+modelinstructions <- define_states(basestates) |>
+  add_transition("I", "R", "tau", chainlength = 1) |>
+  add_infection("I", "S", "I", "beta", groupnames = list(type1 = "group1")) |>
+  add_group(c("group1", "group2"), grouptype = "type1") |>
+  add_group(c("group3", "group4"), grouptype = "type2") |>
+  combine_groups() |>
+  add_infection("I", "S", "I", "beta", groupnames = "group3", crossgroupnames = "group4")
+compiledmodel <- compilemodel(modelinstructions)
+
+modelinstructions <- define_states(basestates) |>
+  add_transition("I", "R", "tau", chainlength = 1) |>
+  add_infection("I", "S", "I", "beta", groupnames = list("group1", "group2")) |>
+  add_group(c("group1", "group2"), grouptype = "type1")
+compiledmodel <- compilemodel(modelinstructions)
+
+inputpeter <- modelinstructions
+compiledmodel$modelinstructions$tblprocesses$rate
+compiledmodel$modelinstructions$tblprocesses$percapitarate
+
+
+
+
+basestates <- c("S", "I", "R")
+
+modelinstructions <- define_states(basestates) |>
+  add_transition("I", "R", "tau") |>
+  add_infection("I", "S", "I", "beta") |>
+  add_group(c("group1", "group2"), grouptype = "type1")
+compiledmodel <- compilemodel(modelinstructions)
+
+modelinstructions <- define_states(basestates) |>
+  add_transition("I", "R", "tau") |>
+  add_infection("I", "S", "I", "beta", groupnames = "group1") |>
+  add_group(c("group1", "group2"), grouptype = "type1")
+compiledmodel <- compilemodel(modelinstructions)
+
+modelinstructions <- define_states(basestates) |>
+  add_transition("I", "R", "tau") |>
+  add_infection("I", "S", "I", "beta", groupnames = "group1", crossgroupnames = "group2") |>
+  add_group(c("group1", "group2"), grouptype = "type1")
+compiledmodel <- compilemodel(modelinstructions)
+
+modelinstructions <- define_states(basestates) |>
+  add_transition("I", "R", "tau") |>
+  add_infection("I", "S", "I", "beta", groupnames = "group1", crossgroupnames = "group2", symmetric = FALSE) |>
+  add_group(c("group1", "group2"), grouptype = "type1")
+compiledmodel <- compilemodel(modelinstructions)
+
+compiledmodel$modelinstructions$tblprocesses
+compiledmodel$modeloutstructions
+inputpeter <- modelinstructions
 # nolint end

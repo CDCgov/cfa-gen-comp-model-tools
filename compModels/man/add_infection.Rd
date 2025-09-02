@@ -14,7 +14,9 @@ add_infection(
   metapopulation = "",
   processname = NA,
   processgroup = NA,
-  groupnames = ""
+  groupnames = "",
+  crossgroupnames = "",
+  symmetric = TRUE
 )
 }
 \arguments{
@@ -46,9 +48,21 @@ default to NA}
 reference multiple processes by other functions
 default to NA}
 
-\item{groupnames}{specifies which stratified groups
-transition
+\item{groupnames}{specifies which stratified groups interact
+Either a character vector of groupnames or named list with grouptype names
+and groupname values
 default is "" which specifies all groups.}
+
+\item{crossgroupnames}{to specify cross infection terms
+Either a character vector of groupnames or named list with grouptype names
+and groupname values or un-named list
+default is "" which generates all cross terms, specify with vector or named
+list. specify multiple cross terms by specifying in un-named list  with each
+value a character vector of groupnames or named list with grouptype names}
+
+\item{symmetric}{logical denoting whether rate specifies symmetric
+interactions. Relevant when groupnames is an un-named list. if FALSE then
+groupnames specifies infector and crossgroupnames specify infectee.}
 }
 \value{
 updated instruction list
