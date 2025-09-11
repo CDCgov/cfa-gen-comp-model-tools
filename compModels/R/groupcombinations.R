@@ -15,10 +15,14 @@ groupcombinations <- function(combinethesetypes, tblgroup) {
   if (length(combinethesetypes) > 1) {
     currtblgroup <- tblgroup |>
       dplyr::filter(.data$grouptype %in% combinethesetypes)
-    currtblgrouptypes <- currtblgroup |>
-      dplyr::distinct(.data$grouptype) |>
-      dplyr::pull()
     listoftypes <- currtblgroup |> dplyr::group_split(.data$grouptype)
+    currtblgrouptypes <-
+      sapply(
+        listoftypes,
+        function(x) {
+          x[["grouptype"]][[1]]
+        }
+      )
     names(listoftypes) <- currtblgrouptypes
     currbasestates <- currtblgroup$basestates[[1]]
     # types to get combinations

@@ -11,6 +11,14 @@ test_that("groupcombinations groups accordingly", {
     scalemigrations = interactionscales,
     basestates = ""
   )
+  tblgroup_sym <- dplyr::tibble(
+    grouptype = rev(grouptypes),
+    groupname = rev(groupnames),
+    scaleinteractions = rev(interactionscales),
+    scaletransitions = rev(interactionscales),
+    scalemigrations = rev(interactionscales),
+    basestates = ""
+  )
 
   typein <- c("type1", "type2")
   check1 <- groupcombinations(typein, tblgroup)
@@ -29,4 +37,22 @@ test_that("groupcombinations groups accordingly", {
     expectlength <- expectlength * nrow(tblgroup |> dplyr::filter(.data$grouptype == currtype)) # nolint: line_length_linter.
   }
   expect_equal(nrow(check2), expectlength)
+
+  # check robust to table order
+  checknow <-
+    groupcombinations(typein, tblgroup) |>
+    dplyr::ungroup() |>
+    dplyr::arrange(.data$type2, .data$type1)
+  checknow_sum <-
+    groupcombinations(typein, tblgroup_sym) |>
+    dplyr::ungroup() |>
+    dplyr::arrange(dplyr::desc(.data$type2), dplyr::desc(.data$type1))
+  expect_equal(
+    as.character(checknow[["type1"]]),
+    as.character(checknow_sum[["type1"]])
+  )
+  expect_equal(
+    as.character(checknow[["type2"]]),
+    as.character(checknow_sum[["type2"]])
+  )
 })
