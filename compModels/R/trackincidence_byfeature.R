@@ -22,8 +22,6 @@ trackincidence_byfeature <- function(compiledmodel,
                                      chains = NA,
                                      trackname = NA) {
   tblnames <- compiledmodel[["modelinstructions"]][["tblupdatedstates"]]
-  peterstates <- compiledmodel[["modeloutstructions"]][["updatedstates"]]
-  petermat <- compiledmodel[["modeloutstructions"]][["petermatrix"]]
 
   tblnames_filter <- filterpopsize_byfeature(tblnames,
     basestates = basestates,
@@ -31,6 +29,23 @@ trackincidence_byfeature <- function(compiledmodel,
     metapopulation = metapopulation,
     chains = chains
   )
+
+  # ensure track incidence for only first chained population, unless specified
+  allcolnames <- colnames(tblnames_filter)
+  chaincols <- allcolnames[grepl("^chainid*", allcolnames)]
+  if (length(chaincols) > 0) {
+    if (is.na(chains)) {
+      for (currcol in chaincols) {
+        tblnames_filter <- tblnames_filter[tblnames_filter[[currcol]] == 1, ]
+      }
+    }
+    if (!is.null(names(chains))) {
+      chaincols <- setdiff(chaincols, names(chains))
+      for (currcol in chaincols) {
+        tblnames_filter <- tblnames_filter[tblnames_filter[[currcol]] == 1, ]
+      }
+    }
+  }
 
   filternames <- tblnames_filter[["updatedstate"]]
 

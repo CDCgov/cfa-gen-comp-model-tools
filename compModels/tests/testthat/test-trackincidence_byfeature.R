@@ -36,4 +36,16 @@ test_that("trackincidence_byfeature generates incidence", {
     sum(winc_all[["modeloutstructions"]][["petermatrix"]][7, ]),
     2 * sum(winc_single[["modeloutstructions"]][["petermatrix"]][7, ])
   )
+
+  # chaining
+  basestates <- c("S", "I", "R")
+  currchainlength <- 2
+  modelinstructions <- define_states(basestates) |>
+    add_transition("I", "R", "tau", chainlength = currchainlength) |>
+    add_infection("I", "S", "I", "beta")
+  compiledmodel <- compilemodel(modelinstructions)
+  compiledmodel_winc <- compiledmodel |>
+    trackincidence_byfeature(basestates = "I", trackname = "incI")
+  checkpeter <- compiledmodel_winc$modeloutstructions$petermatrix
+  expect_equal(sum(checkpeter[nrow(checkpeter), ]), currchainlength)
 })
