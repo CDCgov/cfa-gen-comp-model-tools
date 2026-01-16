@@ -41,7 +41,7 @@ jobs:
     # Only authenticate with GitHub App if secrets exist (CDCEnt only)
     - name: Authenticate with GitHub App
       id: auth
-      if: vars.SKIP_GITHUB_APP_AUTH != 'true'
+      if: ${{ github.repository_owner != 'CDCgov' && vars.SKIP_GITHUB_APP_AUTH != 'true' }}
       uses: actions/create-github-app-token@v1
       with:
         app-id: ${{ secrets.CFA_CDCENT_APP_TOKEN_GH_APP_ID }}
