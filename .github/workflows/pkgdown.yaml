@@ -39,6 +39,7 @@ jobs:
     steps:
     # Added 7/10/25 per CFA GH Authentication practice update
     - name: Authenticate with GitHub App
+      if: ${{ github.repository_owner != 'CDCgov' && vars.SKIP_GITHUB_APP_AUTH != 'true' }}
       id: auth
       uses: actions/create-github-app-token@v1
       with:
